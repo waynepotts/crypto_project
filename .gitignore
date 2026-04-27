@@ -1,0 +1,14 @@
+backend/restservices/.env
+# Backend
+backend/target/
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+
+# Secrets
+.env*
+application-local.yml
+
+# IDE
+.idea/

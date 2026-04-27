@@ -1,0 +1,91 @@
+databaseChangeLog:
+
+  - changeSet:
+      id: 100-seed-coins
+      author: you
+      context: dev
+      changes:
+        - insert:
+            tableName: coins
+            columns:
+              - column: { name: coingecko_id, value: bitcoin }
+              - column: { name: symbol, value: btc }
+              - column: { name: name, value: Bitcoin }
+              - column: { name: image, value: https://assets.coingecko.com/coins/images/1/large/bitcoin.png }
+
+        - insert:
+            tableName: coins
+            columns:
+              - column: { name: coingecko_id, value: ethereum }
+              - column: { name: symbol, value: eth }
+              - column: { name: name, value: Ethereum }
+              - column: { name: image, value: https://assets.coingecko.com/coins/images/279/large/ethereum.png }
+
+  - changeSet:
+      id: 101-seed-market-data
+      author: you
+      context: dev
+      changes:
+        - sql:
+            sql: |
+              INSERT INTO coin_market_data (
+                coin_id,
+                current_price,
+                market_cap,
+                market_cap_rank,
+                total_volume,
+                last_updated
+              )
+              SELECT id, 70000, 1300000000000, 1, 20000000000, NOW()
+              FROM coins WHERE coingecko_id = 'bitcoin';
+
+        - sql:
+            sql: |
+              INSERT INTO coin_market_data (
+                coin_id,
+                current_price,
+                market_cap,
+                market_cap_rank,
+                total_volume,
+                last_updated
+              )
+              SELECT id, 3500, 400000000000, 2, 15000000000, NOW()
+              FROM coins WHERE coingecko_id = 'ethereum';
+
+  - changeSet:
+      id: 102-seed-categories
+      author: you
+      context: dev
+      changes:
+        - insert:
+            tableName: categories
+            columns:
+              - column: { name: coingecko_category_id, value: layer-1 }
+              - column: { name: name, value: Layer 1 }
+
+        - insert:
+            tableName: categories
+            columns:
+              - column: { name: coingecko_category_id, value: defi }
+              - column: { name: name, value: DeFi }
+
+  - changeSet:
+      id: 103-seed-coin-categories
+      author: you
+      context: dev
+      changes:
+        - sql:
+            sql: |
+              INSERT INTO coin_categories (coin_id, category_id)
+              SELECT c.id, cat.id
+              FROM coins c, categories cat
+              WHERE c.coingecko_id = 'bitcoin'
+              AND cat.coingecko_category_id = 'layer-1';
+
+        - sql:
+            sql: |
+              INSERT INTO coin_categories (coin_id, category_id)
+              SELECT c.id, cat.id
+              FROM coins c, categories cat
+              WHERE c.coingecko_id = 'ethereum'
+              AND cat.coingecko_category_id = 'defi';
