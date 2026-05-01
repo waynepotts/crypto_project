@@ -1,0 +1,15 @@
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import './index.css'
+// import App from './App.tsx'
+import CryptoChart from './linechart.tsx'
+
+createRoot(document.getElementById('root')!).render(
+    <StrictMode>
+        <CryptoChart />
+    </StrictMode>
+ /* <StrictMode>
+    <App />
+  </StrictMode>*/
+
+)
