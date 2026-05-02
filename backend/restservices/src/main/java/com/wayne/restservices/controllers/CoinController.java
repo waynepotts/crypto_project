@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/coins")
+@RequestMapping("/api/v1/coins")
 public class CoinController {
 
     private final CoinService coinService;
