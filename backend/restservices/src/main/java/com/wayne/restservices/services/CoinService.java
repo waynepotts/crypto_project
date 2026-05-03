@@ -1,6 +1,6 @@
 package com.wayne.restservices.services;
 
-import com.wayne.restservices.entities.dto.CoinDto;
+import com.wayne.restservices.entities.dto.CoinResponseDto;
 import com.wayne.restservices.repositories.CoinRepository;
 import com.wayne.restservices.entities.mapper.CoinMapper;
 import org.slf4j.Logger;
@@ -38,16 +38,32 @@ public class CoinService {
         this.coinRepository = coinRepository;
     }
 
-    public List<CoinDto> getAllCoins() {
-        return coinRepository.findAll()
-                .stream()
-                .map(CoinMapper::toDto)
-                .toList();
+
+
+    public List<CoinResponseDto> getAllCoins() {
+        List<CoinResponseDto> allCoins;
+        try {
+            allCoins = coinRepository.findAll()
+                    .stream()
+                    .map(CoinMapper::toDto)
+                    .toList();
+        } catch (Exception ex) {
+            log.error("Failed to to get all coins", ex);
+            throw ex;
+        }
+        return allCoins;
     }
 
-    public CoinDto getCoin(Long id) {
-        return coinRepository.findById(id)
-                .map(CoinMapper::toDto)
-                .orElseThrow();
+    public CoinResponseDto getCoin(Long id) {
+        CoinResponseDto coin;
+        try {
+            coin = coinRepository.findById(id)
+                    .map(CoinMapper::toDto)
+                    .orElseThrow();
+        } catch (Exception e) {
+            log.error("Failed to to get coin " + id, e);
+            throw e;
+        }
+        return coin;
     }
 }

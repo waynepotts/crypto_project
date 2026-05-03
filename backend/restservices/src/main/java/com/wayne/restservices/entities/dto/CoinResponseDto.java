@@ -1,6 +1,6 @@
 package com.wayne.restservices.entities.dto;
 
-public class CoinDto {
+public class CoinResponseDto {
     private Long id;
     private String coingeckoId;
     private String symbol;
