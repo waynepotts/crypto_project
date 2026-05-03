@@ -1,14 +1,29 @@
-package com.wayne.entities.dto;
+package com.wayne.restservices.entities.jpa;
+
+import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 import java.time.Instant;
 
-public class CoinMarketDataDto {
+@Entity
+@Table(name = "coin_market_data")
+public class CoinMarketData {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "coin_id")
+    private Coin coin;
+
+    @Column(name = "current_price")
     private BigDecimal currentPrice;
     private Long marketCap;
-    private Integer marketCapRank;
+
     private Instant lastUpdated;
+
+    // getters/setters
 
     public Long getId() {
         return id;
@@ -16,6 +31,14 @@ public class CoinMarketDataDto {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Coin getCoin() {
+        return coin;
+    }
+
+    public void setCoin(Coin coin) {
+        this.coin = coin;
     }
 
     public BigDecimal getCurrentPrice() {
@@ -32,14 +55,6 @@ public class CoinMarketDataDto {
 
     public void setMarketCap(Long marketCap) {
         this.marketCap = marketCap;
-    }
-
-    public Integer getMarketCapRank() {
-        return marketCapRank;
-    }
-
-    public void setMarketCapRank(Integer marketCapRank) {
-        this.marketCapRank = marketCapRank;
     }
 
     public Instant getLastUpdated() {

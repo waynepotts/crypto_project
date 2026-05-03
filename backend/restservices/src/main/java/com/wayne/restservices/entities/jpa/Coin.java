@@ -1,4 +1,4 @@
-package com.wayne.entities.jpa;
+package com.wayne.restservices.entities.jpa;
 
 import jakarta.persistence.*;
 
@@ -10,7 +10,7 @@ public class Coin {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "coingecko_id", unique = true)
+    @Column(name = "coin gecko_id", unique = true)
     private String coingeckoId;
 
     private String symbol;

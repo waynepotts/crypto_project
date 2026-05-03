@@ -1,0 +1,2449 @@
+2026-05-03 14:26:06
+                INFO 
+                c.w.r.RestservicesApplication
+                - Starting RestservicesApplication using Java 21.0.11 with PID 29932 (C:\Users\wayne\Documents\intellij\crypto_project\backend\restservices\target\classes started by wayne in C:\Users\wayne\Documents\intellij\crypto_project\backend\restservices)
+2026-05-03 14:26:06
+                INFO 
+                c.w.r.RestservicesApplication
+                - The following 1 profile is active: "dev"
+2026-05-03 14:26:06
+                INFO 
+                o.s.d.r.c.RepositoryConfigurationDelegate
+                - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-05-03 14:26:06
+                INFO 
+                o.s.d.r.c.RepositoryConfigurationDelegate
+                - Finished Spring Data repository scanning in 3 ms. Found 0 JPA repository interfaces.
+2026-05-03 14:26:07
+                INFO 
+                o.s.boot.tomcat.TomcatWebServer
+                - Tomcat initialized with port 8080 (http)
+2026-05-03 14:26:07
+                INFO 
+                o.a.coyote.http11.Http11NioProtocol
+                - Initializing ProtocolHandler ["http-nio-8080"]
+2026-05-03 14:26:07
+                INFO 
+                o.a.catalina.core.StandardService
+                - Starting service [Tomcat]
+2026-05-03 14:26:07
+                INFO 
+                o.a.catalina.core.StandardEngine
+                - Starting Servlet engine: [Apache Tomcat/11.0.21]
+2026-05-03 14:26:07
+                INFO 
+                o.s.b.w.c.s.WebApplicationContextInitializer
+                - Root WebApplicationContext: initialization completed in 721 ms
+2026-05-03 14:26:07
+                INFO 
+                com.zaxxer.hikari.HikariDataSource
+                - HikariPool-1 - Starting...
+2026-05-03 14:26:07
+                INFO 
+                com.zaxxer.hikari.pool.HikariPool
+                - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@689faf79
+2026-05-03 14:26:07
+                INFO 
+                com.zaxxer.hikari.HikariDataSource
+                - HikariPool-1 - Start completed.
+2026-05-03 14:26:07
+                INFO 
+                liquibase.database
+                - Set default schema name to public
+2026-05-03 14:26:08
+                INFO 
+                liquibase.changelog
+                - Reading from public.databasechangelog
+2026-05-03 14:26:08
+                INFO 
+                liquibase.lockservice
+                - Successfully acquired change log lock
+2026-05-03 14:26:08
+                INFO 
+                liquibase.command
+                - Using deploymentId: 7811167442
+2026-05-03 14:26:08
+                INFO 
+                liquibase.changelog
+                - Reading from public.databasechangelog
+2026-05-03 14:26:08
+                INFO 
+                liquibase.ui
+                - Running Changeset: db/changelog/004-create-application-logs.yaml::004-create-application-logs::wayne
+2026-05-03 14:26:08
+                INFO 
+                liquibase.changelog
+                - Table application_logs created
+2026-05-03 14:26:08
+                INFO 
+                liquibase.changelog
+                - Index idx_application_logs_level created
+2026-05-03 14:26:08
+                INFO 
+                liquibase.changelog
+                - Index idx_application_logs_created_at created
+2026-05-03 14:26:08
+                INFO 
+                liquibase.changelog
+                - ChangeSet db/changelog/004-create-application-logs.yaml::004-create-application-logs::wayne ran successfully in 25ms
+2026-05-03 14:26:08
+                INFO 
+                liquibase.util
+                - UPDATE SUMMARY
+2026-05-03 14:26:08
+                INFO 
+                liquibase.util
+                - Run:                          1
+2026-05-03 14:26:08
+                INFO 
+                liquibase.util
+                - Previously run:              10
+2026-05-03 14:26:08
+                INFO 
+                liquibase.util
+                - Filtered out:                 0
+2026-05-03 14:26:08
+                INFO 
+                liquibase.util
+                - -------------------------------
+2026-05-03 14:26:08
+                INFO 
+                liquibase.util
+                - Total change sets:           11
+2026-05-03 14:26:08
+                INFO 
+                liquibase.util
+                - Update summary generated
+2026-05-03 14:26:08
+                INFO 
+                liquibase.command
+                - Update command completed successfully.
+2026-05-03 14:26:08
+                INFO 
+                liquibase.ui
+                - Liquibase: Update has been successful. Rows affected: 0
+2026-05-03 14:26:08
+                INFO 
+                liquibase.lockservice
+                - Successfully released change log lock
+2026-05-03 14:26:08
+                INFO 
+                liquibase.command
+                - Command execution complete
+2026-05-03 14:26:08
+                INFO 
+                org.hibernate.orm.jpa
+                - HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-05-03 14:26:08
+                INFO 
+                org.hibernate.orm.core
+                - HHH000001: Hibernate ORM core version 7.2.12.Final
+2026-05-03 14:26:08
+                INFO 
+                o.s.o.j.p.SpringPersistenceUnitInfo
+                - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-05-03 14:26:08
+                WARN 
+                org.hibernate.orm.deprecation
+                - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-05-03 14:26:09
+                INFO 
+                o.hibernate.orm.connections.pooling
+                - HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:62315/postgres]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 18.3
+	Default catalog/schema: postgres/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-05-03 14:26:09
+                INFO 
+                org.hibernate.orm.core
+                - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-05-03 14:26:09
+                INFO 
+                o.s.o.j.LocalContainerEntityManagerFactoryBean
+                - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-05-03 14:26:09
+                WARN 
+                o.s.b.w.s.s.c.AnnotationConfigServletWebServerApplicationContext
+                - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'coinController' defined in file [C:\Users\wayne\Documents\intellij\crypto_project\backend\restservices\target\classes\com\wayne\restservices\controllers\CoinController.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'coinService' defined in file [C:\Users\wayne\Documents\intellij\crypto_project\backend\restservices\target\classes\com\wayne\restservices\services\CoinService.class]: Unsatisfied dependency expressed through constructor parameter 0: No qualifying bean of type 'com.wayne.restservices.repositories.CoinRepository' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {}
+2026-05-03 14:26:09
+                INFO 
+                o.s.o.j.LocalContainerEntityManagerFactoryBean
+                - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-05-03 14:26:09
+                INFO 
+                com.zaxxer.hikari.HikariDataSource
+                - HikariPool-1 - Shutdown initiated...
+2026-05-03 14:26:09
+                INFO 
+                com.zaxxer.hikari.HikariDataSource
+                - HikariPool-1 - Shutdown completed.
+2026-05-03 14:26:09
+                INFO 
+                o.a.catalina.core.StandardService
+                - Stopping service [Tomcat]
+2026-05-03 14:26:09
+                INFO 
+                o.s.b.a.l.ConditionEvaluationReportLogger
+                - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2026-05-03 14:26:09
+                ERROR
+                o.s.b.d.LoggingFailureAnalysisReporter
+                - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Parameter 0 of constructor in com.wayne.restservices.services.CoinService required a bean of type 'com.wayne.restservices.repositories.CoinRepository' that could not be found.
+
+
+Action:
+
+Consider defining a bean of type 'com.wayne.restservices.repositories.CoinRepository' in your configuration.
+
+2026-05-03 14:26:58
+                INFO 
+                c.w.r.RestservicesApplication
+                - Starting RestservicesApplication using Java 21.0.11 with PID 42520 (C:\Users\wayne\Documents\intellij\crypto_project\backend\restservices\target\classes started by wayne in C:\Users\wayne\Documents\intellij\crypto_project\backend\restservices)
+2026-05-03 14:26:58
+                INFO 
+                c.w.r.RestservicesApplication
+                - The following 1 profile is active: "dev"
+2026-05-03 14:26:59
+                INFO 
+                o.s.d.r.c.RepositoryConfigurationDelegate
+                - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-05-03 14:26:59
+                INFO 
+                o.s.d.r.c.RepositoryConfigurationDelegate
+                - Finished Spring Data repository scanning in 30 ms. Found 2 JPA repository interfaces.
+2026-05-03 14:26:59
+                INFO 
+                o.s.boot.tomcat.TomcatWebServer
+                - Tomcat initialized with port 8080 (http)
+2026-05-03 14:26:59
+                INFO 
+                o.a.coyote.http11.Http11NioProtocol
+                - Initializing ProtocolHandler ["http-nio-8080"]
+2026-05-03 14:26:59
+                INFO 
+                o.a.catalina.core.StandardService
+                - Starting service [Tomcat]
+2026-05-03 14:26:59
+                INFO 
+                o.a.catalina.core.StandardEngine
+                - Starting Servlet engine: [Apache Tomcat/11.0.21]
+2026-05-03 14:26:59
+                INFO 
+                o.s.b.w.c.s.WebApplicationContextInitializer
+                - Root WebApplicationContext: initialization completed in 608 ms
+2026-05-03 14:26:59
+                INFO 
+                com.zaxxer.hikari.HikariDataSource
+                - HikariPool-1 - Starting...
+2026-05-03 14:26:59
+                INFO 
+                com.zaxxer.hikari.pool.HikariPool
+                - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@61149fa5
+2026-05-03 14:26:59
+                INFO 
+                com.zaxxer.hikari.HikariDataSource
+                - HikariPool-1 - Start completed.
+2026-05-03 14:26:59
+                INFO 
+                liquibase.database
+                - Set default schema name to public
+2026-05-03 14:27:00
+                INFO 
+                liquibase.changelog
+                - Reading from public.databasechangelog
+2026-05-03 14:27:00
+                INFO 
+                liquibase.ui
+                - Database is up to date, no changesets to execute
+2026-05-03 14:27:00
+                INFO 
+                liquibase.changelog
+                - Reading from public.databasechangelog
+2026-05-03 14:27:00
+                INFO 
+                liquibase.util
+                - UPDATE SUMMARY
+2026-05-03 14:27:00
+                INFO 
+                liquibase.util
+                - Run:                          0
+2026-05-03 14:27:00
+                INFO 
+                liquibase.util
+                - Previously run:              11
+2026-05-03 14:27:00
+                INFO 
+                liquibase.util
+                - Filtered out:                 0
+2026-05-03 14:27:00
+                INFO 
+                liquibase.util
+                - -------------------------------
+2026-05-03 14:27:00
+                INFO 
+                liquibase.util
+                - Total change sets:           11
+2026-05-03 14:27:00
+                INFO 
+                liquibase.util
+                - Update summary generated
+2026-05-03 14:27:00
+                INFO 
+                liquibase.command
+                - Command execution complete
+2026-05-03 14:27:00
+                INFO 
+                org.hibernate.orm.jpa
+                - HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-05-03 14:27:00
+                INFO 
+                org.hibernate.orm.core
+                - HHH000001: Hibernate ORM core version 7.2.12.Final
+2026-05-03 14:27:00
+                INFO 
+                o.s.o.j.p.SpringPersistenceUnitInfo
+                - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-05-03 14:27:00
+                WARN 
+                org.hibernate.orm.deprecation
+                - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-05-03 14:27:00
+                INFO 
+                o.hibernate.orm.connections.pooling
+                - HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:62315/postgres]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 18.3
+	Default catalog/schema: postgres/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-05-03 14:27:00
+                INFO 
+                org.hibernate.orm.core
+                - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-05-03 14:27:00
+                INFO 
+                o.s.o.j.LocalContainerEntityManagerFactoryBean
+                - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-05-03 14:27:00
+                INFO 
+                o.s.d.j.r.q.QueryEnhancerFactories
+                - Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-05-03 14:27:00
+                WARN 
+                o.s.b.w.s.s.c.AnnotationConfigServletWebServerApplicationContext
+                - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'coinController' defined in file [C:\Users\wayne\Documents\intellij\crypto_project\backend\restservices\target\classes\com\wayne\restservices\controllers\CoinController.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'coinService' defined in file [C:\Users\wayne\Documents\intellij\crypto_project\backend\restservices\target\classes\com\wayne\restservices\services\CoinService.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'coinRepository' defined in com.wayne.restservices.repositories.CoinRepository defined in @EnableJpaRepositories declared on RestservicesApplication: Not a managed type: class com.wayne.restservices.entities.jpa.Coin
+2026-05-03 14:27:00
+                INFO 
+                o.s.o.j.LocalContainerEntityManagerFactoryBean
+                - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-05-03 14:27:00
+                INFO 
+                com.zaxxer.hikari.HikariDataSource
+                - HikariPool-1 - Shutdown initiated...
+2026-05-03 14:27:00
+                INFO 
+                com.zaxxer.hikari.HikariDataSource
+                - HikariPool-1 - Shutdown completed.
+2026-05-03 14:27:00
+                INFO 
+                o.a.catalina.core.StandardService
+                - Stopping service [Tomcat]
+2026-05-03 14:27:00
+                INFO 
+                o.s.b.a.l.ConditionEvaluationReportLogger
+                - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2026-05-03 14:27:00
+                ERROR
+                o.s.boot.SpringApplication
+                - Application run failed
+org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'coinController' defined in file [C:\Users\wayne\Documents\intellij\crypto_project\backend\restservices\target\classes\com\wayne\restservices\controllers\CoinController.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'coinService' defined in file [C:\Users\wayne\Documents\intellij\crypto_project\backend\restservices\target\classes\com\wayne\restservices\services\CoinService.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'coinRepository' defined in com.wayne.restservices.repositories.CoinRepository defined in @EnableJpaRepositories declared on RestservicesApplication: Not a managed type: class com.wayne.restservices.entities.jpa.Coin
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:804)
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:240)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1382)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1221)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:565)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:525)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:333)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:371)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:331)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:196)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.instantiateSingleton(DefaultListableBeanFactory.java:1218)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingleton(DefaultListableBeanFactory.java:1184)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:1121)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:994)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:621)
+	at org.springframework.boot.web.server.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:143)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:756)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:445)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:321)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1365)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1354)
+	at com.wayne.restservices.RestservicesApplication.main(RestservicesApplication.java:14)
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'coinService' defined in file [C:\Users\wayne\Documents\intellij\crypto_project\backend\restservices\target\classes\com\wayne\restservices\services\CoinService.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'coinRepository' defined in com.wayne.restservices.repositories.CoinRepository defined in @EnableJpaRepositories declared on RestservicesApplication: Not a managed type: class com.wayne.restservices.entities.jpa.Coin
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:804)
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:240)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1382)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1221)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:565)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:525)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:333)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:371)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:331)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:201)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveBean(DefaultListableBeanFactory.java:1225)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1704)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1651)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:912)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:791)
+	... 21 common frames omitted
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'coinRepository' defined in com.wayne.restservices.repositories.CoinRepository defined in @EnableJpaRepositories declared on RestservicesApplication: Not a managed type: class com.wayne.restservices.entities.jpa.Coin
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1817)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:603)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:525)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:333)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:371)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:331)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:201)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveBean(DefaultListableBeanFactory.java:1225)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1704)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1651)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:912)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:791)
+	... 35 common frames omitted
+Caused by: java.lang.IllegalArgumentException: Not a managed type: class com.wayne.restservices.entities.jpa.Coin
+	at org.hibernate.metamodel.model.domain.internal.JpaMetamodelImpl.managedType(JpaMetamodelImpl.java:254)
+	at org.hibernate.metamodel.model.domain.internal.MappingMetamodelImpl.managedType(MappingMetamodelImpl.java:394)
+	at org.hibernate.metamodel.model.domain.internal.MappingMetamodelImpl.managedType(MappingMetamodelImpl.java:85)
+	at org.springframework.data.jpa.repository.support.JpaEntityInformationSupport.getEntityInformation(JpaEntityInformationSupport.java:92)
+	at org.springframework.data.jpa.repository.support.JpaEntityInformationSupport.getEntityInformation(JpaEntityInformationSupport.java:73)
+	at org.springframework.data.jpa.repository.support.JpaRepositoryFactory.getEntityInformation(JpaRepositoryFactory.java:270)
+	at org.springframework.data.jpa.repository.support.JpaRepositoryFactory.getRepositoryFragments(JpaRepositoryFactory.java:300)
+	at org.springframework.data.jpa.repository.support.JpaRepositoryFactory.getRepositoryFragments(JpaRepositoryFactory.java:280)
+	at org.springframework.data.repository.core.support.RepositoryFactorySupport.lambda$getRepositoryStub$0(RepositoryFactorySupport.java:497)
+	at java.base/java.util.HashMap.computeIfAbsent(HashMap.java:1228)
+	at org.springframework.data.repository.core.support.RepositoryFactorySupport.getRepositoryStub(RepositoryFactorySupport.java:494)
+	at org.springframework.data.repository.core.support.RepositoryFactorySupport.getRepository(RepositoryFactorySupport.java:334)
+	at org.springframework.data.repository.core.support.RepositoryFactoryBeanSupport.lambda$afterPropertiesSet$1(RepositoryFactoryBeanSupport.java:361)
+	at org.springframework.data.util.Lazy.getNullable(Lazy.java:136)
+	at org.springframework.data.util.Lazy.get(Lazy.java:114)
+	at org.springframework.data.repository.core.support.RepositoryFactoryBeanSupport.afterPropertiesSet(RepositoryFactoryBeanSupport.java:370)
+	at org.springframework.data.jpa.repository.support.JpaRepositoryFactoryBean.afterPropertiesSet(JpaRepositoryFactoryBean.java:212)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1864)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1813)
+	... 46 common frames omitted
+2026-05-03 14:28:31
+                INFO 
+                c.w.r.RestservicesApplication
+                - Starting RestservicesApplication using Java 21.0.11 with PID 44732 (C:\Users\wayne\Documents\intellij\crypto_project\backend\restservices\target\classes started by wayne in C:\Users\wayne\Documents\intellij\crypto_project\backend\restservices)
+2026-05-03 14:28:31
+                INFO 
+                c.w.r.RestservicesApplication
+                - The following 1 profile is active: "dev"
+2026-05-03 14:28:31
+                INFO 
+                o.s.d.r.c.RepositoryConfigurationDelegate
+                - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-05-03 14:28:31
+                INFO 
+                o.s.d.r.c.RepositoryConfigurationDelegate
+                - Finished Spring Data repository scanning in 26 ms. Found 2 JPA repository interfaces.
+2026-05-03 14:28:31
+                INFO 
+                o.s.boot.tomcat.TomcatWebServer
+                - Tomcat initialized with port 8080 (http)
+2026-05-03 14:28:31
+                INFO 
+                o.a.coyote.http11.Http11NioProtocol
+                - Initializing ProtocolHandler ["http-nio-8080"]
+2026-05-03 14:28:31
+                INFO 
+                o.a.catalina.core.StandardService
+                - Starting service [Tomcat]
+2026-05-03 14:28:31
+                INFO 
+                o.a.catalina.core.StandardEngine
+                - Starting Servlet engine: [Apache Tomcat/11.0.21]
+2026-05-03 14:28:32
+                INFO 
+                o.s.b.w.c.s.WebApplicationContextInitializer
+                - Root WebApplicationContext: initialization completed in 570 ms
+2026-05-03 14:28:32
+                INFO 
+                com.zaxxer.hikari.HikariDataSource
+                - HikariPool-1 - Starting...
+2026-05-03 14:28:32
+                INFO 
+                com.zaxxer.hikari.pool.HikariPool
+                - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@61149fa5
+2026-05-03 14:28:32
+                INFO 
+                com.zaxxer.hikari.HikariDataSource
+                - HikariPool-1 - Start completed.
+2026-05-03 14:28:32
+                INFO 
+                liquibase.database
+                - Set default schema name to public
+2026-05-03 14:28:32
+                INFO 
+                liquibase.changelog
+                - Reading from public.databasechangelog
+2026-05-03 14:28:32
+                INFO 
+                liquibase.ui
+                - Database is up to date, no changesets to execute
+2026-05-03 14:28:32
+                INFO 
+                liquibase.changelog
+                - Reading from public.databasechangelog
+2026-05-03 14:28:32
+                INFO 
+                liquibase.util
+                - UPDATE SUMMARY
+2026-05-03 14:28:32
+                INFO 
+                liquibase.util
+                - Run:                          0
+2026-05-03 14:28:32
+                INFO 
+                liquibase.util
+                - Previously run:              11
+2026-05-03 14:28:32
+                INFO 
+                liquibase.util
+                - Filtered out:                 0
+2026-05-03 14:28:32
+                INFO 
+                liquibase.util
+                - -------------------------------
+2026-05-03 14:28:32
+                INFO 
+                liquibase.util
+                - Total change sets:           11
+2026-05-03 14:28:32
+                INFO 
+                liquibase.util
+                - Update summary generated
+2026-05-03 14:28:32
+                INFO 
+                liquibase.command
+                - Command execution complete
+2026-05-03 14:28:32
+                INFO 
+                org.hibernate.orm.jpa
+                - HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-05-03 14:28:32
+                INFO 
+                org.hibernate.orm.core
+                - HHH000001: Hibernate ORM core version 7.2.12.Final
+2026-05-03 14:28:33
+                INFO 
+                o.s.o.j.p.SpringPersistenceUnitInfo
+                - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-05-03 14:28:33
+                WARN 
+                org.hibernate.orm.deprecation
+                - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-05-03 14:28:33
+                INFO 
+                o.hibernate.orm.connections.pooling
+                - HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:62315/postgres]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 18.3
+	Default catalog/schema: postgres/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-05-03 14:28:33
+                INFO 
+                org.hibernate.orm.core
+                - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-05-03 14:28:33
+                DEBUG
+                org.hibernate.SQL
+                - alter table if exists application_logs alter column level set data type varchar(255)
+2026-05-03 14:28:33
+                INFO 
+                o.s.o.j.LocalContainerEntityManagerFactoryBean
+                - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-05-03 14:28:33
+                INFO 
+                o.s.d.j.r.q.QueryEnhancerFactories
+                - Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-05-03 14:28:33
+                WARN 
+                o.s.b.w.s.s.c.AnnotationConfigServletWebServerApplicationContext
+                - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'databaseLogService' defined in file [C:\Users\wayne\Documents\intellij\crypto_project\backend\restservices\target\classes\com\wayne\restservices\services\DatabaseLogService.class]: Unsatisfied dependency expressed through constructor parameter 0: No qualifying bean of type 'com.wayne.restservices.repositories.ApplicationLogRepository' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {}
+2026-05-03 14:28:33
+                INFO 
+                o.s.o.j.LocalContainerEntityManagerFactoryBean
+                - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-05-03 14:28:33
+                INFO 
+                com.zaxxer.hikari.HikariDataSource
+                - HikariPool-1 - Shutdown initiated...
+2026-05-03 14:28:33
+                INFO 
+                com.zaxxer.hikari.HikariDataSource
+                - HikariPool-1 - Shutdown completed.
+2026-05-03 14:28:33
+                INFO 
+                o.a.catalina.core.StandardService
+                - Stopping service [Tomcat]
+2026-05-03 14:28:33
+                INFO 
+                o.s.b.a.l.ConditionEvaluationReportLogger
+                - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2026-05-03 14:28:33
+                ERROR
+                o.s.b.d.LoggingFailureAnalysisReporter
+                - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Parameter 0 of constructor in com.wayne.restservices.services.DatabaseLogService required a bean of type 'com.wayne.restservices.repositories.ApplicationLogRepository' that could not be found.
+
+
+Action:
+
+Consider defining a bean of type 'com.wayne.restservices.repositories.ApplicationLogRepository' in your configuration.
+
+2026-05-03 14:30:38
+                INFO 
+                c.w.r.RestservicesApplication
+                - Starting RestservicesApplication using Java 21.0.11 with PID 42404 (C:\Users\wayne\Documents\intellij\crypto_project\backend\restservices\target\classes started by wayne in C:\Users\wayne\Documents\intellij\crypto_project\backend\restservices)
+2026-05-03 14:30:38
+                INFO 
+                c.w.r.RestservicesApplication
+                - The following 1 profile is active: "dev"
+2026-05-03 14:30:38
+                INFO 
+                o.s.d.r.c.RepositoryConfigurationDelegate
+                - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-05-03 14:30:38
+                INFO 
+                o.s.d.r.c.RepositoryConfigurationDelegate
+                - Finished Spring Data repository scanning in 26 ms. Found 2 JPA repository interfaces.
+2026-05-03 14:30:38
+                INFO 
+                o.s.boot.tomcat.TomcatWebServer
+                - Tomcat initialized with port 8080 (http)
+2026-05-03 14:30:38
+                INFO 
+                o.a.coyote.http11.Http11NioProtocol
+                - Initializing ProtocolHandler ["http-nio-8080"]
+2026-05-03 14:30:38
+                INFO 
+                o.a.catalina.core.StandardService
+                - Starting service [Tomcat]
+2026-05-03 14:30:38
+                INFO 
+                o.a.catalina.core.StandardEngine
+                - Starting Servlet engine: [Apache Tomcat/11.0.21]
+2026-05-03 14:30:38
+                INFO 
+                o.s.b.w.c.s.WebApplicationContextInitializer
+                - Root WebApplicationContext: initialization completed in 579 ms
+2026-05-03 14:30:38
+                INFO 
+                com.zaxxer.hikari.HikariDataSource
+                - HikariPool-1 - Starting...
+2026-05-03 14:30:39
+                INFO 
+                com.zaxxer.hikari.pool.HikariPool
+                - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@739265f1
+2026-05-03 14:30:39
+                INFO 
+                com.zaxxer.hikari.HikariDataSource
+                - HikariPool-1 - Start completed.
+2026-05-03 14:30:39
+                INFO 
+                liquibase.database
+                - Set default schema name to public
+2026-05-03 14:30:39
+                INFO 
+                liquibase.changelog
+                - Reading from public.databasechangelog
+2026-05-03 14:30:39
+                INFO 
+                liquibase.ui
+                - Database is up to date, no changesets to execute
+2026-05-03 14:30:39
+                INFO 
+                liquibase.changelog
+                - Reading from public.databasechangelog
+2026-05-03 14:30:39
+                INFO 
+                liquibase.util
+                - UPDATE SUMMARY
+2026-05-03 14:30:39
+                INFO 
+                liquibase.util
+                - Run:                          0
+2026-05-03 14:30:39
+                INFO 
+                liquibase.util
+                - Previously run:              11
+2026-05-03 14:30:39
+                INFO 
+                liquibase.util
+                - Filtered out:                 0
+2026-05-03 14:30:39
+                INFO 
+                liquibase.util
+                - -------------------------------
+2026-05-03 14:30:39
+                INFO 
+                liquibase.util
+                - Total change sets:           11
+2026-05-03 14:30:39
+                INFO 
+                liquibase.util
+                - Update summary generated
+2026-05-03 14:30:39
+                INFO 
+                liquibase.command
+                - Command execution complete
+2026-05-03 14:30:39
+                INFO 
+                org.hibernate.orm.jpa
+                - HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-05-03 14:30:39
+                INFO 
+                org.hibernate.orm.core
+                - HHH000001: Hibernate ORM core version 7.2.12.Final
+2026-05-03 14:30:39
+                INFO 
+                o.s.o.j.p.SpringPersistenceUnitInfo
+                - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-05-03 14:30:39
+                WARN 
+                org.hibernate.orm.deprecation
+                - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-05-03 14:30:40
+                INFO 
+                o.hibernate.orm.connections.pooling
+                - HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:62315/postgres]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 18.3
+	Default catalog/schema: postgres/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-05-03 14:30:40
+                INFO 
+                org.hibernate.orm.core
+                - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-05-03 14:30:40
+                INFO 
+                o.s.o.j.LocalContainerEntityManagerFactoryBean
+                - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-05-03 14:30:40
+                INFO 
+                o.s.d.j.r.q.QueryEnhancerFactories
+                - Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-05-03 14:30:40
+                WARN 
+                o.s.b.w.s.s.c.AnnotationConfigServletWebServerApplicationContext
+                - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'databaseLogService' defined in file [C:\Users\wayne\Documents\intellij\crypto_project\backend\restservices\target\classes\com\wayne\restservices\services\DatabaseLogService.class]: Unsatisfied dependency expressed through constructor parameter 0: No qualifying bean of type 'com.wayne.restservices.repositories.ApplicationLogRepository' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {}
+2026-05-03 14:30:40
+                INFO 
+                o.s.o.j.LocalContainerEntityManagerFactoryBean
+                - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-05-03 14:30:40
+                INFO 
+                com.zaxxer.hikari.HikariDataSource
+                - HikariPool-1 - Shutdown initiated...
+2026-05-03 14:30:40
+                INFO 
+                com.zaxxer.hikari.HikariDataSource
+                - HikariPool-1 - Shutdown completed.
+2026-05-03 14:30:40
+                INFO 
+                o.a.catalina.core.StandardService
+                - Stopping service [Tomcat]
+2026-05-03 14:30:40
+                INFO 
+                o.s.b.a.l.ConditionEvaluationReportLogger
+                - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2026-05-03 14:30:40
+                ERROR
+                o.s.b.d.LoggingFailureAnalysisReporter
+                - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Parameter 0 of constructor in com.wayne.restservices.services.DatabaseLogService required a bean of type 'com.wayne.restservices.repositories.ApplicationLogRepository' that could not be found.
+
+
+Action:
+
+Consider defining a bean of type 'com.wayne.restservices.repositories.ApplicationLogRepository' in your configuration.
+
+2026-05-03 14:31:35
+                INFO 
+                c.w.r.RestservicesApplication
+                - Starting RestservicesApplication using Java 21.0.11 with PID 30856 (C:\Users\wayne\Documents\intellij\crypto_project\backend\restservices\target\classes started by wayne in C:\Users\wayne\Documents\intellij\crypto_project\backend\restservices)
+2026-05-03 14:31:35
+                INFO 
+                c.w.r.RestservicesApplication
+                - The following 1 profile is active: "dev"
+2026-05-03 14:31:36
+                INFO 
+                o.s.d.r.c.RepositoryConfigurationDelegate
+                - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-05-03 14:31:36
+                INFO 
+                o.s.d.r.c.RepositoryConfigurationDelegate
+                - Finished Spring Data repository scanning in 27 ms. Found 2 JPA repository interfaces.
+2026-05-03 14:31:36
+                INFO 
+                o.s.boot.tomcat.TomcatWebServer
+                - Tomcat initialized with port 8080 (http)
+2026-05-03 14:31:36
+                INFO 
+                o.a.coyote.http11.Http11NioProtocol
+                - Initializing ProtocolHandler ["http-nio-8080"]
+2026-05-03 14:31:36
+                INFO 
+                o.a.catalina.core.StandardService
+                - Starting service [Tomcat]
+2026-05-03 14:31:36
+                INFO 
+                o.a.catalina.core.StandardEngine
+                - Starting Servlet engine: [Apache Tomcat/11.0.21]
+2026-05-03 14:31:36
+                INFO 
+                o.s.b.w.c.s.WebApplicationContextInitializer
+                - Root WebApplicationContext: initialization completed in 638 ms
+2026-05-03 14:31:36
+                INFO 
+                com.zaxxer.hikari.HikariDataSource
+                - HikariPool-1 - Starting...
+2026-05-03 14:31:36
+                INFO 
+                com.zaxxer.hikari.pool.HikariPool
+                - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@624b523
+2026-05-03 14:31:36
+                INFO 
+                com.zaxxer.hikari.HikariDataSource
+                - HikariPool-1 - Start completed.
+2026-05-03 14:31:36
+                INFO 
+                liquibase.database
+                - Set default schema name to public
+2026-05-03 14:31:37
+                INFO 
+                liquibase.changelog
+                - Reading from public.databasechangelog
+2026-05-03 14:31:37
+                INFO 
+                liquibase.ui
+                - Database is up to date, no changesets to execute
+2026-05-03 14:31:37
+                INFO 
+                liquibase.changelog
+                - Reading from public.databasechangelog
+2026-05-03 14:31:37
+                INFO 
+                liquibase.util
+                - UPDATE SUMMARY
+2026-05-03 14:31:37
+                INFO 
+                liquibase.util
+                - Run:                          0
+2026-05-03 14:31:37
+                INFO 
+                liquibase.util
+                - Previously run:              11
+2026-05-03 14:31:37
+                INFO 
+                liquibase.util
+                - Filtered out:                 0
+2026-05-03 14:31:37
+                INFO 
+                liquibase.util
+                - -------------------------------
+2026-05-03 14:31:37
+                INFO 
+                liquibase.util
+                - Total change sets:           11
+2026-05-03 14:31:37
+                INFO 
+                liquibase.util
+                - Update summary generated
+2026-05-03 14:31:37
+                INFO 
+                liquibase.command
+                - Command execution complete
+2026-05-03 14:31:37
+                INFO 
+                org.hibernate.orm.jpa
+                - HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-05-03 14:31:37
+                INFO 
+                org.hibernate.orm.core
+                - HHH000001: Hibernate ORM core version 7.2.12.Final
+2026-05-03 14:31:37
+                INFO 
+                o.s.o.j.p.SpringPersistenceUnitInfo
+                - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-05-03 14:31:37
+                WARN 
+                org.hibernate.orm.deprecation
+                - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-05-03 14:31:37
+                INFO 
+                o.hibernate.orm.connections.pooling
+                - HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:62315/postgres]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 18.3
+	Default catalog/schema: postgres/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-05-03 14:31:38
+                INFO 
+                org.hibernate.orm.core
+                - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-05-03 14:31:38
+                INFO 
+                o.s.o.j.LocalContainerEntityManagerFactoryBean
+                - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-05-03 14:31:38
+                INFO 
+                o.s.d.j.r.q.QueryEnhancerFactories
+                - Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-05-03 14:31:38
+                WARN 
+                o.s.b.w.s.s.c.AnnotationConfigServletWebServerApplicationContext
+                - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'infoController' defined in file [C:\Users\wayne\Documents\intellij\crypto_project\backend\restservices\target\classes\com\wayne\restservices\controllers\InfoController.class]: Unsatisfied dependency expressed through constructor parameter 0: No qualifying bean of type 'org.springframework.boot.info.BuildProperties' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {}
+2026-05-03 14:31:38
+                INFO 
+                o.s.o.j.LocalContainerEntityManagerFactoryBean
+                - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-05-03 14:31:38
+                INFO 
+                com.zaxxer.hikari.HikariDataSource
+                - HikariPool-1 - Shutdown initiated...
+2026-05-03 14:31:38
+                INFO 
+                com.zaxxer.hikari.HikariDataSource
+                - HikariPool-1 - Shutdown completed.
+2026-05-03 14:31:38
+                INFO 
+                o.a.catalina.core.StandardService
+                - Stopping service [Tomcat]
+2026-05-03 14:31:38
+                INFO 
+                o.s.b.a.l.ConditionEvaluationReportLogger
+                - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2026-05-03 14:31:38
+                ERROR
+                o.s.b.d.LoggingFailureAnalysisReporter
+                - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Parameter 0 of constructor in com.wayne.restservices.controllers.InfoController required a bean of type 'org.springframework.boot.info.BuildProperties' that could not be found.
+
+
+Action:
+
+Consider defining a bean of type 'org.springframework.boot.info.BuildProperties' in your configuration.
+
+2026-05-03 14:44:12
+                INFO 
+                c.w.r.RestservicesApplication
+                - Starting RestservicesApplication using Java 21.0.11 with PID 46160 (C:\Users\wayne\Documents\intellij\crypto_project\backend\restservices\target\classes started by wayne in C:\Users\wayne\Documents\intellij\crypto_project\backend\restservices)
+2026-05-03 14:44:12
+                INFO 
+                c.w.r.RestservicesApplication
+                - The following 1 profile is active: "dev"
+2026-05-03 14:44:12
+                INFO 
+                o.s.d.r.c.RepositoryConfigurationDelegate
+                - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-05-03 14:44:12
+                INFO 
+                o.s.d.r.c.RepositoryConfigurationDelegate
+                - Finished Spring Data repository scanning in 3 ms. Found 0 JPA repository interfaces.
+2026-05-03 14:44:12
+                INFO 
+                o.s.boot.tomcat.TomcatWebServer
+                - Tomcat initialized with port 8080 (http)
+2026-05-03 14:44:12
+                INFO 
+                o.a.coyote.http11.Http11NioProtocol
+                - Initializing ProtocolHandler ["http-nio-8080"]
+2026-05-03 14:44:12
+                INFO 
+                o.a.catalina.core.StandardService
+                - Starting service [Tomcat]
+2026-05-03 14:44:12
+                INFO 
+                o.a.catalina.core.StandardEngine
+                - Starting Servlet engine: [Apache Tomcat/11.0.21]
+2026-05-03 14:44:12
+                INFO 
+                o.s.b.w.c.s.WebApplicationContextInitializer
+                - Root WebApplicationContext: initialization completed in 582 ms
+2026-05-03 14:44:12
+                INFO 
+                com.zaxxer.hikari.HikariDataSource
+                - HikariPool-1 - Starting...
+2026-05-03 14:44:12
+                INFO 
+                com.zaxxer.hikari.pool.HikariPool
+                - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@41bfa9e9
+2026-05-03 14:44:13
+                INFO 
+                com.zaxxer.hikari.HikariDataSource
+                - HikariPool-1 - Start completed.
+2026-05-03 14:44:13
+                INFO 
+                liquibase.database
+                - Set default schema name to public
+2026-05-03 14:44:13
+                INFO 
+                liquibase.changelog
+                - Reading from public.databasechangelog
+2026-05-03 14:44:13
+                INFO 
+                liquibase.ui
+                - Database is up to date, no changesets to execute
+2026-05-03 14:44:13
+                INFO 
+                liquibase.changelog
+                - Reading from public.databasechangelog
+2026-05-03 14:44:13
+                INFO 
+                liquibase.util
+                - UPDATE SUMMARY
+2026-05-03 14:44:13
+                INFO 
+                liquibase.util
+                - Run:                          0
+2026-05-03 14:44:13
+                INFO 
+                liquibase.util
+                - Previously run:              11
+2026-05-03 14:44:13
+                INFO 
+                liquibase.util
+                - Filtered out:                 0
+2026-05-03 14:44:13
+                INFO 
+                liquibase.util
+                - -------------------------------
+2026-05-03 14:44:13
+                INFO 
+                liquibase.util
+                - Total change sets:           11
+2026-05-03 14:44:13
+                INFO 
+                liquibase.util
+                - Update summary generated
+2026-05-03 14:44:13
+                INFO 
+                liquibase.command
+                - Command execution complete
+2026-05-03 14:44:13
+                INFO 
+                org.hibernate.orm.jpa
+                - HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-05-03 14:44:13
+                INFO 
+                org.hibernate.orm.core
+                - HHH000001: Hibernate ORM core version 7.2.12.Final
+2026-05-03 14:44:14
+                INFO 
+                o.s.o.j.p.SpringPersistenceUnitInfo
+                - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-05-03 14:44:14
+                WARN 
+                org.hibernate.orm.deprecation
+                - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-05-03 14:44:14
+                INFO 
+                o.hibernate.orm.connections.pooling
+                - HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:62315/postgres]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 18.3
+	Default catalog/schema: postgres/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-05-03 14:44:14
+                INFO 
+                org.hibernate.orm.core
+                - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-05-03 14:44:14
+                INFO 
+                o.s.o.j.LocalContainerEntityManagerFactoryBean
+                - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-05-03 14:44:14
+                WARN 
+                o.s.b.w.s.s.c.AnnotationConfigServletWebServerApplicationContext
+                - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'coinController' defined in file [C:\Users\wayne\Documents\intellij\crypto_project\backend\restservices\target\classes\com\wayne\restservices\controllers\CoinController.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'coinService' defined in file [C:\Users\wayne\Documents\intellij\crypto_project\backend\restservices\target\classes\com\wayne\restservices\services\CoinService.class]: Unsatisfied dependency expressed through constructor parameter 0: No qualifying bean of type 'com.wayne.restservices.repositories.CoinRepository' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {}
+2026-05-03 14:44:14
+                INFO 
+                o.s.o.j.LocalContainerEntityManagerFactoryBean
+                - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-05-03 14:44:14
+                INFO 
+                com.zaxxer.hikari.HikariDataSource
+                - HikariPool-1 - Shutdown initiated...
+2026-05-03 14:44:14
+                INFO 
+                com.zaxxer.hikari.HikariDataSource
+                - HikariPool-1 - Shutdown completed.
+2026-05-03 14:44:14
+                INFO 
+                o.a.catalina.core.StandardService
+                - Stopping service [Tomcat]
+2026-05-03 14:44:14
+                INFO 
+                o.s.b.a.l.ConditionEvaluationReportLogger
+                - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2026-05-03 14:44:14
+                ERROR
+                o.s.b.d.LoggingFailureAnalysisReporter
+                - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Parameter 0 of constructor in com.wayne.restservices.services.CoinService required a bean of type 'com.wayne.restservices.repositories.CoinRepository' that could not be found.
+
+
+Action:
+
+Consider defining a bean of type 'com.wayne.restservices.repositories.CoinRepository' in your configuration.
+
+2026-05-03 14:46:57
+                INFO 
+                c.w.r.RestservicesApplication
+                - Starting RestservicesApplication using Java 21.0.11 with PID 27184 (C:\Users\wayne\Documents\intellij\crypto_project\backend\restservices\target\classes started by wayne in C:\Users\wayne\Documents\intellij\crypto_project\backend\restservices)
+2026-05-03 14:46:57
+                INFO 
+                c.w.r.RestservicesApplication
+                - The following 1 profile is active: "dev"
+2026-05-03 14:46:57
+                INFO 
+                o.s.d.r.c.RepositoryConfigurationDelegate
+                - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-05-03 14:46:57
+                INFO 
+                o.s.d.r.c.RepositoryConfigurationDelegate
+                - Finished Spring Data repository scanning in 3 ms. Found 0 JPA repository interfaces.
+2026-05-03 14:46:57
+                INFO 
+                o.s.boot.tomcat.TomcatWebServer
+                - Tomcat initialized with port 8080 (http)
+2026-05-03 14:46:57
+                INFO 
+                o.a.coyote.http11.Http11NioProtocol
+                - Initializing ProtocolHandler ["http-nio-8080"]
+2026-05-03 14:46:57
+                INFO 
+                o.a.catalina.core.StandardService
+                - Starting service [Tomcat]
+2026-05-03 14:46:57
+                INFO 
+                o.a.catalina.core.StandardEngine
+                - Starting Servlet engine: [Apache Tomcat/11.0.21]
+2026-05-03 14:46:57
+                INFO 
+                o.s.b.w.c.s.WebApplicationContextInitializer
+                - Root WebApplicationContext: initialization completed in 620 ms
+2026-05-03 14:46:57
+                INFO 
+                com.zaxxer.hikari.HikariDataSource
+                - HikariPool-1 - Starting...
+2026-05-03 14:46:57
+                INFO 
+                com.zaxxer.hikari.pool.HikariPool
+                - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@bb3ecfe
+2026-05-03 14:46:57
+                INFO 
+                com.zaxxer.hikari.HikariDataSource
+                - HikariPool-1 - Start completed.
+2026-05-03 14:46:58
+                INFO 
+                liquibase.database
+                - Set default schema name to public
+2026-05-03 14:46:58
+                INFO 
+                liquibase.changelog
+                - Reading from public.databasechangelog
+2026-05-03 14:46:58
+                INFO 
+                liquibase.ui
+                - Database is up to date, no changesets to execute
+2026-05-03 14:46:58
+                INFO 
+                liquibase.changelog
+                - Reading from public.databasechangelog
+2026-05-03 14:46:58
+                INFO 
+                liquibase.util
+                - UPDATE SUMMARY
+2026-05-03 14:46:58
+                INFO 
+                liquibase.util
+                - Run:                          0
+2026-05-03 14:46:58
+                INFO 
+                liquibase.util
+                - Previously run:              11
+2026-05-03 14:46:58
+                INFO 
+                liquibase.util
+                - Filtered out:                 0
+2026-05-03 14:46:58
+                INFO 
+                liquibase.util
+                - -------------------------------
+2026-05-03 14:46:58
+                INFO 
+                liquibase.util
+                - Total change sets:           11
+2026-05-03 14:46:58
+                INFO 
+                liquibase.util
+                - Update summary generated
+2026-05-03 14:46:58
+                INFO 
+                liquibase.command
+                - Command execution complete
+2026-05-03 14:46:58
+                INFO 
+                org.hibernate.orm.jpa
+                - HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-05-03 14:46:58
+                INFO 
+                org.hibernate.orm.core
+                - HHH000001: Hibernate ORM core version 7.2.12.Final
+2026-05-03 14:46:58
+                INFO 
+                o.s.o.j.p.SpringPersistenceUnitInfo
+                - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-05-03 14:46:59
+                WARN 
+                org.hibernate.orm.deprecation
+                - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-05-03 14:46:59
+                INFO 
+                o.hibernate.orm.connections.pooling
+                - HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:62315/postgres]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 18.3
+	Default catalog/schema: postgres/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-05-03 14:46:59
+                INFO 
+                org.hibernate.orm.core
+                - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-05-03 14:46:59
+                INFO 
+                o.s.o.j.LocalContainerEntityManagerFactoryBean
+                - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-05-03 14:46:59
+                WARN 
+                o.s.b.w.s.s.c.AnnotationConfigServletWebServerApplicationContext
+                - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'coinController' defined in file [C:\Users\wayne\Documents\intellij\crypto_project\backend\restservices\target\classes\com\wayne\restservices\controllers\CoinController.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'coinService' defined in file [C:\Users\wayne\Documents\intellij\crypto_project\backend\restservices\target\classes\com\wayne\restservices\services\CoinService.class]: Unsatisfied dependency expressed through constructor parameter 0: No qualifying bean of type 'com.wayne.restservices.repositories.CoinRepository' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {}
+2026-05-03 14:46:59
+                INFO 
+                o.s.o.j.LocalContainerEntityManagerFactoryBean
+                - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-05-03 14:46:59
+                INFO 
+                com.zaxxer.hikari.HikariDataSource
+                - HikariPool-1 - Shutdown initiated...
+2026-05-03 14:46:59
+                INFO 
+                com.zaxxer.hikari.HikariDataSource
+                - HikariPool-1 - Shutdown completed.
+2026-05-03 14:46:59
+                INFO 
+                o.a.catalina.core.StandardService
+                - Stopping service [Tomcat]
+2026-05-03 14:46:59
+                INFO 
+                o.s.b.a.l.ConditionEvaluationReportLogger
+                - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2026-05-03 14:46:59
+                ERROR
+                o.s.b.d.LoggingFailureAnalysisReporter
+                - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Parameter 0 of constructor in com.wayne.restservices.services.CoinService required a bean of type 'com.wayne.restservices.repositories.CoinRepository' that could not be found.
+
+
+Action:
+
+Consider defining a bean of type 'com.wayne.restservices.repositories.CoinRepository' in your configuration.
+
+2026-05-03 14:57:30
+                INFO 
+                c.w.r.RestservicesApplicationTests
+                - Starting RestservicesApplicationTests using Java 21.0.11 with PID 16364 (started by wayne in C:\Users\wayne\Documents\intellij\crypto_project\backend\restservices)
+2026-05-03 14:57:30
+                INFO 
+                c.w.r.RestservicesApplicationTests
+                - The following 1 profile is active: "dev"
+2026-05-03 14:57:30
+                INFO 
+                o.s.d.r.c.RepositoryConfigurationDelegate
+                - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-05-03 14:57:30
+                INFO 
+                o.s.d.r.c.RepositoryConfigurationDelegate
+                - Finished Spring Data repository scanning in 3 ms. Found 0 JPA repository interfaces.
+2026-05-03 14:57:31
+                WARN 
+                o.s.w.c.s.GenericWebApplicationContext
+                - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/hibernate/autoconfigure/HibernateJpaConfiguration.class]: Failed to initialize dependency 'liquibase' of LoadTimeWeaverAware bean 'entityManagerFactory': Error creating bean with name 'liquibase' defined in class path resource [org/springframework/boot/liquibase/autoconfigure/LiquibaseAutoConfiguration$LiquibaseConfiguration.class]: Failed to instantiate [liquibase.integration.spring.SpringLiquibase]: Factory method 'liquibase' threw exception with message: Error creating bean with name 'dataSource' defined in class path resource [org/springframework/boot/jdbc/autoconfigure/DataSourceConfiguration$Hikari.class]: Failed to instantiate [com.zaxxer.hikari.HikariDataSource]: Factory method 'dataSource' threw exception with message: 'url' must start with "jdbc"
+2026-05-03 14:57:31
+                INFO 
+                o.s.b.a.l.ConditionEvaluationReportLogger
+                - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2026-05-03 14:57:31
+                ERROR
+                o.s.boot.SpringApplication
+                - Application run failed
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/hibernate/autoconfigure/HibernateJpaConfiguration.class]: Failed to initialize dependency 'liquibase' of LoadTimeWeaverAware bean 'entityManagerFactory': Error creating bean with name 'liquibase' defined in class path resource [org/springframework/boot/liquibase/autoconfigure/LiquibaseAutoConfiguration$LiquibaseConfiguration.class]: Failed to instantiate [liquibase.integration.spring.SpringLiquibase]: Factory method 'liquibase' threw exception with message: Error creating bean with name 'dataSource' defined in class path resource [org/springframework/boot/jdbc/autoconfigure/DataSourceConfiguration$Hikari.class]: Failed to instantiate [com.zaxxer.hikari.HikariDataSource]: Factory method 'dataSource' threw exception with message: 'url' must start with "jdbc"
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:322)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:201)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:977)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:621)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:756)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:445)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:321)
+	at org.springframework.boot.test.context.SpringBootContextLoader.lambda$loadContext$2(SpringBootContextLoader.java:155)
+	at org.springframework.util.function.ThrowingSupplier.get(ThrowingSupplier.java:58)
+	at org.springframework.util.function.ThrowingSupplier.get(ThrowingSupplier.java:46)
+	at org.springframework.boot.SpringApplication.withHook(SpringApplication.java:1465)
+	at org.springframework.boot.test.context.SpringBootContextLoader$ContextLoaderHook.run(SpringBootContextLoader.java:600)
+	at org.springframework.boot.test.context.SpringBootContextLoader.loadContext(SpringBootContextLoader.java:155)
+	at org.springframework.boot.test.context.SpringBootContextLoader.loadContext(SpringBootContextLoader.java:114)
+	at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContextInternal(DefaultCacheAwareContextLoaderDelegate.java:247)
+	at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.lambda$loadContext$0(DefaultCacheAwareContextLoaderDelegate.java:167)
+	at org.springframework.test.context.cache.DefaultContextCache.put(DefaultContextCache.java:214)
+	at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContext(DefaultCacheAwareContextLoaderDelegate.java:160)
+	at org.springframework.test.context.support.DefaultTestContext.getApplicationContext(DefaultTestContext.java:128)
+	at org.springframework.test.context.web.ServletTestExecutionListener.setUpRequestContextIfNecessary(ServletTestExecutionListener.java:200)
+	at org.springframework.test.context.web.ServletTestExecutionListener.prepareTestInstance(ServletTestExecutionListener.java:139)
+	at org.springframework.test.context.TestContextManager.prepareTestInstance(TestContextManager.java:260)
+	at org.springframework.test.context.junit.jupiter.SpringExtension.postProcessTestInstance(SpringExtension.java:242)
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.lambda$invokeTestInstancePostProcessors$1(ClassBasedTestDescriptor.java:423)
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.executeAndMaskThrowable(ClassBasedTestDescriptor.java:428)
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.lambda$invokeTestInstancePostProcessors$0(ClassBasedTestDescriptor.java:422)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.accept(ForEachOps.java:184)
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197)
+	at java.base/java.util.stream.ReferencePipeline$2$1.accept(ReferencePipeline.java:179)
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197)
+	at java.base/java.util.ArrayList$ArrayListSpliterator.forEachRemaining(ArrayList.java:1708)
+	at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:509)
+	at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:499)
+	at java.base/java.util.stream.ForEachOps$ForEachOp.evaluateSequential(ForEachOps.java:151)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.evaluateSequential(ForEachOps.java:174)
+	at java.base/java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:234)
+	at java.base/java.util.stream.ReferencePipeline.forEach(ReferencePipeline.java:596)
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.invokeTestInstancePostProcessors(ClassBasedTestDescriptor.java:422)
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.lambda$instantiateAndPostProcessTestInstance$0(ClassBasedTestDescriptor.java:334)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:74)
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.instantiateAndPostProcessTestInstance(ClassBasedTestDescriptor.java:333)
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.lambda$testInstancesProvider$1(ClassBasedTestDescriptor.java:322)
+	at java.base/java.util.Optional.orElseGet(Optional.java:364)
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.lambda$testInstancesProvider$0(ClassBasedTestDescriptor.java:321)
+	at org.junit.jupiter.engine.execution.TestInstancesProvider.getTestInstances(TestInstancesProvider.java:27)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.lambda$prepare$0(TestMethodTestDescriptor.java:127)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:74)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.prepare(TestMethodTestDescriptor.java:126)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.prepare(TestMethodTestDescriptor.java:70)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$prepare$0(NodeTestTask.java:144)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:74)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.prepare(NodeTestTask.java:144)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:110)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:42)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$2(NodeTestTask.java:180)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:74)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$1(NodeTestTask.java:166)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$0(NodeTestTask.java:164)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:74)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:163)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:116)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:42)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$2(NodeTestTask.java:180)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:74)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$1(NodeTestTask.java:166)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$0(NodeTestTask.java:164)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:74)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:163)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:116)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.submit(SameThreadHierarchicalTestExecutorService.java:36)
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestExecutor.execute(HierarchicalTestExecutor.java:52)
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestEngine.execute(HierarchicalTestEngine.java:58)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.executeEngine(EngineExecutionOrchestrator.java:246)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.failOrExecuteEngine(EngineExecutionOrchestrator.java:218)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:179)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:108)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.lambda$execute$0(EngineExecutionOrchestrator.java:66)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.withInterceptedStreams(EngineExecutionOrchestrator.java:157)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:65)
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:125)
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:114)
+	at org.junit.platform.launcher.core.DelegatingLauncher.execute(DelegatingLauncher.java:58)
+	at org.junit.platform.launcher.core.InterceptingLauncher.lambda$execute$2(InterceptingLauncher.java:57)
+	at org.junit.platform.launcher.core.ClasspathAlignmentCheckingLauncherInterceptor.intercept(ClasspathAlignmentCheckingLauncherInterceptor.java:25)
+	at org.junit.platform.launcher.core.InterceptingLauncher.execute(InterceptingLauncher.java:56)
+	at org.junit.platform.launcher.core.DelegatingLauncher.execute(DelegatingLauncher.java:58)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.apache.maven.surefire.api.util.ReflectionUtils.invokeMethodWithArray(ReflectionUtils.java:125)
+	at org.apache.maven.surefire.junitplatform.LauncherAdapter.executeWithCancellationToken(LauncherAdapter.java:68)
+	at org.apache.maven.surefire.junitplatform.LauncherAdapter.execute(LauncherAdapter.java:54)
+	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.execute(JUnitPlatformProvider.java:203)
+	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.invokeAllTests(JUnitPlatformProvider.java:168)
+	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.invoke(JUnitPlatformProvider.java:136)
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:385)
+	at org.apache.maven.surefire.booter.ForkedBooter.execute(ForkedBooter.java:162)
+	at org.apache.maven.surefire.booter.ForkedBooter.run(ForkedBooter.java:507)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:495)
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'liquibase' defined in class path resource [org/springframework/boot/liquibase/autoconfigure/LiquibaseAutoConfiguration$LiquibaseConfiguration.class]: Failed to instantiate [liquibase.integration.spring.SpringLiquibase]: Factory method 'liquibase' threw exception with message: Error creating bean with name 'dataSource' defined in class path resource [org/springframework/boot/jdbc/autoconfigure/DataSourceConfiguration$Hikari.class]: Failed to instantiate [com.zaxxer.hikari.HikariDataSource]: Factory method 'dataSource' threw exception with message: 'url' must start with "jdbc"
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:657)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:645)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1362)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1194)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:565)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:525)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:333)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:371)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:331)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:196)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:309)
+	... 101 common frames omitted
+Caused by: org.springframework.beans.BeanInstantiationException: Failed to instantiate [liquibase.integration.spring.SpringLiquibase]: Factory method 'liquibase' threw exception with message: Error creating bean with name 'dataSource' defined in class path resource [org/springframework/boot/jdbc/autoconfigure/DataSourceConfiguration$Hikari.class]: Failed to instantiate [com.zaxxer.hikari.HikariDataSource]: Factory method 'dataSource' threw exception with message: 'url' must start with "jdbc"
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.lambda$instantiate$0(SimpleInstantiationStrategy.java:183)
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiateWithFactoryMethod(SimpleInstantiationStrategy.java:72)
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:152)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:653)
+	... 111 common frames omitted
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'dataSource' defined in class path resource [org/springframework/boot/jdbc/autoconfigure/DataSourceConfiguration$Hikari.class]: Failed to instantiate [com.zaxxer.hikari.HikariDataSource]: Factory method 'dataSource' threw exception with message: 'url' must start with "jdbc"
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:657)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:645)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1362)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1194)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:565)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:525)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:333)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:371)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:331)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:201)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveBean(DefaultListableBeanFactory.java:1225)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1704)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory$DependencyObjectProvider.getIfUnique(DefaultListableBeanFactory.java:2611)
+	at org.springframework.boot.liquibase.autoconfigure.LiquibaseAutoConfiguration$LiquibaseConfiguration.liquibase(LiquibaseAutoConfiguration.java:106)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.lambda$instantiate$0(SimpleInstantiationStrategy.java:155)
+	... 114 common frames omitted
+Caused by: org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.zaxxer.hikari.HikariDataSource]: Factory method 'dataSource' threw exception with message: 'url' must start with "jdbc"
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.lambda$instantiate$0(SimpleInstantiationStrategy.java:183)
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiateWithFactoryMethod(SimpleInstantiationStrategy.java:72)
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:152)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:653)
+	... 130 common frames omitted
+Caused by: java.lang.IllegalArgumentException: 'url' must start with "jdbc"
+	at org.springframework.util.Assert.isTrue(Assert.java:117)
+	at org.springframework.boot.jdbc.DatabaseDriver.fromJdbcUrl(DatabaseDriver.java:314)
+	at org.springframework.boot.jdbc.autoconfigure.DataSourceProperties.findDriverClassName(DataSourceProperties.java:193)
+	at org.springframework.boot.jdbc.autoconfigure.DataSourceProperties.determineDriverClassName(DataSourceProperties.java:177)
+	at org.springframework.boot.jdbc.autoconfigure.PropertiesJdbcConnectionDetails.getDriverClassName(PropertiesJdbcConnectionDetails.java:51)
+	at org.springframework.boot.jdbc.autoconfigure.DataSourceConfiguration.createDataSource(DataSourceConfiguration.java:63)
+	at org.springframework.boot.jdbc.autoconfigure.DataSourceConfiguration$Hikari.dataSource(DataSourceConfiguration.java:128)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.lambda$instantiate$0(SimpleInstantiationStrategy.java:155)
+	... 133 common frames omitted
+2026-05-03 14:57:31
+                WARN 
+                o.s.test.context.TestContextManager
+                - Caught exception while allowing TestExecutionListener [org.springframework.test.context.web.ServletTestExecutionListener] to prepare test instance [com.wayne.restservices.RestservicesApplicationTests@7a64cb0c]
+java.lang.IllegalStateException: Failed to load ApplicationContext for [WebMergedContextConfiguration@2c06b113 testClass = com.wayne.restservices.RestservicesApplicationTests, locations = [], classes = [com.wayne.restservices.RestservicesApplication], contextInitializerClasses = [], activeProfiles = [], propertySourceDescriptors = [], propertySourceProperties = ["org.springframework.boot.test.context.SpringBootTestContextBootstrapper=true"], contextCustomizers = [org.springframework.boot.web.server.context.SpringBootTestRandomPortContextCustomizer@6731787b, org.springframework.boot.test.context.PropertyMappingContextCustomizer@0, org.springframework.boot.test.context.filter.ExcludeFilterContextCustomizer@10650953, org.springframework.boot.test.json.DuplicateJsonObjectContextCustomizerFactory$DuplicateJsonObjectContextCustomizer@72a85671, org.springframework.boot.test.autoconfigure.OnFailureConditionReportContextCustomizerFactory$OnFailureConditionReportContextCustomizer@4ae33a11, org.springframework.test.context.support.DynamicPropertiesContextCustomizer@0, org.springframework.boot.test.context.SpringBootTestAnnotation@34a2e615], resourceBasePath = "src/main/webapp", contextLoader = org.springframework.boot.test.context.SpringBootContextLoader, parent = null]
+	at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.lambda$loadContext$0(DefaultCacheAwareContextLoaderDelegate.java:195)
+	at org.springframework.test.context.cache.DefaultContextCache.put(DefaultContextCache.java:214)
+	at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContext(DefaultCacheAwareContextLoaderDelegate.java:160)
+	at org.springframework.test.context.support.DefaultTestContext.getApplicationContext(DefaultTestContext.java:128)
+	at org.springframework.test.context.web.ServletTestExecutionListener.setUpRequestContextIfNecessary(ServletTestExecutionListener.java:200)
+	at org.springframework.test.context.web.ServletTestExecutionListener.prepareTestInstance(ServletTestExecutionListener.java:139)
+	at org.springframework.test.context.TestContextManager.prepareTestInstance(TestContextManager.java:260)
+	at org.springframework.test.context.junit.jupiter.SpringExtension.postProcessTestInstance(SpringExtension.java:242)
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.lambda$invokeTestInstancePostProcessors$1(ClassBasedTestDescriptor.java:423)
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.executeAndMaskThrowable(ClassBasedTestDescriptor.java:428)
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.lambda$invokeTestInstancePostProcessors$0(ClassBasedTestDescriptor.java:422)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.accept(ForEachOps.java:184)
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197)
+	at java.base/java.util.stream.ReferencePipeline$2$1.accept(ReferencePipeline.java:179)
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197)
+	at java.base/java.util.ArrayList$ArrayListSpliterator.forEachRemaining(ArrayList.java:1708)
+	at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:509)
+	at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:499)
+	at java.base/java.util.stream.ForEachOps$ForEachOp.evaluateSequential(ForEachOps.java:151)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.evaluateSequential(ForEachOps.java:174)
+	at java.base/java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:234)
+	at java.base/java.util.stream.ReferencePipeline.forEach(ReferencePipeline.java:596)
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.invokeTestInstancePostProcessors(ClassBasedTestDescriptor.java:422)
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.lambda$instantiateAndPostProcessTestInstance$0(ClassBasedTestDescriptor.java:334)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:74)
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.instantiateAndPostProcessTestInstance(ClassBasedTestDescriptor.java:333)
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.lambda$testInstancesProvider$1(ClassBasedTestDescriptor.java:322)
+	at java.base/java.util.Optional.orElseGet(Optional.java:364)
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.lambda$testInstancesProvider$0(ClassBasedTestDescriptor.java:321)
+	at org.junit.jupiter.engine.execution.TestInstancesProvider.getTestInstances(TestInstancesProvider.java:27)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.lambda$prepare$0(TestMethodTestDescriptor.java:127)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:74)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.prepare(TestMethodTestDescriptor.java:126)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.prepare(TestMethodTestDescriptor.java:70)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$prepare$0(NodeTestTask.java:144)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:74)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.prepare(NodeTestTask.java:144)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:110)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:42)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$2(NodeTestTask.java:180)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:74)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$1(NodeTestTask.java:166)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$0(NodeTestTask.java:164)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:74)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:163)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:116)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:42)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$2(NodeTestTask.java:180)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:74)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$1(NodeTestTask.java:166)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$0(NodeTestTask.java:164)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:74)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:163)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:116)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.submit(SameThreadHierarchicalTestExecutorService.java:36)
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestExecutor.execute(HierarchicalTestExecutor.java:52)
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestEngine.execute(HierarchicalTestEngine.java:58)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.executeEngine(EngineExecutionOrchestrator.java:246)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.failOrExecuteEngine(EngineExecutionOrchestrator.java:218)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:179)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:108)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.lambda$execute$0(EngineExecutionOrchestrator.java:66)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.withInterceptedStreams(EngineExecutionOrchestrator.java:157)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:65)
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:125)
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:114)
+	at org.junit.platform.launcher.core.DelegatingLauncher.execute(DelegatingLauncher.java:58)
+	at org.junit.platform.launcher.core.InterceptingLauncher.lambda$execute$2(InterceptingLauncher.java:57)
+	at org.junit.platform.launcher.core.ClasspathAlignmentCheckingLauncherInterceptor.intercept(ClasspathAlignmentCheckingLauncherInterceptor.java:25)
+	at org.junit.platform.launcher.core.InterceptingLauncher.execute(InterceptingLauncher.java:56)
+	at org.junit.platform.launcher.core.DelegatingLauncher.execute(DelegatingLauncher.java:58)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.apache.maven.surefire.api.util.ReflectionUtils.invokeMethodWithArray(ReflectionUtils.java:125)
+	at org.apache.maven.surefire.junitplatform.LauncherAdapter.executeWithCancellationToken(LauncherAdapter.java:68)
+	at org.apache.maven.surefire.junitplatform.LauncherAdapter.execute(LauncherAdapter.java:54)
+	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.execute(JUnitPlatformProvider.java:203)
+	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.invokeAllTests(JUnitPlatformProvider.java:168)
+	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.invoke(JUnitPlatformProvider.java:136)
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:385)
+	at org.apache.maven.surefire.booter.ForkedBooter.execute(ForkedBooter.java:162)
+	at org.apache.maven.surefire.booter.ForkedBooter.run(ForkedBooter.java:507)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:495)
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/hibernate/autoconfigure/HibernateJpaConfiguration.class]: Failed to initialize dependency 'liquibase' of LoadTimeWeaverAware bean 'entityManagerFactory': Error creating bean with name 'liquibase' defined in class path resource [org/springframework/boot/liquibase/autoconfigure/LiquibaseAutoConfiguration$LiquibaseConfiguration.class]: Failed to instantiate [liquibase.integration.spring.SpringLiquibase]: Factory method 'liquibase' threw exception with message: Error creating bean with name 'dataSource' defined in class path resource [org/springframework/boot/jdbc/autoconfigure/DataSourceConfiguration$Hikari.class]: Failed to instantiate [com.zaxxer.hikari.HikariDataSource]: Factory method 'dataSource' threw exception with message: 'url' must start with "jdbc"
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:322)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:201)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:977)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:621)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:756)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:445)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:321)
+	at org.springframework.boot.test.context.SpringBootContextLoader.lambda$loadContext$2(SpringBootContextLoader.java:155)
+	at org.springframework.util.function.ThrowingSupplier.get(ThrowingSupplier.java:58)
+	at org.springframework.util.function.ThrowingSupplier.get(ThrowingSupplier.java:46)
+	at org.springframework.boot.SpringApplication.withHook(SpringApplication.java:1465)
+	at org.springframework.boot.test.context.SpringBootContextLoader$ContextLoaderHook.run(SpringBootContextLoader.java:600)
+	at org.springframework.boot.test.context.SpringBootContextLoader.loadContext(SpringBootContextLoader.java:155)
+	at org.springframework.boot.test.context.SpringBootContextLoader.loadContext(SpringBootContextLoader.java:114)
+	at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContextInternal(DefaultCacheAwareContextLoaderDelegate.java:247)
+	at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.lambda$loadContext$0(DefaultCacheAwareContextLoaderDelegate.java:167)
+	... 86 common frames omitted
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'liquibase' defined in class path resource [org/springframework/boot/liquibase/autoconfigure/LiquibaseAutoConfiguration$LiquibaseConfiguration.class]: Failed to instantiate [liquibase.integration.spring.SpringLiquibase]: Factory method 'liquibase' threw exception with message: Error creating bean with name 'dataSource' defined in class path resource [org/springframework/boot/jdbc/autoconfigure/DataSourceConfiguration$Hikari.class]: Failed to instantiate [com.zaxxer.hikari.HikariDataSource]: Factory method 'dataSource' threw exception with message: 'url' must start with "jdbc"
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:657)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:645)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1362)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1194)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:565)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:525)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:333)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:371)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:331)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:196)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:309)
+	... 101 common frames omitted
+Caused by: org.springframework.beans.BeanInstantiationException: Failed to instantiate [liquibase.integration.spring.SpringLiquibase]: Factory method 'liquibase' threw exception with message: Error creating bean with name 'dataSource' defined in class path resource [org/springframework/boot/jdbc/autoconfigure/DataSourceConfiguration$Hikari.class]: Failed to instantiate [com.zaxxer.hikari.HikariDataSource]: Factory method 'dataSource' threw exception with message: 'url' must start with "jdbc"
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.lambda$instantiate$0(SimpleInstantiationStrategy.java:183)
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiateWithFactoryMethod(SimpleInstantiationStrategy.java:72)
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:152)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:653)
+	... 111 common frames omitted
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'dataSource' defined in class path resource [org/springframework/boot/jdbc/autoconfigure/DataSourceConfiguration$Hikari.class]: Failed to instantiate [com.zaxxer.hikari.HikariDataSource]: Factory method 'dataSource' threw exception with message: 'url' must start with "jdbc"
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:657)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:645)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1362)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1194)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:565)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:525)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:333)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:371)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:331)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:201)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveBean(DefaultListableBeanFactory.java:1225)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1704)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory$DependencyObjectProvider.getIfUnique(DefaultListableBeanFactory.java:2611)
+	at org.springframework.boot.liquibase.autoconfigure.LiquibaseAutoConfiguration$LiquibaseConfiguration.liquibase(LiquibaseAutoConfiguration.java:106)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.lambda$instantiate$0(SimpleInstantiationStrategy.java:155)
+	... 114 common frames omitted
+Caused by: org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.zaxxer.hikari.HikariDataSource]: Factory method 'dataSource' threw exception with message: 'url' must start with "jdbc"
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.lambda$instantiate$0(SimpleInstantiationStrategy.java:183)
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiateWithFactoryMethod(SimpleInstantiationStrategy.java:72)
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:152)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:653)
+	... 130 common frames omitted
+Caused by: java.lang.IllegalArgumentException: 'url' must start with "jdbc"
+	at org.springframework.util.Assert.isTrue(Assert.java:117)
+	at org.springframework.boot.jdbc.DatabaseDriver.fromJdbcUrl(DatabaseDriver.java:314)
+	at org.springframework.boot.jdbc.autoconfigure.DataSourceProperties.findDriverClassName(DataSourceProperties.java:193)
+	at org.springframework.boot.jdbc.autoconfigure.DataSourceProperties.determineDriverClassName(DataSourceProperties.java:177)
+	at org.springframework.boot.jdbc.autoconfigure.PropertiesJdbcConnectionDetails.getDriverClassName(PropertiesJdbcConnectionDetails.java:51)
+	at org.springframework.boot.jdbc.autoconfigure.DataSourceConfiguration.createDataSource(DataSourceConfiguration.java:63)
+	at org.springframework.boot.jdbc.autoconfigure.DataSourceConfiguration$Hikari.dataSource(DataSourceConfiguration.java:128)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.lambda$instantiate$0(SimpleInstantiationStrategy.java:155)
+	... 133 common frames omitted
+2026-05-03 14:58:45
+                INFO 
+                c.w.r.RestservicesApplication
+                - Starting RestservicesApplication using Java 21.0.11 with PID 30772 (C:\Users\wayne\Documents\intellij\crypto_project\backend\restservices\target\classes started by wayne in C:\Users\wayne\Documents\intellij\crypto_project\backend\restservices)
+2026-05-03 14:58:45
+                INFO 
+                c.w.r.RestservicesApplication
+                - The following 1 profile is active: "dev"
+2026-05-03 14:58:45
+                INFO 
+                o.s.d.r.c.RepositoryConfigurationDelegate
+                - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-05-03 14:58:45
+                INFO 
+                o.s.d.r.c.RepositoryConfigurationDelegate
+                - Finished Spring Data repository scanning in 4 ms. Found 0 JPA repository interfaces.
+2026-05-03 14:58:46
+                INFO 
+                o.s.boot.tomcat.TomcatWebServer
+                - Tomcat initialized with port 8080 (http)
+2026-05-03 14:58:46
+                INFO 
+                o.a.coyote.http11.Http11NioProtocol
+                - Initializing ProtocolHandler ["http-nio-8080"]
+2026-05-03 14:58:46
+                INFO 
+                o.a.catalina.core.StandardService
+                - Starting service [Tomcat]
+2026-05-03 14:58:46
+                INFO 
+                o.a.catalina.core.StandardEngine
+                - Starting Servlet engine: [Apache Tomcat/11.0.21]
+2026-05-03 14:58:46
+                INFO 
+                o.s.b.w.c.s.WebApplicationContextInitializer
+                - Root WebApplicationContext: initialization completed in 864 ms
+2026-05-03 14:58:46
+                INFO 
+                com.zaxxer.hikari.HikariDataSource
+                - HikariPool-1 - Starting...
+2026-05-03 14:58:46
+                INFO 
+                com.zaxxer.hikari.pool.HikariPool
+                - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@6a1568d6
+2026-05-03 14:58:46
+                INFO 
+                com.zaxxer.hikari.HikariDataSource
+                - HikariPool-1 - Start completed.
+2026-05-03 14:58:46
+                INFO 
+                liquibase.database
+                - Set default schema name to public
+2026-05-03 14:58:47
+                INFO 
+                liquibase.changelog
+                - Reading from public.databasechangelog
+2026-05-03 14:58:47
+                INFO 
+                liquibase.ui
+                - Database is up to date, no changesets to execute
+2026-05-03 14:58:47
+                INFO 
+                liquibase.changelog
+                - Reading from public.databasechangelog
+2026-05-03 14:58:47
+                INFO 
+                liquibase.util
+                - UPDATE SUMMARY
+2026-05-03 14:58:47
+                INFO 
+                liquibase.util
+                - Run:                          0
+2026-05-03 14:58:47
+                INFO 
+                liquibase.util
+                - Previously run:              11
+2026-05-03 14:58:47
+                INFO 
+                liquibase.util
+                - Filtered out:                 0
+2026-05-03 14:58:47
+                INFO 
+                liquibase.util
+                - -------------------------------
+2026-05-03 14:58:47
+                INFO 
+                liquibase.util
+                - Total change sets:           11
+2026-05-03 14:58:47
+                INFO 
+                liquibase.util
+                - Update summary generated
+2026-05-03 14:58:47
+                INFO 
+                liquibase.command
+                - Command execution complete
+2026-05-03 14:58:47
+                INFO 
+                org.hibernate.orm.jpa
+                - HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-05-03 14:58:47
+                INFO 
+                org.hibernate.orm.core
+                - HHH000001: Hibernate ORM core version 7.2.12.Final
+2026-05-03 14:58:47
+                INFO 
+                o.s.o.j.p.SpringPersistenceUnitInfo
+                - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-05-03 14:58:47
+                WARN 
+                org.hibernate.orm.deprecation
+                - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-05-03 14:58:47
+                INFO 
+                o.hibernate.orm.connections.pooling
+                - HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:62315/postgres]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 18.3
+	Default catalog/schema: postgres/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-05-03 14:58:48
+                INFO 
+                org.hibernate.orm.core
+                - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-05-03 14:58:48
+                INFO 
+                o.s.o.j.LocalContainerEntityManagerFactoryBean
+                - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-05-03 14:58:48
+                WARN 
+                o.s.b.w.s.s.c.AnnotationConfigServletWebServerApplicationContext
+                - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'coinController' defined in file [C:\Users\wayne\Documents\intellij\crypto_project\backend\restservices\target\classes\com\wayne\restservices\controllers\CoinController.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'coinService' defined in file [C:\Users\wayne\Documents\intellij\crypto_project\backend\restservices\target\classes\com\wayne\restservices\services\CoinService.class]: Unsatisfied dependency expressed through constructor parameter 0: No qualifying bean of type 'com.wayne.restservices.repositories.CoinRepository' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {}
+2026-05-03 14:58:48
+                INFO 
+                o.s.o.j.LocalContainerEntityManagerFactoryBean
+                - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-05-03 14:58:48
+                INFO 
+                com.zaxxer.hikari.HikariDataSource
+                - HikariPool-1 - Shutdown initiated...
+2026-05-03 14:58:48
+                INFO 
+                com.zaxxer.hikari.HikariDataSource
+                - HikariPool-1 - Shutdown completed.
+2026-05-03 14:58:48
+                INFO 
+                o.a.catalina.core.StandardService
+                - Stopping service [Tomcat]
+2026-05-03 14:58:48
+                INFO 
+                o.s.b.a.l.ConditionEvaluationReportLogger
+                - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2026-05-03 14:58:48
+                ERROR
+                o.s.b.d.LoggingFailureAnalysisReporter
+                - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Parameter 0 of constructor in com.wayne.restservices.services.CoinService required a bean of type 'com.wayne.restservices.repositories.CoinRepository' that could not be found.
+
+
+Action:
+
+Consider defining a bean of type 'com.wayne.restservices.repositories.CoinRepository' in your configuration.
+
+2026-05-03 15:05:22
+                INFO 
+                c.w.r.RestservicesApplication
+                - Starting RestservicesApplication using Java 21.0.11 with PID 39812 (C:\Users\wayne\Documents\intellij\crypto_project\backend\restservices\target\classes started by wayne in C:\Users\wayne\Documents\intellij\crypto_project\backend\restservices)
+2026-05-03 15:05:22
+                INFO 
+                c.w.r.RestservicesApplication
+                - The following 1 profile is active: "dev"
+2026-05-03 15:05:22
+                INFO 
+                o.s.d.r.c.RepositoryConfigurationDelegate
+                - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-05-03 15:05:22
+                INFO 
+                o.s.d.r.c.RepositoryConfigurationDelegate
+                - Finished Spring Data repository scanning in 4 ms. Found 0 JPA repository interfaces.
+2026-05-03 15:05:23
+                INFO 
+                o.s.boot.tomcat.TomcatWebServer
+                - Tomcat initialized with port 8080 (http)
+2026-05-03 15:05:23
+                INFO 
+                o.a.coyote.http11.Http11NioProtocol
+                - Initializing ProtocolHandler ["http-nio-8080"]
+2026-05-03 15:05:23
+                INFO 
+                o.a.catalina.core.StandardService
+                - Starting service [Tomcat]
+2026-05-03 15:05:23
+                INFO 
+                o.a.catalina.core.StandardEngine
+                - Starting Servlet engine: [Apache Tomcat/11.0.21]
+2026-05-03 15:05:23
+                INFO 
+                o.s.b.w.c.s.WebApplicationContextInitializer
+                - Root WebApplicationContext: initialization completed in 554 ms
+2026-05-03 15:05:23
+                INFO 
+                com.zaxxer.hikari.HikariDataSource
+                - HikariPool-1 - Starting...
+2026-05-03 15:05:23
+                INFO 
+                com.zaxxer.hikari.pool.HikariPool
+                - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@5bcec67e
+2026-05-03 15:05:23
+                INFO 
+                com.zaxxer.hikari.HikariDataSource
+                - HikariPool-1 - Start completed.
+2026-05-03 15:05:23
+                INFO 
+                liquibase.database
+                - Set default schema name to public
+2026-05-03 15:05:24
+                INFO 
+                liquibase.changelog
+                - Reading from public.databasechangelog
+2026-05-03 15:05:24
+                INFO 
+                liquibase.ui
+                - Database is up to date, no changesets to execute
+2026-05-03 15:05:24
+                INFO 
+                liquibase.changelog
+                - Reading from public.databasechangelog
+2026-05-03 15:05:24
+                INFO 
+                liquibase.util
+                - UPDATE SUMMARY
+2026-05-03 15:05:24
+                INFO 
+                liquibase.util
+                - Run:                          0
+2026-05-03 15:05:24
+                INFO 
+                liquibase.util
+                - Previously run:              11
+2026-05-03 15:05:24
+                INFO 
+                liquibase.util
+                - Filtered out:                 0
+2026-05-03 15:05:24
+                INFO 
+                liquibase.util
+                - -------------------------------
+2026-05-03 15:05:24
+                INFO 
+                liquibase.util
+                - Total change sets:           11
+2026-05-03 15:05:24
+                INFO 
+                liquibase.util
+                - Update summary generated
+2026-05-03 15:05:24
+                INFO 
+                liquibase.command
+                - Command execution complete
+2026-05-03 15:05:24
+                INFO 
+                org.hibernate.orm.jpa
+                - HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-05-03 15:05:24
+                INFO 
+                org.hibernate.orm.core
+                - HHH000001: Hibernate ORM core version 7.2.12.Final
+2026-05-03 15:05:24
+                INFO 
+                o.s.o.j.p.SpringPersistenceUnitInfo
+                - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-05-03 15:05:24
+                WARN 
+                org.hibernate.orm.deprecation
+                - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-05-03 15:05:24
+                INFO 
+                o.hibernate.orm.connections.pooling
+                - HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:62315/postgres]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 18.3
+	Default catalog/schema: postgres/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-05-03 15:05:24
+                INFO 
+                org.hibernate.orm.core
+                - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-05-03 15:05:24
+                INFO 
+                o.s.o.j.LocalContainerEntityManagerFactoryBean
+                - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-05-03 15:05:24
+                WARN 
+                o.s.b.w.s.s.c.AnnotationConfigServletWebServerApplicationContext
+                - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'coinController' defined in file [C:\Users\wayne\Documents\intellij\crypto_project\backend\restservices\target\classes\com\wayne\restservices\controllers\CoinController.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'coinService' defined in file [C:\Users\wayne\Documents\intellij\crypto_project\backend\restservices\target\classes\com\wayne\restservices\services\CoinService.class]: Unsatisfied dependency expressed through constructor parameter 0: No qualifying bean of type 'com.wayne.restservices.repositories.CoinRepository' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {}
+2026-05-03 15:05:24
+                INFO 
+                o.s.o.j.LocalContainerEntityManagerFactoryBean
+                - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-05-03 15:05:24
+                INFO 
+                com.zaxxer.hikari.HikariDataSource
+                - HikariPool-1 - Shutdown initiated...
+2026-05-03 15:05:24
+                INFO 
+                com.zaxxer.hikari.HikariDataSource
+                - HikariPool-1 - Shutdown completed.
+2026-05-03 15:05:24
+                INFO 
+                o.a.catalina.core.StandardService
+                - Stopping service [Tomcat]
+2026-05-03 15:05:24
+                INFO 
+                o.s.b.a.l.ConditionEvaluationReportLogger
+                - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2026-05-03 15:05:24
+                ERROR
+                o.s.b.d.LoggingFailureAnalysisReporter
+                - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Parameter 0 of constructor in com.wayne.restservices.services.CoinService required a bean of type 'com.wayne.restservices.repositories.CoinRepository' that could not be found.
+
+
+Action:
+
+Consider defining a bean of type 'com.wayne.restservices.repositories.CoinRepository' in your configuration.
+
+2026-05-03 15:13:26
+                INFO 
+                c.w.r.RestservicesApplication
+                - Starting RestservicesApplication using Java 21.0.11 with PID 23888 (C:\Users\wayne\Documents\intellij\crypto_project\backend\restservices\target\classes started by wayne in C:\Users\wayne\Documents\intellij\crypto_project\backend\restservices)
+2026-05-03 15:13:26
+                INFO 
+                c.w.r.RestservicesApplication
+                - The following 1 profile is active: "dev"
+2026-05-03 15:13:26
+                INFO 
+                o.s.d.r.c.RepositoryConfigurationDelegate
+                - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-05-03 15:13:26
+                INFO 
+                o.s.d.r.c.RepositoryConfigurationDelegate
+                - Finished Spring Data repository scanning in 4 ms. Found 0 JPA repository interfaces.
+2026-05-03 15:13:27
+                INFO 
+                o.s.boot.tomcat.TomcatWebServer
+                - Tomcat initialized with port 8080 (http)
+2026-05-03 15:13:27
+                INFO 
+                o.a.coyote.http11.Http11NioProtocol
+                - Initializing ProtocolHandler ["http-nio-8080"]
+2026-05-03 15:13:27
+                INFO 
+                o.a.catalina.core.StandardService
+                - Starting service [Tomcat]
+2026-05-03 15:13:27
+                INFO 
+                o.a.catalina.core.StandardEngine
+                - Starting Servlet engine: [Apache Tomcat/11.0.21]
+2026-05-03 15:13:27
+                INFO 
+                o.s.b.w.c.s.WebApplicationContextInitializer
+                - Root WebApplicationContext: initialization completed in 728 ms
+2026-05-03 15:13:27
+                INFO 
+                com.zaxxer.hikari.HikariDataSource
+                - HikariPool-1 - Starting...
+2026-05-03 15:13:27
+                INFO 
+                com.zaxxer.hikari.pool.HikariPool
+                - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@689faf79
+2026-05-03 15:13:27
+                INFO 
+                com.zaxxer.hikari.HikariDataSource
+                - HikariPool-1 - Start completed.
+2026-05-03 15:13:27
+                INFO 
+                liquibase.database
+                - Set default schema name to public
+2026-05-03 15:13:28
+                INFO 
+                liquibase.changelog
+                - Reading from public.databasechangelog
+2026-05-03 15:13:28
+                INFO 
+                liquibase.ui
+                - Database is up to date, no changesets to execute
+2026-05-03 15:13:28
+                INFO 
+                liquibase.changelog
+                - Reading from public.databasechangelog
+2026-05-03 15:13:28
+                INFO 
+                liquibase.util
+                - UPDATE SUMMARY
+2026-05-03 15:13:28
+                INFO 
+                liquibase.util
+                - Run:                          0
+2026-05-03 15:13:28
+                INFO 
+                liquibase.util
+                - Previously run:              11
+2026-05-03 15:13:28
+                INFO 
+                liquibase.util
+                - Filtered out:                 0
+2026-05-03 15:13:28
+                INFO 
+                liquibase.util
+                - -------------------------------
+2026-05-03 15:13:28
+                INFO 
+                liquibase.util
+                - Total change sets:           11
+2026-05-03 15:13:28
+                INFO 
+                liquibase.util
+                - Update summary generated
+2026-05-03 15:13:28
+                INFO 
+                liquibase.command
+                - Command execution complete
+2026-05-03 15:13:28
+                INFO 
+                org.hibernate.orm.jpa
+                - HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-05-03 15:13:28
+                INFO 
+                org.hibernate.orm.core
+                - HHH000001: Hibernate ORM core version 7.2.12.Final
+2026-05-03 15:13:28
+                INFO 
+                o.s.o.j.p.SpringPersistenceUnitInfo
+                - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-05-03 15:13:28
+                WARN 
+                org.hibernate.orm.deprecation
+                - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-05-03 15:13:28
+                INFO 
+                o.hibernate.orm.connections.pooling
+                - HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:62315/postgres]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 18.3
+	Default catalog/schema: postgres/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-05-03 15:13:29
+                INFO 
+                org.hibernate.orm.core
+                - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-05-03 15:13:29
+                INFO 
+                o.s.o.j.LocalContainerEntityManagerFactoryBean
+                - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-05-03 15:13:29
+                WARN 
+                o.s.b.w.s.s.c.AnnotationConfigServletWebServerApplicationContext
+                - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'coinController' defined in file [C:\Users\wayne\Documents\intellij\crypto_project\backend\restservices\target\classes\com\wayne\restservices\controllers\CoinController.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'coinService' defined in file [C:\Users\wayne\Documents\intellij\crypto_project\backend\restservices\target\classes\com\wayne\restservices\services\CoinService.class]: Unsatisfied dependency expressed through constructor parameter 0: No qualifying bean of type 'com.wayne.restservices.repositories.CoinRepository' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {}
+2026-05-03 15:13:29
+                INFO 
+                o.s.o.j.LocalContainerEntityManagerFactoryBean
+                - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-05-03 15:13:29
+                INFO 
+                com.zaxxer.hikari.HikariDataSource
+                - HikariPool-1 - Shutdown initiated...
+2026-05-03 15:13:29
+                INFO 
+                com.zaxxer.hikari.HikariDataSource
+                - HikariPool-1 - Shutdown completed.
+2026-05-03 15:13:29
+                INFO 
+                o.a.catalina.core.StandardService
+                - Stopping service [Tomcat]
+2026-05-03 15:13:29
+                INFO 
+                o.s.b.a.l.ConditionEvaluationReportLogger
+                - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2026-05-03 15:13:29
+                ERROR
+                o.s.b.d.LoggingFailureAnalysisReporter
+                - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Parameter 0 of constructor in com.wayne.restservices.services.CoinService required a bean of type 'com.wayne.restservices.repositories.CoinRepository' that could not be found.
+
+
+Action:
+
+Consider defining a bean of type 'com.wayne.restservices.repositories.CoinRepository' in your configuration.
+
+2026-05-03 15:21:43
+                INFO 
+                c.w.r.RestservicesApplication
+                - Starting RestservicesApplication using Java 21.0.11 with PID 21928 (C:\Users\wayne\Documents\intellij\crypto_project\backend\restservices\target\classes started by wayne in C:\Users\wayne\Documents\intellij\crypto_project\backend\restservices)
+2026-05-03 15:21:43
+                INFO 
+                c.w.r.RestservicesApplication
+                - The following 1 profile is active: "dev"
+2026-05-03 15:21:43
+                INFO 
+                o.s.d.r.c.RepositoryConfigurationDelegate
+                - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-05-03 15:21:43
+                INFO 
+                o.s.d.r.c.RepositoryConfigurationDelegate
+                - Finished Spring Data repository scanning in 32 ms. Found 3 JPA repository interfaces.
+2026-05-03 15:21:44
+                INFO 
+                o.s.boot.tomcat.TomcatWebServer
+                - Tomcat initialized with port 8080 (http)
+2026-05-03 15:21:44
+                INFO 
+                o.a.coyote.http11.Http11NioProtocol
+                - Initializing ProtocolHandler ["http-nio-8080"]
+2026-05-03 15:21:44
+                INFO 
+                o.a.catalina.core.StandardService
+                - Starting service [Tomcat]
+2026-05-03 15:21:44
+                INFO 
+                o.a.catalina.core.StandardEngine
+                - Starting Servlet engine: [Apache Tomcat/11.0.21]
+2026-05-03 15:21:44
+                INFO 
+                o.s.b.w.c.s.WebApplicationContextInitializer
+                - Root WebApplicationContext: initialization completed in 630 ms
+2026-05-03 15:21:44
+                INFO 
+                com.zaxxer.hikari.HikariDataSource
+                - HikariPool-1 - Starting...
+2026-05-03 15:21:44
+                INFO 
+                com.zaxxer.hikari.pool.HikariPool
+                - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@6d6bff89
+2026-05-03 15:21:44
+                INFO 
+                com.zaxxer.hikari.HikariDataSource
+                - HikariPool-1 - Start completed.
+2026-05-03 15:21:44
+                INFO 
+                liquibase.database
+                - Set default schema name to public
+2026-05-03 15:21:44
+                INFO 
+                liquibase.changelog
+                - Reading from public.databasechangelog
+2026-05-03 15:21:44
+                INFO 
+                liquibase.ui
+                - Database is up to date, no changesets to execute
+2026-05-03 15:21:44
+                INFO 
+                liquibase.changelog
+                - Reading from public.databasechangelog
+2026-05-03 15:21:44
+                INFO 
+                liquibase.util
+                - UPDATE SUMMARY
+2026-05-03 15:21:44
+                INFO 
+                liquibase.util
+                - Run:                          0
+2026-05-03 15:21:44
+                INFO 
+                liquibase.util
+                - Previously run:              11
+2026-05-03 15:21:44
+                INFO 
+                liquibase.util
+                - Filtered out:                 0
+2026-05-03 15:21:44
+                INFO 
+                liquibase.util
+                - -------------------------------
+2026-05-03 15:21:44
+                INFO 
+                liquibase.util
+                - Total change sets:           11
+2026-05-03 15:21:44
+                INFO 
+                liquibase.util
+                - Update summary generated
+2026-05-03 15:21:44
+                INFO 
+                liquibase.command
+                - Command execution complete
+2026-05-03 15:21:45
+                INFO 
+                org.hibernate.orm.jpa
+                - HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-05-03 15:21:45
+                INFO 
+                org.hibernate.orm.core
+                - HHH000001: Hibernate ORM core version 7.2.12.Final
+2026-05-03 15:21:45
+                INFO 
+                o.s.o.j.p.SpringPersistenceUnitInfo
+                - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-05-03 15:21:45
+                WARN 
+                org.hibernate.orm.deprecation
+                - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-05-03 15:21:45
+                INFO 
+                o.hibernate.orm.connections.pooling
+                - HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:62315/postgres]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 18.3
+	Default catalog/schema: postgres/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-05-03 15:21:45
+                INFO 
+                org.hibernate.orm.core
+                - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-05-03 15:21:45
+                DEBUG
+                org.hibernate.SQL
+                - alter table if exists coins add column "coin gecko_id" varchar(255)
+2026-05-03 15:21:45
+                DEBUG
+                org.hibernate.SQL
+                - alter table if exists coins drop constraint if exists UKq1bwt2o0booynq0748auupaa9
+2026-05-03 15:21:45
+                WARN 
+                org.hibernate.orm.jdbc.warn
+                - HHH000247: ErrorCode: 0, SQLState: 00000
+2026-05-03 15:21:45
+                WARN 
+                org.hibernate.orm.jdbc.warn
+                - constraint "ukq1bwt2o0booynq0748auupaa9" of relation "coins" does not exist, skipping
+2026-05-03 15:21:45
+                DEBUG
+                org.hibernate.SQL
+                - alter table if exists coins add constraint UKq1bwt2o0booynq0748auupaa9 unique ("coin gecko_id")
+2026-05-03 15:21:45
+                INFO 
+                o.s.o.j.LocalContainerEntityManagerFactoryBean
+                - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-05-03 15:21:45
+                INFO 
+                o.s.d.j.r.q.QueryEnhancerFactories
+                - Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-05-03 15:21:46
+                WARN 
+                o.s.b.j.a.JpaBaseConfiguration$JpaWebConfiguration
+                - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-05-03 15:21:46
+                INFO 
+                o.a.coyote.http11.Http11NioProtocol
+                - Starting ProtocolHandler ["http-nio-8080"]
+2026-05-03 15:21:46
+                INFO 
+                o.s.boot.tomcat.TomcatWebServer
+                - Tomcat started on port 8080 (http) with context path '/'
+2026-05-03 15:21:46
+                INFO 
+                c.w.r.RestservicesApplication
+                - Started RestservicesApplication in 3.081 seconds (process running for 3.484)
+2026-05-03 15:22:03
+                INFO 
+                o.a.c.c.C.[Tomcat].[localhost].[/]
+                - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-05-03 15:22:03
+                INFO 
+                o.s.web.servlet.DispatcherServlet
+                - Initializing Servlet 'dispatcherServlet'
+2026-05-03 15:22:03
+                INFO 
+                o.s.web.servlet.DispatcherServlet
+                - Completed initialization in 1 ms

@@ -1,0 +1,66 @@
+databaseChangeLog:
+
+  - changeSet:
+      id: 004-create-application-logs
+      author: wayne
+
+      changes:
+
+        - createTable:
+            tableName: application_logs
+
+            columns:
+
+              - column:
+                  name: id
+                  type: BIGSERIAL
+
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+
+              - column:
+                  name: level
+                  type: VARCHAR(20)
+
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: logger
+                  type: VARCHAR(255)
+
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: message
+                  type: TEXT
+
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: created_at
+                  type: TIMESTAMP
+
+                  defaultValueComputed: CURRENT_TIMESTAMP
+
+                  constraints:
+                    nullable: false
+
+        - createIndex:
+            tableName: application_logs
+            indexName: idx_application_logs_level
+
+            columns:
+              - column:
+                  name: level
+
+        - createIndex:
+            tableName: application_logs
+            indexName: idx_application_logs_created_at
+
+            columns:
+              - column:
+                  name: created_at

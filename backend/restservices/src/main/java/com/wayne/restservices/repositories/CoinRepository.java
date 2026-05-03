@@ -1,5 +1,6 @@
-package com.wayne.entities.jpa;
+package com.wayne.restservices.repositories;
 
+import com.wayne.restservices.entities.jpa.Coin;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

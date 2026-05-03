@@ -1,6 +1,6 @@
 package com.wayne.restservices.controllers;
 
-import com.wayne.entities.dto.CoinDto;
+import com.wayne.restservices.entities.dto.CoinDto;
 import com.wayne.restservices.services.CoinService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

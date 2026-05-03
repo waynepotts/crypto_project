@@ -1,7 +1,7 @@
-package com.wayne.entities.mapper;
+package com.wayne.restservices.entities.mapper;
 
-import com.wayne.entities.dto.CoinDto;
-import com.wayne.entities.jpa.Coin;
+import com.wayne.restservices.entities.dto.CoinDto;
+import com.wayne.restservices.entities.jpa.Coin;
 
 public class CoinMapper {
 
