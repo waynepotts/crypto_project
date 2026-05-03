@@ -12,3 +12,4 @@ application-local.yml
 
 # IDE
 .idea/
+*.log
