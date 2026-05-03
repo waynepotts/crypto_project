@@ -1,0 +1,125 @@
+import type {TimeframeValue} from "../App";
+
+export interface Currency {
+  id: string;
+  name: string;
+  symbol: string;
+  price: number;
+  change24h: number;
+  marketCap: number;
+  basePrice: number;
+}
+
+export interface TimeframeParams {
+  days: number;
+  intervalMinutes: number;
+}
+
+export function generateMockCurrencies(): Currency[] {
+  const baseData = [
+    { id: "bitcoin", name: "Bitcoin", symbol: "BTC", basePrice: 67432.50, marketCap: 1324000000000 },
+    { id: "ethereum", name: "Ethereum", symbol: "ETH", basePrice: 3521.80, marketCap: 423000000000 },
+    { id: "solana", name: "Solana", symbol: "SOL", basePrice: 172.45, marketCap: 78000000000 },
+    { id: "cardano", name: "Cardano", symbol: "ADA", basePrice: 0.62, marketCap: 22000000000 },
+    { id: "polkadot", name: "Polkadot", symbol: "DOT", basePrice: 7.85, marketCap: 10000000000 },
+  ];
+
+  return baseData.map((coin) => ({
+    ...coin,
+    price: coin.basePrice * (1 + (Math.random() - 0.5) * 0.02),
+    change24h: (Math.random() - 0.4) * 10,
+  }));
+}
+
+function getTimeframeParams(timeframe: TimeframeValue): TimeframeParams {
+  switch (timeframe) {
+    case "1H":
+      return { days: 1 / 24, intervalMinutes: 2 };
+    case "1D":
+      return { days: 1, intervalMinutes: 30 };
+    case "1W":
+      return { days: 7, intervalMinutes: 0 };
+    case "30D":
+      return { days: 30, intervalMinutes: 0 };
+    case "90D":
+      return { days: 90, intervalMinutes: 0 };
+    default:
+      return { days: 30, intervalMinutes: 0 };
+  }
+}
+
+export function generatePriceHistory(
+  currencies: { basePrice: number; id: string }[],
+  timeframe: TimeframeValue
+): { date: string; [key: string]: string | number }[] {
+  const { days } = getTimeframeParams(timeframe);
+  const now = new Date();
+
+  let points: number;
+  let stepMs: number;
+
+  if (timeframe === "1H") {
+    points = 30;
+    stepMs = (60 * 60 * 1000) / points;
+  } else if (timeframe === "1D") {
+    points = 48;
+    stepMs = (24 * 60 * 60 * 1000) / points;
+  } else {
+    points = Math.min(Math.floor(days), 90);
+    stepMs = 24 * 60 * 60 * 1000;
+  }
+
+  // Initialize price tracks for each currency
+  const priceTracks: Map<string, { prices: number[]; current: number }> = new Map();
+
+  currencies.forEach((c) => {
+    const startPrice = c.basePrice * 0.85;
+    const prices: number[] = [];
+    let current = startPrice;
+
+    for (let i = 0; i < points; i++) {
+      const volatility = c.basePrice * 0.015;
+      const change = (Math.random() - 0.48) * volatility;
+      current = Math.max(current + change, c.basePrice * 0.7);
+      prices.push(Math.round(current * 100) / 100);
+    }
+
+    // Set last price to current base price
+    prices[points - 1] = c.basePrice;
+    priceTracks.set(c.id, { prices, current: startPrice });
+  });
+
+  // Build data array
+  const data: { date: string; [key: string]: string | number }[] = [];
+
+  for (let i = 0; i < points; i++) {
+    const timestamp = new Date(now.getTime() - (points - 1 - i) * stepMs);
+    const point: { date: string; [key: string]: string | number } = {
+      date: timestamp.toISOString(),
+    };
+
+    currencies.forEach((c) => {
+      const track = priceTracks.get(c.id);
+      if (track) {
+        point[`${c.id}_price`] = track.prices[i];
+      }
+    });
+
+    data.push(point);
+  }
+
+  return data;
+}
+
+export function formatMarketCap(value: number): string {
+  if (value >= 1e12) {
+    return `$${(value / 1e12).toFixed(2)}T`;
+  }
+  if (value >= 1e9) {
+    return `$${(value / 1e9).toFixed(2)}B`;
+  }
+  if (value >= 1e6) {
+    return `$${(value / 1e6).toFixed(2)}M`;
+  }
+  return `$${value.toLocaleString()}`;
+}
