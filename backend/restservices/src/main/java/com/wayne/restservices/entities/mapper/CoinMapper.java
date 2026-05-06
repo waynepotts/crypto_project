@@ -24,4 +24,13 @@ public class CoinMapper {
         coin.setImage(dto.getImage());
         return coin;
     }
+    public static boolean equals(Coin coin, CoinResponseDto dto) {
+        return  coin != null && dto != null
+                && coin.getId() == dto.getId()
+                && coin.getCoingeckoId() == dto.getCoingeckoId()
+                && coin.getSymbol() == dto.getSymbol()
+                && coin.getName() == dto.getName()
+                && coin.getImage() == dto.getImage()
+                ;
+    }
 }

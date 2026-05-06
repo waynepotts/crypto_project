@@ -1,6 +1,8 @@
 package com.wayne.restservices.entities.jpa;
 
 import jakarta.persistence.*;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 @Entity
 @Table(name = "coins")
@@ -10,7 +12,7 @@ public class Coin {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "coin gecko_id", unique = true)
+    @Column(name = "coingecko_id", unique = true)
     private String coingeckoId;
 
     private String symbol;
@@ -29,4 +31,20 @@ public class Coin {
     public void setSymbol(String symbol) { this.symbol = symbol; }
     public void setName(String name) { this.name = name; }
     public void setImage(String image) { this.image = image; }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Coin coin = (Coin) o;
+
+        return new EqualsBuilder().append(getId(), coin.getId()).append(getCoingeckoId(), coin.getCoingeckoId()).append(getSymbol(), coin.getSymbol()).append(getName(), coin.getName()).append(getImage(), coin.getImage()).isEquals();
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder(17, 37).append(getId()).append(getCoingeckoId()).append(getSymbol()).append(getName()).append(getImage()).toHashCode();
+    }
 }

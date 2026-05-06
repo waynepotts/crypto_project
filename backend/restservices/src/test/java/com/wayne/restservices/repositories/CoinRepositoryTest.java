@@ -3,8 +3,7 @@ package com.wayne.restservices.repositories;
 import com.wayne.restservices.entities.jpa.Coin;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -19,7 +18,8 @@ class CoinRepositoryTest {
 
         Coin coin = new Coin();
         coin.setName("Bitcoin");
-
+        coin.setCoingeckoId("coingeckoId_BTC");
+        coin.setSymbol("Bitcoin");
         Coin saved = repository.save(coin);
 
         assertEquals("Bitcoin",

@@ -5,10 +5,9 @@ import com.wayne.restservices.services.CoinService;
 import org.junit.jupiter.api.Test;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
-
+import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import java.util.List;
 
 import static org.mockito.Mockito.when;
@@ -32,13 +31,28 @@ class CoinControllerTest {
 
         CoinResponseDto dto = new CoinResponseDto();
         dto.setName("Bitcoin");
+        dto.setSymbol("BTC");
+        dto.setCoingeckoId("coingeckoId_btc");
 
-        when(service.getAllCoins())
-                .thenReturn(List.of(dto));
-
+        /*when(service.getAllCoins())
+                .thenReturn(List.of(dto));*/
         mockMvc.perform(get("/api/v1/coins"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].name")
                         .value("Bitcoin"));
     }
+
+    /*@Test
+    void shouldReturnCoin() throws Exception {
+
+        CoinResponseDto dto = new CoinResponseDto();
+        dto.setName("Bitcoin");
+
+        when(service.getCoin(1L)).thenReturn(dto);
+
+        mockMvc.perform(get("/api/v1/coin/1"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].name")
+                        .value("Bitcoin"));
+    }*/
 }

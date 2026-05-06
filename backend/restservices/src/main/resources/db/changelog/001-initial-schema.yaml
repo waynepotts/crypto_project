@@ -14,23 +14,23 @@ databaseChangeLog:
                     primaryKey: true
               - column:
                   name: coingecko_id
-                  type: TEXT
+                  type: varchar(100)
                   constraints:
                     nullable: false
                     unique: true
               - column:
                   name: symbol
-                  type: TEXT
+                  type: varchar(20)
                   constraints:
                     nullable: false
               - column:
                   name: name
-                  type: TEXT
+                  type: varchar(200)
                   constraints:
                     nullable: false
               - column:
                   name: image
-                  type: TEXT
+                  type: varchar(500)
               - column:
                   name: latest_market_data_id
                   type: BIGINT
@@ -122,14 +122,14 @@ databaseChangeLog:
                   type: INTEGER
               - column:
                   name: raw_data
-                  type: JSONB
+                  type: TEXT
               - column:
                   name: created_at
                   type: TIMESTAMP
                   defaultValueComputed: CURRENT_TIMESTAMP
               - column:
                   name: source
-                  type: TEXT
+                  type: varchar(500)
                   defaultValue: coingecko
 
         - addForeignKeyConstraint:
@@ -154,6 +154,8 @@ databaseChangeLog:
             columns:
               - column:
                   name: coin_id
+                constraints:
+                    nullable: false
               - column:
                   name: last_updated
                   descending: true
@@ -188,12 +190,12 @@ databaseChangeLog:
                     primaryKey: true
               - column:
                   name: coingecko_category_id
-                  type: TEXT
+                  type: varchar(100)
                   constraints:
                     unique: true
               - column:
                   name: name
-                  type: TEXT
+                  type: varchar(200)
 
   - changeSet:
       id: 006-coin-category-mapping
@@ -205,21 +207,22 @@ databaseChangeLog:
               - column:
                   name: coin_id
                   type: BIGINT
+                  constraints:
+                    nullable: false
               - column:
                   name: category_id
                   type: BIGINT
-
+                  constraints:
+                    nullable: false
         - addPrimaryKey:
             tableName: coin_categories
             columnNames: coin_id, category_id
-
         - addForeignKeyConstraint:
             baseTableName: coin_categories
             baseColumnNames: coin_id
             referencedTableName: coins
             referencedColumnNames: id
             constraintName: fk_coin_category_coin
-
         - addForeignKeyConstraint:
             baseTableName: coin_categories
             baseColumnNames: category_id
