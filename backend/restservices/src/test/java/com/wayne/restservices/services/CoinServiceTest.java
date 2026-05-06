@@ -22,9 +22,6 @@ class CoinServiceTest {
     @Mock
     private CoinRepository repository;
 
-    @Mock
-    private CoinMapper mapper;
-
     @InjectMocks
     private CoinService service;
 

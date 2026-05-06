@@ -14,12 +14,12 @@ public class CoinService {
 
     private final CoinRepository coinRepository;
 
-    private static final Logger log =
-            LoggerFactory.getLogger(CoinService.class);
+   /* private static final Logger log =
+            LoggerFactory.getLogger(CoinService.class);*/
 
     public void refreshCoins() {
 
-        log.info("Starting CoinGecko refresh");
+        /*log.info("Starting CoinGecko refresh");
 
         try {
 
@@ -32,7 +32,7 @@ public class CoinService {
             log.error("Failed to refresh coins", ex);
 
             throw ex;
-        }
+        }*/
     }
     public CoinService(CoinRepository coinRepository) {
         this.coinRepository = coinRepository;
@@ -48,7 +48,7 @@ public class CoinService {
                     .map(CoinMapper::toDto)
                     .toList();
         } catch (Exception ex) {
-            log.error("Failed to to get all coins", ex);
+            //log.error("Failed to to get all coins", ex);
             throw ex;
         }
         return allCoins;
@@ -61,7 +61,7 @@ public class CoinService {
                     .map(CoinMapper::toDto)
                     .orElseThrow();
         } catch (Exception e) {
-            log.error("Failed to to get coin " + id, e);
+            //log.error("Failed to to get coin " + id, e);
             throw e;
         }
         return coin;
