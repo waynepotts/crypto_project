@@ -1,6 +1,10 @@
 package com.wayne.restservices.services;
 
-import com.wayne.restservices.entities.dto.CoinResponseDto;
+import com.wayne.restservices.dtos.CoinResponseDto;
+import com.wayne.restservices.dtos.CreateCoinRequestDto;
+import com.wayne.restservices.entities.jpa.Coin;
+import com.wayne.restservices.exceptions.CoinNotFoundException;
+import com.wayne.restservices.exceptions.CoinAlreadyExistsException;
 import com.wayne.restservices.repositories.CoinRepository;
 import com.wayne.restservices.entities.mapper.CoinMapper;
 import org.slf4j.Logger;
@@ -14,12 +18,12 @@ public class CoinService {
 
     private final CoinRepository coinRepository;
 
-   /* private static final Logger log =
-            LoggerFactory.getLogger(CoinService.class);*/
+    private static final Logger log =
+            LoggerFactory.getLogger(CoinService.class);
 
     public void refreshCoins() {
 
-        /*log.info("Starting CoinGecko refresh");
+        log.info("Starting CoinGecko refresh");
 
         try {
 
@@ -32,7 +36,7 @@ public class CoinService {
             log.error("Failed to refresh coins", ex);
 
             throw ex;
-        }*/
+        }
     }
     public CoinService(CoinRepository coinRepository) {
         this.coinRepository = coinRepository;
@@ -48,22 +52,29 @@ public class CoinService {
                     .map(CoinMapper::toDto)
                     .toList();
         } catch (Exception ex) {
-            //log.error("Failed to to get all coins", ex);
+            log.error("Failed to to get all coins", ex);
             throw ex;
         }
         return allCoins;
     }
 
     public CoinResponseDto getCoin(Long id) {
-        CoinResponseDto coin;
-        try {
-            coin = coinRepository.findById(id)
-                    .map(CoinMapper::toDto)
-                    .orElseThrow();
-        } catch (Exception e) {
-            //log.error("Failed to to get coin " + id, e);
-            throw e;
-        }
-        return coin;
+        Coin coin = coinRepository.findById(id)
+                .orElseThrow(() ->
+                        new CoinNotFoundException(id));
+        return CoinMapper.toDto(coin);
+    }
+
+    public CoinResponseDto createCoin(CreateCoinRequestDto request) {
+
+        if (coinRepository.existsByCoingeckoId(
+                request.getCoingeckoId()
+        ))
+        {
+            throw new CoinAlreadyExistsException(
+                    request.getCoingeckoId()
+            );
+    }
+        return CoinMapper.toDto(coinRepository.save(CoinMapper.toEntity(request)));
     }
 }

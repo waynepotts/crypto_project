@@ -1,6 +1,6 @@
 package com.wayne.restservices.services;
 
-import com.wayne.restservices.entities.dto.CoinResponseDto;
+import com.wayne.restservices.dtos.CoinResponseDto;
 import com.wayne.restservices.entities.jpa.Coin;
 import com.wayne.restservices.entities.mapper.CoinMapper;
 import com.wayne.restservices.repositories.CoinRepository;

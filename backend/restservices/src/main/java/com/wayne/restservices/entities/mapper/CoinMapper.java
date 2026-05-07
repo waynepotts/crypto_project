@@ -1,6 +1,7 @@
 package com.wayne.restservices.entities.mapper;
 
-import com.wayne.restservices.entities.dto.CoinResponseDto;
+import com.wayne.restservices.dtos.CoinResponseDto;
+import com.wayne.restservices.dtos.CreateCoinRequestDto;
 import com.wayne.restservices.entities.jpa.Coin;
 
 public class CoinMapper {
@@ -13,6 +14,15 @@ public class CoinMapper {
         dto.setName(coin.getName());
         dto.setImage(coin.getImage());
         return dto;
+    }
+
+    public static Coin toEntity(CreateCoinRequestDto request) {
+        Coin coin = new Coin();
+        coin.setSymbol(request.getSymbol());
+        coin.setName(request.getName());
+        coin.setImage(request.getImage());
+        coin.setCoingeckoId(request.getCoingeckoId());
+        return coin;
     }
 
     public static Coin toEntity(CoinResponseDto dto) {

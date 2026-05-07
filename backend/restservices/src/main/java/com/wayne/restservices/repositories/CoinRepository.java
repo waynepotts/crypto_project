@@ -9,4 +9,6 @@ public interface CoinRepository extends JpaRepository<Coin, Long> {
 
     Optional<Coin> findByCoingeckoId(String coingeckoId);
 
+    boolean existsByCoingeckoId(String coingeckoId);
+
 }

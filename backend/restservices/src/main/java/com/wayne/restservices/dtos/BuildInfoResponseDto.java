@@ -1,4 +1,4 @@
-package com.wayne.restservices.entities.dto;
+package com.wayne.restservices.dtos;
 
 import java.time.Instant;
 

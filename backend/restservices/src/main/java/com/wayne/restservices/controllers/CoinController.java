@@ -1,11 +1,10 @@
 package com.wayne.restservices.controllers;
 
-import com.wayne.restservices.entities.dto.CoinResponseDto;
+import com.wayne.restservices.dtos.CoinResponseDto;
+import com.wayne.restservices.dtos.CreateCoinRequestDto;
 import com.wayne.restservices.services.CoinService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import jakarta.validation.Valid;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,5 +26,12 @@ public class CoinController {
     @GetMapping("/{id}")
     public CoinResponseDto getCoin(@PathVariable Long id) {
         return coinService.getCoin(id);
+    }
+
+    @PostMapping
+    public CoinResponseDto createCoin(
+            @Valid @RequestBody CreateCoinRequestDto request
+    ) {
+        return coinService.createCoin(request);
     }
 }

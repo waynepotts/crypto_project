@@ -1,18 +1,17 @@
 package com.wayne.restservices.controllers;
 
-import com.wayne.restservices.entities.dto.CoinResponseDto;
+import com.wayne.restservices.dtos.CoinResponseDto;
 import com.wayne.restservices.repositories.CoinRepository;
 import com.wayne.restservices.services.CoinService;
 import org.junit.jupiter.api.Test;
 
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
+
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -26,6 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 //@WebMvcTest(CoinController.class)
 @SpringBootTest
 @AutoConfigureMockMvc
+@ActiveProfiles({"test","dev"})
 class CoinControllerTest {
 
     @Autowired

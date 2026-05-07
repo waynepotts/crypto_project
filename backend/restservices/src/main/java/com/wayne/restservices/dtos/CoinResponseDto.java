@@ -1,4 +1,4 @@
-package com.wayne.restservices.entities.dto;
+package com.wayne.restservices.dtos;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
