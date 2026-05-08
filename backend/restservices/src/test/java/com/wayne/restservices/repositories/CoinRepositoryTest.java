@@ -13,16 +13,42 @@ class CoinRepositoryTest {
     @Autowired
     private CoinRepository repository;
 
-    @Test
-    void shouldSaveCoin() {
-
+    private Coin createCoin(){
         Coin coin = new Coin();
         coin.setName("Bitcoin");
         coin.setCoingeckoId("coingeckoId_BTC");
         coin.setSymbol("Bitcoin");
+        return coin;
+    }
+    @Test
+    void shouldSaveCoin() {
+
+        Coin coin = createCoin();
         Coin saved = repository.save(coin);
 
         assertEquals("Bitcoin",
                 saved.getName());
+    }
+
+    @Test
+    void shouldFindCoin() {
+        Coin coin = createCoin();
+        coin.setId(1L);
+        Coin saved = repository.save(coin);
+
+        Coin read = repository.findById(saved.getId()).get();
+        assertEquals(saved, read);
+        assertEquals(saved, coin);
+    }
+
+    @Test
+    void shouldFindCoinByCoingeckoId() {
+        Coin coin = createCoin();
+        coin.setId(1L);
+        Coin saved = repository.save(coin);
+
+        Coin read = repository.findByCoingeckoId(saved.getCoingeckoId()).get();
+        assertEquals(saved, read);
+        assertEquals(saved, coin);
     }
 }

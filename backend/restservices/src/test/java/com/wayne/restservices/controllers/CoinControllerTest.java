@@ -1,6 +1,7 @@
 package com.wayne.restservices.controllers;
 
 import com.wayne.restservices.dtos.CoinResponseDto;
+import com.wayne.restservices.exceptions.CoinNotFoundException;
 import com.wayne.restservices.repositories.CoinRepository;
 import com.wayne.restservices.services.CoinService;
 import org.junit.jupiter.api.Test;
@@ -14,6 +15,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
@@ -64,5 +66,15 @@ class CoinControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name")
                         .value("Bitcoin"));
+    }
+
+    @Test
+    void shouldReturnCoinNotFound() throws Exception {
+
+        when(service.getCoin(999L)).thenThrow(new CoinNotFoundException(999L));
+        mockMvc.perform(get("/api/v1/coins/999"))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.message")
+                        .value("Coin not found with id: 999"));
     }
 }

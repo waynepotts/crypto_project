@@ -11,4 +11,6 @@ public interface CoinRepository extends JpaRepository<Coin, Long> {
 
     boolean existsByCoingeckoId(String coingeckoId);
 
+    boolean existsBySymbolIgnoreCase(String symbol);
+
 }

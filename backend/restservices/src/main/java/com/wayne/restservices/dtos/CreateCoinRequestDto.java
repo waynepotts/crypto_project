@@ -8,8 +8,7 @@ public class CreateCoinRequestDto {
     @NotBlank
     @Size(min = 1, max = 255)
     private String coingeckoId;
-    @NotBlank
-    @Size(min = 1, max = 255)
+
     @NotBlank
     @Size(min = 2, max = 255)
     private String symbol;

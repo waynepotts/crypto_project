@@ -34,6 +34,10 @@ databaseChangeLog:
               - column:
                   name: latest_market_data_id
                   type: BIGINT
+        - addUniqueConstraint:
+            tableName: coins
+            columnNames: coingecko_id
+            constraintName: uk_coins_coingecko_id
 
   - changeSet:
       id: 002-create-coin-market-data

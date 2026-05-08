@@ -1,12 +1,13 @@
 package com.wayne.restservices.services;
 
+import com.wayne.restservices.dtos.UpdateCoinRequestDto;
 import com.wayne.restservices.dtos.CoinResponseDto;
 import com.wayne.restservices.dtos.CreateCoinRequestDto;
 import com.wayne.restservices.entities.jpa.Coin;
 import com.wayne.restservices.exceptions.CoinNotFoundException;
-import com.wayne.restservices.exceptions.CoinAlreadyExistsException;
 import com.wayne.restservices.repositories.CoinRepository;
-import com.wayne.restservices.entities.mapper.CoinMapper;
+import com.wayne.restservices.mappers.CoinMapper;
+import com.wayne.restservices.validators.CoinValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -17,7 +18,7 @@ import java.util.List;
 public class CoinService {
 
     private final CoinRepository coinRepository;
-
+    private final CoinValidator coinValidator;
     private static final Logger log =
             LoggerFactory.getLogger(CoinService.class);
 
@@ -38,8 +39,12 @@ public class CoinService {
             throw ex;
         }
     }
-    public CoinService(CoinRepository coinRepository) {
+    public CoinService(
+            CoinRepository coinRepository,
+            CoinValidator coinValidator
+    ) {
         this.coinRepository = coinRepository;
+        this.coinValidator = coinValidator;
     }
 
 
@@ -66,15 +71,18 @@ public class CoinService {
     }
 
     public CoinResponseDto createCoin(CreateCoinRequestDto request) {
-
-        if (coinRepository.existsByCoingeckoId(
-                request.getCoingeckoId()
-        ))
-        {
-            throw new CoinAlreadyExistsException(
-                    request.getCoingeckoId()
-            );
+        coinValidator.validateCreateCoin(request);
+        Coin coin = CoinMapper.toEntity(request);
+        Coin savedCoin =
+                coinRepository.save(coin);
+        return CoinMapper.toDto(savedCoin);
     }
-        return CoinMapper.toDto(coinRepository.save(CoinMapper.toEntity(request)));
+
+    public CoinResponseDto updateCoin(UpdateCoinRequestDto updateCoin) {
+        coinValidator.validateUpdateCoin(updateCoin);
+        Coin coin = CoinMapper.toEntity(updateCoin);
+        Coin savedCoin =
+                coinRepository.save(coin);
+        return CoinMapper.toDto(savedCoin);
     }
 }

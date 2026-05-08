@@ -1,5 +1,6 @@
 package com.wayne.restservices.controllers;
 
+import com.wayne.restservices.dtos.UpdateCoinRequestDto;
 import com.wayne.restservices.dtos.CoinResponseDto;
 import com.wayne.restservices.dtos.CreateCoinRequestDto;
 import com.wayne.restservices.services.CoinService;
@@ -33,5 +34,10 @@ public class CoinController {
             @Valid @RequestBody CreateCoinRequestDto request
     ) {
         return coinService.createCoin(request);
+    }
+
+    @PutMapping
+    public CoinResponseDto updateCoin(@Valid @RequestBody UpdateCoinRequestDto request) {
+        return coinService.updateCoin(request);
     }
 }
