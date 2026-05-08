@@ -12,22 +12,26 @@
 		<relativePath/>
 	</parent>
 
-	<groupId>com.wayne</groupId>
-	<artifactId>restservices</artifactId>
-	<version>0.0.1</version>
-
 	<properties>
 		<java.version>21</java.version>
 		<java.target>21</java.target>
 		<spring.version>4.0.6</spring.version>
+		<springdoc.openapi>2.8.5</springdoc.openapi>
+		<spring.env>4.0.0</spring.env>
 	</properties>
+
+
+	<groupId>com.wayne</groupId>
+	<artifactId>restservices</artifactId>
+	<version>0.0.1</version>
+
+
 
 	<dependencies>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter</artifactId>
-			<version>${spring.version}</version>
 		</dependency>
 		<!-- Web (includes Spring MVC + Jackson) -->
 
@@ -70,7 +74,7 @@
 		<dependency>
 			<groupId>me.paulschwarz</groupId>
 			<artifactId>spring-dotenv</artifactId>
-			<version>4.0.0</version>
+			<version>${spring.env}</version>
 		</dependency>
 
 		<dependency>
@@ -92,6 +96,11 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa-test</artifactId>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+			<version>${springdoc.openapi}</version>
 		</dependency>
 		<!-- Source: https://mvnrepository.com/artifact/com.h2database/h2 -->
 		<dependency>

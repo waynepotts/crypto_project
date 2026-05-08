@@ -1,24 +1,47 @@
 package com.wayne.restservices.dtos;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Null;
 import jakarta.validation.constraints.Size;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 public class UpdateCoinRequestDto {
 
+    @Schema(
+            description = "Internal database ID",
+            example = "1"
+    )
     @NotNull
     private Long id;
+    @Schema(
+            description = "CoinGecko ID",
+            example = "bitcoin"
+    )
     @NotBlank
     @Size(min = 2, max = 255)
     private String coingeckoId;
+    @Schema(
+            description = "Coin symbol",
+            example = "BTC"
+    )
     @NotBlank
     @Size(min = 2, max = 255)
     private String symbol;
+    @Schema(
+            description = "Display name",
+            example = "Bitcoin"
+    )
     @NotBlank
     @Size(min = 2, max = 255)
     private String name;
+
+    @Schema(
+            description = "URL to the logo image",
+            example = "www.url.com/btc.jpg"
+    )
     @NotBlank
     @Size(min = 2, max = 255)
     private String image;

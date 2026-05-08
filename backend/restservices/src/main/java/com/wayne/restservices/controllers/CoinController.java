@@ -4,6 +4,10 @@ import com.wayne.restservices.dtos.UpdateCoinRequestDto;
 import com.wayne.restservices.dtos.CoinResponseDto;
 import com.wayne.restservices.dtos.CreateCoinRequestDto;
 import com.wayne.restservices.services.CoinService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,6 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/coins")
+@Tag(name = "Coins", description = "Coin management APIs")
 public class CoinController {
 
     private final CoinService coinService;
@@ -24,11 +29,32 @@ public class CoinController {
         return coinService.getAllCoins();
     }
 
+    @Operation(summary = "Get coin by ID")
+    @ApiResponses(value = {
+
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Coin found"
+            ),
+
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Coin not found"
+            )
+    })
     @GetMapping("/{id}")
     public CoinResponseDto getCoin(@PathVariable Long id) {
         return coinService.getCoin(id);
     }
 
+    @Operation(summary = "Create coin")
+    @ApiResponses(value = {
+
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Coin created"
+            )
+    })
     @PostMapping
     public CoinResponseDto createCoin(
             @Valid @RequestBody CreateCoinRequestDto request
@@ -36,6 +62,14 @@ public class CoinController {
         return coinService.createCoin(request);
     }
 
+    @Operation(summary = "Update coin")
+    @ApiResponses(value = {
+
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Coin updated"
+            )
+    })
     @PutMapping
     public CoinResponseDto updateCoin(@Valid @RequestBody UpdateCoinRequestDto request) {
         return coinService.updateCoin(request);

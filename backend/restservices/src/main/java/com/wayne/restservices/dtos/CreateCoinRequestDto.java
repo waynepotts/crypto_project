@@ -1,22 +1,39 @@
 package com.wayne.restservices.dtos;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 public class CreateCoinRequestDto {
 
+    @Schema(
+            description = "CoinGecko ID",
+            example = "bitcoin"
+    )
     @NotBlank
     @Size(min = 1, max = 255)
     private String coingeckoId;
 
+    @Schema(
+            description = "Coin symbol",
+            example = "BTC"
+    )
     @NotBlank
     @Size(min = 2, max = 255)
     private String symbol;
 
+    @Schema(
+            description = "Display name",
+            example = "Bitcoin"
+    )
     @NotBlank
     @Size(max = 255)
     private String name;
 
+    @Schema(
+            description = "URL to the logo image",
+            example = "www.url.com/btc.jpg"
+    )
     @NotBlank
     @Size(min = 1, max = 255)
     private String image;
