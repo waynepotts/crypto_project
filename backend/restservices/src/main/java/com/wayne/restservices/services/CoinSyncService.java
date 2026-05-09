@@ -56,10 +56,10 @@ public class CoinSyncService {
             coin.setSymbol(dto.getSymbol());
             coin.setName(dto.getName());
             coin.setCoingeckoId(dto.getId());
+            coin.setImage(dto.getImage());
             coin = coinRepository.save(coin);
             CoinMarketData coinData = CoinMarketDataMapper.fromDto(dto);
             coinData.setCoin(coin);
-            coinData.setSource(urlSource);
             coinMarketDataRepository.save(coinData);
         }
     }

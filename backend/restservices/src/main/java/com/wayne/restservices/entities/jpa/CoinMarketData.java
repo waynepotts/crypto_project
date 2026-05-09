@@ -27,8 +27,7 @@ public class CoinMarketData {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
             name = "coin_id",
-            nullable = false,
-            foreignKey = @ForeignKey(name = "fk_market_coin")
+            nullable = false
     )
     private Coin coin;
 
@@ -153,16 +152,14 @@ public class CoinMarketData {
     @Column(name = "market_cap_rank_with_rehypothecated")
     private Integer marketCapRankWithRehypothecated;
 
-    @Lob
-    @Column(name = "raw_data")
-    private String rawData;
 
     @Column(name = "created_at", updatable = false)
     private Instant createdAt;
 
-    @Column(name = "source", length = 500)
-    private String source;
 
+
+    @Column(name = "source", updatable = false)
+    private String source;
     // =========================
     // Getters and Setters
     // =========================
@@ -366,14 +363,6 @@ public class CoinMarketData {
     ) {
         this.marketCapRankWithRehypothecated =
                 marketCapRankWithRehypothecated;
-    }
-
-    public String getRawData() {
-        return rawData;
-    }
-
-    public void setRawData(String rawData) {
-        this.rawData = rawData;
     }
 
     public Instant getCreatedAt() {

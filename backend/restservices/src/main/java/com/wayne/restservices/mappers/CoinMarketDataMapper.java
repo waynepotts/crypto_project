@@ -33,12 +33,6 @@ public class CoinMarketDataMapper {
         marketData.setTotalVolume(dto.getTotalVolume());
         marketData.setPriceChangePercentage24h(dto.getPriceChangePercentage24h());
         marketData.setPriceChange24h(dto.getPriceChange24h());
-        try {
-            ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
-            marketData.setRawData(objectMapper.writeValueAsString(dto));
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
         return marketData;
     }
 }

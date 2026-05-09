@@ -16,7 +16,8 @@ public class ApplicationLog {
 
     private String logger;
 
-    @Column(columnDefinition = "TEXT")
+    @Lob
+    @Column(name = "message", nullable = false, columnDefinition = "TEXT")
     private String message;
 
     private Instant createdAt;

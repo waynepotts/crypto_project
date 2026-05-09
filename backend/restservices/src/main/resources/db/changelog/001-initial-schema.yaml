@@ -2,7 +2,7 @@ databaseChangeLog:
 
   - changeSet:
       id: 001-create-coins
-      author: you
+      author: wayne
       changes:
         - createTable:
             tableName: coins
@@ -31,9 +31,6 @@ databaseChangeLog:
               - column:
                   name: image
                   type: varchar(500)
-              - column:
-                  name: latest_market_data_id
-                  type: BIGINT
         - addUniqueConstraint:
             tableName: coins
             columnNames: coingecko_id
@@ -41,99 +38,126 @@ databaseChangeLog:
 
   - changeSet:
       id: 002-create-coin-market-data
-      author: you
+      author: wayne
+
       changes:
+
         - createTable:
             tableName: coin_market_data
+
             columns:
+
               - column:
                   name: id
                   type: BIGSERIAL
                   constraints:
                     primaryKey: true
+                    nullable: false
+
               - column:
                   name: coin_id
                   type: BIGINT
                   constraints:
                     nullable: false
+
               - column:
                   name: current_price
                   type: NUMERIC(20,8)
+
               - column:
                   name: market_cap
                   type: BIGINT
+
               - column:
                   name: market_cap_rank
                   type: INTEGER
+
               - column:
                   name: fully_diluted_valuation
                   type: BIGINT
+
               - column:
                   name: total_volume
                   type: BIGINT
+
               - column:
                   name: high_24h
                   type: NUMERIC(20,8)
+
               - column:
                   name: low_24h
                   type: NUMERIC(20,8)
+
               - column:
                   name: price_change_24h
                   type: NUMERIC(20,8)
+
               - column:
                   name: price_change_percentage_24h
                   type: NUMERIC(10,5)
+
               - column:
                   name: market_cap_change_24h
                   type: BIGINT
+
               - column:
                   name: market_cap_change_percentage_24h
                   type: NUMERIC(10,5)
+
               - column:
                   name: circulating_supply
                   type: NUMERIC(20,8)
+
               - column:
                   name: total_supply
                   type: NUMERIC(20,8)
+
               - column:
                   name: max_supply
                   type: NUMERIC(20,8)
+
               - column:
                   name: ath
                   type: NUMERIC(20,8)
+
               - column:
                   name: ath_change_percentage
                   type: NUMERIC(10,5)
+
               - column:
                   name: ath_date
                   type: TIMESTAMP
+
               - column:
                   name: atl
                   type: NUMERIC(20,8)
+
               - column:
                   name: atl_change_percentage
                   type: NUMERIC(10,5)
+
               - column:
                   name: atl_date
                   type: TIMESTAMP
+
               - column:
                   name: last_updated
                   type: TIMESTAMP
                   constraints:
                     nullable: false
+
               - column:
                   name: market_cap_rank_with_rehypothecated
                   type: INTEGER
-              - column:
-                  name: raw_data
-                  type: TEXT
+
               - column:
                   name: created_at
                   type: TIMESTAMP
                   defaultValueComputed: CURRENT_TIMESTAMP
+
               - column:
                   name: source
-                  type: varchar(500)
+                  type: VARCHAR(500)
                   defaultValue: coingecko
 
         - addForeignKeyConstraint:
@@ -148,18 +172,45 @@ databaseChangeLog:
             columnNames: coin_id, last_updated
             constraintName: uq_coin_timestamp
 
+
   - changeSet:
       id: 003-indexes
-      author: you
+      author: wayne
+
       changes:
+
+        # Historical queries per coin
         - createIndex:
             tableName: coin_market_data
             indexName: idx_market_coin_time
+
             columns:
               - column:
                   name: coin_id
-                constraints:
-                    nullable: false
+
+              - column:
+                  name: last_updated
+                  descending: true
+
+        # Ranking / top coins queries
+        - createIndex:
+            tableName: coin_market_data
+            indexName: idx_market_rank
+
+            columns:
+              - column:
+                  name: market_cap_rank
+
+        # Optional future optimization:
+        # Helps with ranking pages ordered by rank + recent data
+        - createIndex:
+            tableName: coin_market_data
+            indexName: idx_market_rank_time
+
+            columns:
+              - column:
+                  name: market_cap_rank
+
               - column:
                   name: last_updated
                   descending: true
@@ -167,7 +218,7 @@ databaseChangeLog:
   # ✅ Use raw SQL for check constraints (works everywhere)
   - changeSet:
       id: 004-check-constraints
-      author: you
+      author: wayne
       changes:
         - sql:
             sql: |
@@ -182,7 +233,7 @@ databaseChangeLog:
   # Optional: categories
   - changeSet:
       id: 005-create-categories
-      author: you
+      author: wayne
       changes:
         - createTable:
             tableName: categories
@@ -203,7 +254,7 @@ databaseChangeLog:
 
   - changeSet:
       id: 006-coin-category-mapping
-      author: you
+      author: wayne
       changes:
         - createTable:
             tableName: coin_categories
