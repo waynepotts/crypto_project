@@ -1,5 +1,6 @@
 package com.wayne.restservices.services;
 
+import com.wayne.restservices.dtos.PagedResponseDto;
 import com.wayne.restservices.dtos.UpdateCoinRequestDto;
 import com.wayne.restservices.dtos.CoinResponseDto;
 import com.wayne.restservices.dtos.CreateCoinRequestDto;
@@ -10,6 +11,8 @@ import com.wayne.restservices.mappers.CoinMapper;
 import com.wayne.restservices.validators.CoinValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -47,7 +50,12 @@ public class CoinService {
         this.coinValidator = coinValidator;
     }
 
-
+    public PagedResponseDto<CoinResponseDto> getCoins(Pageable pageable) {
+        Page<CoinResponseDto> paged = coinRepository
+                .findAll(pageable)
+                .map(CoinMapper::toDto);
+        return new PagedResponseDto<CoinResponseDto>(paged);
+    }
 
     public List<CoinResponseDto> getAllCoins() {
         List<CoinResponseDto> allCoins;

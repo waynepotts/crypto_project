@@ -48,7 +48,7 @@ class CoinControllerTest {
         dto.setCoingeckoId("coingeckoId_btc");
         when(service.getAllCoins())
                 .thenReturn(List.of(dto));
-        mockMvc.perform(get("/api/v1/coins"))
+        mockMvc.perform(get("/api/v1/coins/all"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].name")
                         .value("Bitcoin"));

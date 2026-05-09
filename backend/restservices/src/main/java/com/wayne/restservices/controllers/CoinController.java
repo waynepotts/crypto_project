@@ -1,5 +1,6 @@
 package com.wayne.restservices.controllers;
 
+import com.wayne.restservices.dtos.PagedResponseDto;
 import com.wayne.restservices.dtos.UpdateCoinRequestDto;
 import com.wayne.restservices.dtos.CoinResponseDto;
 import com.wayne.restservices.dtos.CreateCoinRequestDto;
@@ -9,6 +10,9 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,7 +28,35 @@ public class CoinController {
         this.coinService = coinService;
     }
 
-    @GetMapping
+    @Operation(summary = "Returns coins in pages")
+    @ApiResponses(value = {
+
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "all coins types in the DB"
+            )
+    })
+    @GetMapping()
+    public PagedResponseDto<CoinResponseDto> getCoins(
+            @PageableDefault(
+                    size = 20,
+                    sort = "name"
+            )
+            Pageable pageable
+    ) {
+
+        return coinService.getCoins(pageable);
+    }
+
+    @Operation(summary = "Returns all coins")
+    @ApiResponses(value = {
+
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "all coins types in the DB"
+            )
+    })
+    @GetMapping("/all")
     public List<CoinResponseDto> getAllCoins() {
         return coinService.getAllCoins();
     }

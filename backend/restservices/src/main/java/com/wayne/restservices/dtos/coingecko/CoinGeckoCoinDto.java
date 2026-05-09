@@ -1,186 +1,118 @@
-package com.wayne.restservices.entities.jpa;
+package com.wayne.restservices.dtos.coingecko;
 
-import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.math.BigDecimal;
 import java.time.Instant;
 
-@Entity
-@Table(
-        name = "coin_market_data",
-        uniqueConstraints = {
-                @UniqueConstraint(
-                        name = "uq_coin_timestamp",
-                        columnNames = {
-                                "coin_id",
-                                "last_updated"
-                        }
-                )
-        }
-)
-public class CoinMarketData {
+public class CoinGeckoCoinDto {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(
-            name = "coin_id",
-            nullable = false,
-            foreignKey = @ForeignKey(name = "fk_market_coin")
-    )
-    private Coin coin;
+    private String symbol;
 
-    @Column(
-            name = "current_price",
-            precision = 20,
-            scale = 8
-    )
+    private String name;
+
+    private String image;
+
+    @JsonProperty("current_price")
     private BigDecimal currentPrice;
 
-    @Column(name = "market_cap")
+    @JsonProperty("market_cap")
     private Long marketCap;
 
-    @Column(name = "market_cap_rank")
+    @JsonProperty("market_cap_rank")
     private Integer marketCapRank;
 
-    @Column(name = "fully_diluted_valuation")
+    @JsonProperty("fully_diluted_valuation")
     private Long fullyDilutedValuation;
 
-    @Column(name = "total_volume")
+    @JsonProperty("total_volume")
     private Long totalVolume;
 
-    @Column(
-            name = "high_24h",
-            precision = 20,
-            scale = 8
-    )
+    @JsonProperty("high_24h")
     private BigDecimal high24h;
 
-    @Column(
-            name = "low_24h",
-            precision = 20,
-            scale = 8
-    )
+    @JsonProperty("low_24h")
     private BigDecimal low24h;
 
-    @Column(
-            name = "price_change_24h",
-            precision = 20,
-            scale = 8
-    )
+    @JsonProperty("price_change_24h")
     private BigDecimal priceChange24h;
 
-    @Column(
-            name = "price_change_percentage_24h",
-            precision = 10,
-            scale = 5
-    )
+    @JsonProperty("price_change_percentage_24h")
     private BigDecimal priceChangePercentage24h;
 
-    @Column(name = "market_cap_change_24h")
+    @JsonProperty("market_cap_change_24h")
     private Long marketCapChange24h;
 
-    @Column(
-            name = "market_cap_change_percentage_24h",
-            precision = 10,
-            scale = 5
-    )
+    @JsonProperty("market_cap_change_percentage_24h")
     private BigDecimal marketCapChangePercentage24h;
 
-    @Column(
-            name = "circulating_supply",
-            precision = 20,
-            scale = 8
-    )
+    @JsonProperty("circulating_supply")
     private BigDecimal circulatingSupply;
 
-    @Column(
-            name = "total_supply",
-            precision = 20,
-            scale = 8
-    )
+    @JsonProperty("total_supply")
     private BigDecimal totalSupply;
 
-    @Column(
-            name = "max_supply",
-            precision = 20,
-            scale = 8
-    )
+    @JsonProperty("max_supply")
     private BigDecimal maxSupply;
 
-    @Column(
-            name = "ath",
-            precision = 20,
-            scale = 8
-    )
     private BigDecimal ath;
 
-    @Column(
-            name = "ath_change_percentage",
-            precision = 10,
-            scale = 5
-    )
+    @JsonProperty("ath_change_percentage")
     private BigDecimal athChangePercentage;
 
-    @Column(name = "ath_date")
+    @JsonProperty("ath_date")
     private Instant athDate;
 
-    @Column(
-            name = "atl",
-            precision = 20,
-            scale = 8
-    )
     private BigDecimal atl;
 
-    @Column(
-            name = "atl_change_percentage",
-            precision = 10,
-            scale = 5
-    )
+    @JsonProperty("atl_change_percentage")
     private BigDecimal atlChangePercentage;
 
-    @Column(name = "atl_date")
+    @JsonProperty("atl_date")
     private Instant atlDate;
 
-    @Column(
-            name = "last_updated",
-            nullable = false
-    )
+    private Object roi;
+
+    @JsonProperty("last_updated")
     private Instant lastUpdated;
 
-    @Column(name = "market_cap_rank_with_rehypothecated")
+    @JsonProperty("market_cap_rank_with_rehypothecated")
     private Integer marketCapRankWithRehypothecated;
 
-    @Lob
-    @Column(name = "raw_data")
-    private String rawData;
-
-    @Column(name = "created_at", updatable = false)
-    private Instant createdAt;
-
-    @Column(name = "source", length = 500)
-    private String source;
-
-    // =========================
     // Getters and Setters
-    // =========================
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public Coin getCoin() {
-        return coin;
+    public String getSymbol() {
+        return symbol;
     }
 
-    public void setCoin(Coin coin) {
-        this.coin = coin;
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public BigDecimal getCurrentPrice() {
@@ -251,11 +183,8 @@ public class CoinMarketData {
         return priceChangePercentage24h;
     }
 
-    public void setPriceChangePercentage24h(
-            BigDecimal priceChangePercentage24h
-    ) {
-        this.priceChangePercentage24h =
-                priceChangePercentage24h;
+    public void setPriceChangePercentage24h(BigDecimal priceChangePercentage24h) {
+        this.priceChangePercentage24h = priceChangePercentage24h;
     }
 
     public Long getMarketCapChange24h() {
@@ -270,11 +199,8 @@ public class CoinMarketData {
         return marketCapChangePercentage24h;
     }
 
-    public void setMarketCapChangePercentage24h(
-            BigDecimal marketCapChangePercentage24h
-    ) {
-        this.marketCapChangePercentage24h =
-                marketCapChangePercentage24h;
+    public void setMarketCapChangePercentage24h(BigDecimal marketCapChangePercentage24h) {
+        this.marketCapChangePercentage24h = marketCapChangePercentage24h;
     }
 
     public BigDecimal getCirculatingSupply() {
@@ -349,6 +275,14 @@ public class CoinMarketData {
         this.atlDate = atlDate;
     }
 
+    public Object getRoi() {
+        return roi;
+    }
+
+    public void setRoi(Object roi) {
+        this.roi = roi;
+    }
+
     public Instant getLastUpdated() {
         return lastUpdated;
     }
@@ -366,29 +300,5 @@ public class CoinMarketData {
     ) {
         this.marketCapRankWithRehypothecated =
                 marketCapRankWithRehypothecated;
-    }
-
-    public String getRawData() {
-        return rawData;
-    }
-
-    public void setRawData(String rawData) {
-        this.rawData = rawData;
-    }
-
-    public Instant getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Instant createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public String getSource() {
-        return source;
-    }
-
-    public void setSource(String source) {
-        this.source = source;
     }
 }
