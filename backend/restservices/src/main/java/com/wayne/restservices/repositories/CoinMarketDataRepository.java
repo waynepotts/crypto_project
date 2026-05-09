@@ -9,4 +9,6 @@ public interface CoinMarketDataRepository extends JpaRepository<CoinMarketData, 
 
     List<CoinMarketData> findByCoinIdOrderByLastUpdatedDesc(Long coinId);
 
+    CoinMarketData findFirstByCoinIdOrderByLastUpdatedDesc(Long coinId);
+
 }

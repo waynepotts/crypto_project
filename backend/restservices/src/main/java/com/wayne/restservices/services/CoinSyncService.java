@@ -45,22 +45,36 @@ public class CoinSyncService {
         logger.info("Starting CoinGecko sync");
         List<CoinGeckoCoinDto> coins =
                 coinGeckoClient.getMarkets();
-        final String urlSource = "/coins/markets";
+        int counter = 0;
         for (CoinGeckoCoinDto dto : coins) {
 
             Coin coin =
                     coinRepository
                             .findByCoingeckoId(dto.getId())
                             .orElse(new Coin());
-
+            boolean newCoin = coin.getId() == null;
             coin.setSymbol(dto.getSymbol());
             coin.setName(dto.getName());
             coin.setCoingeckoId(dto.getId());
             coin.setImage(dto.getImage());
             coin = coinRepository.save(coin);
-            CoinMarketData coinData = CoinMarketDataMapper.fromDto(dto);
-            coinData.setCoin(coin);
-            coinMarketDataRepository.save(coinData);
+            if (!newCoin) {
+                CoinMarketData lastData = coinMarketDataRepository.findFirstByCoinIdOrderByLastUpdatedDesc(coin.getId());
+                if (!lastData.getLastUpdated().equals(dto.getLastUpdated())) {
+                    CoinMarketData coinData = CoinMarketDataMapper.fromDto(dto);
+                    coinData.setCoin(coin);
+                    coinMarketDataRepository.save(coinData);
+                    counter++;
+                } else{
+                    logger.info("CoinMarketData for coin with id " + coin.getSymbol() + " not updated");
+                }
+            } else{
+                CoinMarketData coinData = CoinMarketDataMapper.fromDto(dto);
+                coinData.setCoin(coin);
+                coinMarketDataRepository.save(coinData);
+                counter++;
+            }
         }
+        logger.info("CoinGecko sync completed, " + counter + " of " + coins.size() + " coins saved");
     }
 }

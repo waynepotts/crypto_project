@@ -62,7 +62,7 @@ databaseChangeLog:
 
               - column:
                   name: current_price
-                  type: NUMERIC(20,8)
+                  type: NUMERIC(38,18)
 
               - column:
                   name: market_cap
@@ -82,19 +82,19 @@ databaseChangeLog:
 
               - column:
                   name: high_24h
-                  type: NUMERIC(20,8)
+                  type: NUMERIC(38,18)
 
               - column:
                   name: low_24h
-                  type: NUMERIC(20,8)
+                  type: NUMERIC(38,18)
 
               - column:
                   name: price_change_24h
-                  type: NUMERIC(20,8)
+                  type: NUMERIC(38,18)
 
               - column:
                   name: price_change_percentage_24h
-                  type: NUMERIC(10,5)
+                  type: NUMERIC(38,18)
 
               - column:
                   name: market_cap_change_24h
@@ -102,27 +102,27 @@ databaseChangeLog:
 
               - column:
                   name: market_cap_change_percentage_24h
-                  type: NUMERIC(10,5)
+                  type: NUMERIC(38,18)
 
               - column:
                   name: circulating_supply
-                  type: NUMERIC(20,8)
+                  type: NUMERIC(38,18)
 
               - column:
                   name: total_supply
-                  type: NUMERIC(20,8)
+                  type: NUMERIC(38,18)
 
               - column:
                   name: max_supply
-                  type: NUMERIC(20,8)
+                  type: NUMERIC(38,18)
 
               - column:
                   name: ath
-                  type: NUMERIC(20,8)
+                  type: NUMERIC(38,18)
 
               - column:
                   name: ath_change_percentage
-                  type: NUMERIC(10,5)
+                  type: NUMERIC(38,18)
 
               - column:
                   name: ath_date
@@ -130,11 +130,11 @@ databaseChangeLog:
 
               - column:
                   name: atl
-                  type: NUMERIC(20,8)
+                  type: NUMERIC(38,18)
 
               - column:
                   name: atl_change_percentage
-                  type: NUMERIC(10,5)
+                  type: NUMERIC(38,18)
 
               - column:
                   name: atl_date

@@ -2,7 +2,7 @@ databaseChangeLog:
 
   - changeSet:
       id: 100-seed-coins
-      author: you
+      author: wayne
       context: dev
       changes:
         - insert:
@@ -23,7 +23,7 @@ databaseChangeLog:
 
   - changeSet:
       id: 101-seed-market-data
-      author: you
+      author: wayne
       context: dev
       changes:
         - sql:
@@ -36,7 +36,7 @@ databaseChangeLog:
                 total_volume,
                 last_updated
               )
-              SELECT id, 70000, 1300000000000, 1, 20000000000, NOW()
+              SELECT id, 70000, 1300000000000, 1, 20000000000, '1978-06-22 19:10:25-07'
               FROM coins WHERE coingecko_id = 'bitcoin';
 
         - sql:
@@ -49,12 +49,12 @@ databaseChangeLog:
                 total_volume,
                 last_updated
               )
-              SELECT id, 3500, 400000000000, 2, 15000000000, NOW()
+              SELECT id, 3500, 400000000000, 2, 15000000000, '1978-06-22 19:10:25-07'
               FROM coins WHERE coingecko_id = 'ethereum';
 
   - changeSet:
       id: 102-seed-categories
-      author: you
+      author: wayne
       context: dev
       changes:
         - insert:
@@ -71,7 +71,7 @@ databaseChangeLog:
 
   - changeSet:
       id: 103-seed-coin-categories
-      author: you
+      author: wayne
       context: dev
       changes:
         - sql:

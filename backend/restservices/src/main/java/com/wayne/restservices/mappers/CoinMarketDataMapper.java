@@ -7,6 +7,8 @@ import com.wayne.restservices.dtos.CoinMarketDataDto;
 import com.wayne.restservices.dtos.coingecko.CoinGeckoCoinDto;
 import com.wayne.restservices.entities.jpa.CoinMarketData;
 
+import java.time.Instant;
+
 public class CoinMarketDataMapper {
 
     public static CoinMarketData fromDto(CoinGeckoCoinDto dto) {
@@ -33,6 +35,8 @@ public class CoinMarketDataMapper {
         marketData.setTotalVolume(dto.getTotalVolume());
         marketData.setPriceChangePercentage24h(dto.getPriceChangePercentage24h());
         marketData.setPriceChange24h(dto.getPriceChange24h());
+        marketData.setSource("coingecko");
+        marketData.setCreatedAt(Instant.now());
         return marketData;
     }
 }
