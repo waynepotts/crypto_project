@@ -33,8 +33,8 @@ public class CoinMarketData {
 
     @Column(
             name = "current_price",
-            precision = 20,
-            scale = 8
+            precision = 38,
+            scale = 18
     )
     private BigDecimal currentPrice;
 
@@ -52,29 +52,29 @@ public class CoinMarketData {
 
     @Column(
             name = "high_24h",
-            precision = 20,
-            scale = 8
+            precision = 38,
+            scale = 18
     )
     private BigDecimal high24h;
 
     @Column(
             name = "low_24h",
-            precision = 20,
-            scale = 8
+            precision = 38,
+            scale = 18
     )
     private BigDecimal low24h;
 
     @Column(
             name = "price_change_24h",
-            precision = 20,
-            scale = 8
+            precision = 38,
+            scale = 18
     )
     private BigDecimal priceChange24h;
 
     @Column(
             name = "price_change_percentage_24h",
-            precision = 10,
-            scale = 5
+            precision = 38,
+            scale = 18
     )
     private BigDecimal priceChangePercentage24h;
 
@@ -83,43 +83,43 @@ public class CoinMarketData {
 
     @Column(
             name = "market_cap_change_percentage_24h",
-            precision = 10,
-            scale = 5
+            precision = 38,
+            scale = 18
     )
     private BigDecimal marketCapChangePercentage24h;
 
     @Column(
             name = "circulating_supply",
-            precision = 20,
-            scale = 8
+            precision = 38,
+            scale = 18
     )
     private BigDecimal circulatingSupply;
 
     @Column(
             name = "total_supply",
-            precision = 20,
-            scale = 8
+            precision = 38,
+            scale = 18
     )
     private BigDecimal totalSupply;
 
     @Column(
             name = "max_supply",
-            precision = 20,
-            scale = 8
+            precision = 38,
+            scale = 18
     )
     private BigDecimal maxSupply;
 
     @Column(
             name = "ath",
-            precision = 20,
-            scale = 8
+            precision = 38,
+            scale = 18
     )
     private BigDecimal ath;
 
     @Column(
             name = "ath_change_percentage",
-            precision = 10,
-            scale = 5
+            precision = 38,
+            scale = 18
     )
     private BigDecimal athChangePercentage;
 
@@ -128,15 +128,15 @@ public class CoinMarketData {
 
     @Column(
             name = "atl",
-            precision = 20,
-            scale = 8
+            precision = 38,
+            scale = 18
     )
     private BigDecimal atl;
 
     @Column(
             name = "atl_change_percentage",
-            precision = 10,
-            scale = 5
+            precision = 38,
+            scale = 18
     )
     private BigDecimal atlChangePercentage;
 

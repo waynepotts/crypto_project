@@ -14,18 +14,18 @@ databaseChangeLog:
                     primaryKey: true
               - column:
                   name: coingecko_id
-                  type: varchar(100)
+                  type: varchar(255)
                   constraints:
                     nullable: false
                     unique: true
               - column:
                   name: symbol
-                  type: varchar(20)
+                  type: varchar(255)
                   constraints:
                     nullable: false
               - column:
                   name: name
-                  type: varchar(200)
+                  type: varchar(255)
                   constraints:
                     nullable: false
               - column:

@@ -1,20 +1,18 @@
 package com.wayne.restservices.controllers;
 
-import com.wayne.restservices.dtos.PagedResponseDto;
-import com.wayne.restservices.dtos.UpdateCoinRequestDto;
-import com.wayne.restservices.dtos.CoinResponseDto;
-import com.wayne.restservices.dtos.CreateCoinRequestDto;
+import com.wayne.restservices.dtos.*;
+import com.wayne.restservices.services.CoinMarketDataService;
 import com.wayne.restservices.services.CoinService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Instant;
 import java.util.List;
 
 @RestController
@@ -23,9 +21,11 @@ import java.util.List;
 public class CoinController {
 
     private final CoinService coinService;
+    private final CoinMarketDataService coinMarketDataService;
 
-    public CoinController(CoinService coinService) {
+    public CoinController(CoinService coinService, CoinMarketDataService coinMarketDataService) {
         this.coinService = coinService;
+        this.coinMarketDataService = coinMarketDataService;
     }
 
     @Operation(summary = "Returns coins in pages")
@@ -105,5 +105,22 @@ public class CoinController {
     @PutMapping
     public CoinResponseDto updateCoin(@Valid @RequestBody UpdateCoinRequestDto request) {
         return coinService.updateCoin(request);
+    }
+
+    @Operation(summary = "Paged coin history")
+    @ApiResponses(value = {
+
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Page of history"
+            )
+    })
+
+    @GetMapping("/api/v1/coins/{id}/history")
+    public CoinHistoryPagedResponseDto getCoinHistory(@PathVariable Long id, Long from, Long to,
+                                                      int page, int pageSize) {
+        Instant fromInstant = Instant.ofEpochSecond(from);
+        Instant toInstant = Instant.ofEpochSecond(to);
+        return coinMarketDataService.getCoinHistory(id,fromInstant, toInstant, page, pageSize);
     }
 }

@@ -1,12 +1,11 @@
 package com.wayne.restservices.mappers;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.wayne.restservices.dtos.CoinMarketDataDto;
+import com.wayne.restservices.dtos.CoinHistoryPointDto;
 import com.wayne.restservices.dtos.coingecko.CoinGeckoCoinDto;
 import com.wayne.restservices.entities.jpa.CoinMarketData;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.Instant;
 
 public class CoinMarketDataMapper {
@@ -18,25 +17,42 @@ public class CoinMarketDataMapper {
         marketData.setLastUpdated(dto.getLastUpdated());
         marketData.setMarketCap(dto.getMarketCap());
         marketData.setCurrentPrice(dto.getCurrentPrice());
-        marketData.setAtlChangePercentage(dto.getAtlChangePercentage());
-        marketData.setAthChangePercentage(dto.getAthChangePercentage());
+        marketData.setAtlChangePercentage(toFinancialScale(dto.getAtlChangePercentage()));
+        marketData.setAthChangePercentage(toFinancialScale(dto.getAthChangePercentage()));
         marketData.setAtlDate(dto.getAtlDate());
         marketData.setAthDate(dto.getAthDate());
-        marketData.setCirculatingSupply(dto.getCirculatingSupply());
+        marketData.setCirculatingSupply(toFinancialScale(dto.getCirculatingSupply()));
         marketData.setFullyDilutedValuation(dto.getFullyDilutedValuation());
-        marketData.setHigh24h(dto.getHigh24h());
-        marketData.setLow24h(dto.getLow24h());
+        marketData.setHigh24h(toFinancialScale(dto.getHigh24h()));
+        marketData.setLow24h(toFinancialScale(dto.getLow24h()));
         marketData.setMarketCapChange24h(dto.getMarketCapChange24h());
         marketData.setMarketCapRank(dto.getMarketCapRank());
-        marketData.setMarketCapChangePercentage24h(dto.getMarketCapChangePercentage24h());
+        marketData.setMarketCapChangePercentage24h(toFinancialScale(dto.getMarketCapChangePercentage24h()));
         marketData.setMarketCapRankWithRehypothecated(dto.getMarketCapRankWithRehypothecated());
-        marketData.setMaxSupply(dto.getMaxSupply());
-        marketData.setTotalSupply(dto.getTotalSupply());
+        marketData.setMaxSupply(toFinancialScale(dto.getMaxSupply()));
+        marketData.setTotalSupply(toFinancialScale(dto.getTotalSupply()));
         marketData.setTotalVolume(dto.getTotalVolume());
-        marketData.setPriceChangePercentage24h(dto.getPriceChangePercentage24h());
-        marketData.setPriceChange24h(dto.getPriceChange24h());
+        marketData.setPriceChangePercentage24h(toFinancialScale(dto.getPriceChangePercentage24h()));
+        marketData.setPriceChange24h(toFinancialScale(dto.getPriceChange24h()));
         marketData.setSource("coingecko");
         marketData.setCreatedAt(Instant.now());
         return marketData;
+    }
+    public static CoinHistoryPointDto toDto(CoinMarketData marketData) {
+        CoinHistoryPointDto dto = new CoinHistoryPointDto();
+        dto.setPrice(marketData.getCurrentPrice());
+        dto.setMarketCap(marketData.getMarketCap());
+        dto.setVolume(marketData.getTotalVolume());
+        dto.setTimestamp(marketData.getLastUpdated());
+        return  dto;
+    }
+
+    private static final BigDecimal MAX = new BigDecimal("99999999999999999999");
+    private static BigDecimal toFinancialScale(BigDecimal value) {
+        if(value != null) {
+            value = value.min(MAX);
+        }
+
+        return value != null ?value.setScale(18, RoundingMode.HALF_UP): null;
     }
 }

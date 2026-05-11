@@ -16,9 +16,9 @@ public class CoinSyncJob {
         this.coinSyncService = coinSyncService;
     }
 
-    @Scheduled(fixedRate = 300000)
+    @Scheduled(fixedDelay = 600000)
     public void syncCoins() {
 
-        coinSyncService.syncCoins();
+        //coinSyncService.syncCoins();
     }
 }

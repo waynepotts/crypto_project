@@ -27,15 +27,15 @@ public class CoinGeckoClient {
                 .build();*/
     }
 
-    public List<CoinGeckoCoinDto> getMarkets() {
+    public List<CoinGeckoCoinDto> getMarkets(int page, int pageSize) {
 
         return restClient.get()
                 .uri(uriBuilder ->
                         uriBuilder
                                 .path("/coins/markets")
                                 .queryParam("vs_currency", "usd")
-                                .queryParam("per_page", 100)
-                                .queryParam("page", 1)
+                                .queryParam("per_page", pageSize)
+                                .queryParam("page", page)
                                 .queryParam("x_cg_demo_api_key", properties.getKey())
                                 .build()
                 )

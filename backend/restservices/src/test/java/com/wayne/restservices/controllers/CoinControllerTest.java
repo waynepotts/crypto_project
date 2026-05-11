@@ -77,4 +77,8 @@ class CoinControllerTest {
                 .andExpect(jsonPath("$.message")
                         .value("Coin not found with id: 999"));
     }
+
+    @Test
+    void shouldGetCoins() {
+    }
 }

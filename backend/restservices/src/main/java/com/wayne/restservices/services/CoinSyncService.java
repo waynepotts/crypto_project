@@ -31,6 +31,7 @@ public class CoinSyncService {
     private static final Logger logger =
             LoggerFactory.getLogger(
                     CoinSyncService.class);
+
     public CoinSyncService(
             CoinGeckoClient coinGeckoClient,
             CoinRepository coinRepository,
@@ -40,41 +41,57 @@ public class CoinSyncService {
         this.coinMarketDataRepository = coinMarketDataRepository;
     }
 
-    @Transactional
-    public void syncCoins() {
-        logger.info("Starting CoinGecko sync");
-        List<CoinGeckoCoinDto> coins =
-                coinGeckoClient.getMarkets();
-        int counter = 0;
-        for (CoinGeckoCoinDto dto : coins) {
 
-            Coin coin =
-                    coinRepository
-                            .findByCoingeckoId(dto.getId())
-                            .orElse(new Coin());
-            boolean newCoin = coin.getId() == null;
-            coin.setSymbol(dto.getSymbol());
-            coin.setName(dto.getName());
-            coin.setCoingeckoId(dto.getId());
-            coin.setImage(dto.getImage());
-            coin = coinRepository.save(coin);
-            if (!newCoin) {
-                CoinMarketData lastData = coinMarketDataRepository.findFirstByCoinIdOrderByLastUpdatedDesc(coin.getId());
-                if (!lastData.getLastUpdated().equals(dto.getLastUpdated())) {
+    public void syncCoins() {
+        int page = 1;
+        final int pageSize = 250;
+        boolean nextPage = true;
+        do{
+            nextPage = processPage(page, pageSize);
+            page++;
+        } while(nextPage);
+    }
+
+    //@Transactional
+    public boolean processPage(int page, int pageSize) {
+        boolean nextPage = true;
+        logger.info("Starting CoinGecko sync page " + page);
+        List<CoinGeckoCoinDto> coins =
+                coinGeckoClient.getMarkets(page, pageSize);
+        nextPage = (!coins.isEmpty()) && page < 50;
+        for (CoinGeckoCoinDto dto : coins) {
+            try {
+                Coin coin =
+                        coinRepository
+                                .findByCoingeckoId(dto.getId())
+                                .orElse(new Coin());
+                boolean newCoin = coin.getId() == null;
+                coin.setSymbol(dto.getSymbol());
+                coin.setName(dto.getName());
+                coin.setCoingeckoId(dto.getId());
+                coin.setImage(dto.getImage());
+                coin = coinRepository.save(coin);
+                if (!newCoin) {
+                    CoinMarketData lastData = coinMarketDataRepository.findFirstByCoinIdOrderByLastUpdatedDesc(coin.getId());
+                    if (!lastData.getLastUpdated().equals(dto.getLastUpdated())) {
+                        CoinMarketData coinData = CoinMarketDataMapper.fromDto(dto);
+                        coinData.setCoin(coin);
+                        coinMarketDataRepository.save(coinData);
+                    } else {
+                        //logger.info("CoinMarketData for coin with id " + coin.getSymbol() + " not updated");
+                    }
+                } else {
                     CoinMarketData coinData = CoinMarketDataMapper.fromDto(dto);
                     coinData.setCoin(coin);
                     coinMarketDataRepository.save(coinData);
-                    counter++;
-                } else{
-                    logger.info("CoinMarketData for coin with id " + coin.getSymbol() + " not updated");
                 }
-            } else{
-                CoinMarketData coinData = CoinMarketDataMapper.fromDto(dto);
-                coinData.setCoin(coin);
-                coinMarketDataRepository.save(coinData);
-                counter++;
+            } catch (Exception e) {
+                logger.error("coin market data for " + dto.getId() + " not saved " + e.getMessage() + ", " + dto.toString());
+                nextPage = false;
+                break;
             }
         }
-        logger.info("CoinGecko sync completed, " + counter + " of " + coins.size() + " coins saved");
+        return nextPage;
     }
 }
+
