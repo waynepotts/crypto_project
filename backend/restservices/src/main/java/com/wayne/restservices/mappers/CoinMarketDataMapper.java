@@ -9,16 +9,19 @@ import com.wayne.restservices.dtos.coingecko.CoinGeckoCoinDto;
 import com.wayne.restservices.dtos.coingecko.CoinGeckoMarketChartDto;
 import com.wayne.restservices.entities.jpa.CoinMarketData;
 import org.jspecify.annotations.NonNull;
+import org.slf4j.ILoggerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.time.temporal.TemporalField;
 import java.util.*;
 
 public class CoinMarketDataMapper {
 
+    private static final Logger log = LoggerFactory.getLogger(CoinMarketDataMapper.class);
     public static CoinMarketData fromDto(@NonNull CoinGeckoCoinDto dto) {
         CoinMarketData marketData = new CoinMarketData();
         marketData.setAth(dto.getAth());
@@ -44,21 +47,23 @@ public class CoinMarketDataMapper {
         marketData.setPriceChangePercentage24h(toFinancialScale(dto.getPriceChangePercentage24h()));
         marketData.setPriceChange24h(toFinancialScale(dto.getPriceChange24h()));
         Instant createdAt = Instant.now();
-        Instant bucket = normalizeFiveMinutes(createdAt);
+        Instant bucket = normalizeTenMinutes(createdAt);
         ChronoUnit unit = ChronoUnit.MINUTES;
-        if(normalizeHourly(createdAt).plus(5, ChronoUnit.MINUTES).isBefore(bucket)) {
+        Instant bucketStart = bucket.minus(299, ChronoUnit.SECONDS);
+        if(bucketStart.isBefore(normalizeHourly(createdAt))) {
             unit = ChronoUnit.HOURS;
-            if(normalizeDaily(createdAt).plus(5, ChronoUnit.MINUTES).isBefore(bucket)) {
+            if(bucketStart.isBefore(normalizeDaily(createdAt))) {
                 unit = ChronoUnit.DAYS;
             }
         }
+        marketData.setGranularity(unit);
         marketData.setSource("coingecko");
         marketData.setCreatedAt(createdAt);
         return marketData;
     }
 
 
-    public static Instant normalizeFiveMinutes(
+    public static Instant normalizeTenMinutes(
             Instant instant
     ) {
 
