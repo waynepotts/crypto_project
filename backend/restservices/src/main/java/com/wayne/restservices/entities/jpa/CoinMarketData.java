@@ -1,9 +1,11 @@
 package com.wayne.restservices.entities.jpa;
 
+import com.wayne.restservices.utils.ChronoUnitConverter;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 
 @Entity
 @Table(
@@ -39,16 +41,16 @@ public class CoinMarketData {
     private BigDecimal currentPrice;
 
     @Column(name = "market_cap")
-    private Long marketCap;
+    private BigDecimal marketCap;
 
     @Column(name = "market_cap_rank")
     private Integer marketCapRank;
 
     @Column(name = "fully_diluted_valuation")
-    private Long fullyDilutedValuation;
+    private BigDecimal fullyDilutedValuation;
 
     @Column(name = "total_volume")
-    private Long totalVolume;
+    private BigDecimal totalVolume;
 
     @Column(
             name = "high_24h",
@@ -79,7 +81,7 @@ public class CoinMarketData {
     private BigDecimal priceChangePercentage24h;
 
     @Column(name = "market_cap_change_24h")
-    private Long marketCapChange24h;
+    private BigDecimal marketCapChange24h;
 
     @Column(
             name = "market_cap_change_percentage_24h",
@@ -156,7 +158,9 @@ public class CoinMarketData {
     @Column(name = "created_at", updatable = false)
     private Instant createdAt;
 
-
+    @Column(nullable = false)
+    @Convert(converter = ChronoUnitConverter.class)
+    private ChronoUnit granularity;
 
     @Column(name = "source", updatable = false)
     private String source;
@@ -188,14 +192,6 @@ public class CoinMarketData {
         this.currentPrice = currentPrice;
     }
 
-    public Long getMarketCap() {
-        return marketCap;
-    }
-
-    public void setMarketCap(Long marketCap) {
-        this.marketCap = marketCap;
-    }
-
     public Integer getMarketCapRank() {
         return marketCapRank;
     }
@@ -204,20 +200,12 @@ public class CoinMarketData {
         this.marketCapRank = marketCapRank;
     }
 
-    public Long getFullyDilutedValuation() {
+    public BigDecimal getFullyDilutedValuation() {
         return fullyDilutedValuation;
     }
 
-    public void setFullyDilutedValuation(Long fullyDilutedValuation) {
+    public void setFullyDilutedValuation(BigDecimal fullyDilutedValuation) {
         this.fullyDilutedValuation = fullyDilutedValuation;
-    }
-
-    public Long getTotalVolume() {
-        return totalVolume;
-    }
-
-    public void setTotalVolume(Long totalVolume) {
-        this.totalVolume = totalVolume;
     }
 
     public BigDecimal getHigh24h() {
@@ -255,11 +243,11 @@ public class CoinMarketData {
                 priceChangePercentage24h;
     }
 
-    public Long getMarketCapChange24h() {
+    public BigDecimal getMarketCapChange24h() {
         return marketCapChange24h;
     }
 
-    public void setMarketCapChange24h(Long marketCapChange24h) {
+    public void setMarketCapChange24h(BigDecimal marketCapChange24h) {
         this.marketCapChange24h = marketCapChange24h;
     }
 
@@ -373,11 +361,35 @@ public class CoinMarketData {
         this.createdAt = createdAt;
     }
 
+    public ChronoUnit getGranularity() {
+        return granularity;
+    }
+
+    public void setGranularity(ChronoUnit granularity) {
+        this.granularity = granularity;
+    }
+
     public String getSource() {
         return source;
     }
 
     public void setSource(String source) {
         this.source = source;
+    }
+
+    public BigDecimal getMarketCap() {
+        return marketCap;
+    }
+
+    public void setMarketCap(BigDecimal marketCap) {
+        this.marketCap = marketCap;
+    }
+
+    public BigDecimal getTotalVolume() {
+        return totalVolume;
+    }
+
+    public void setTotalVolume(BigDecimal totalVolume) {
+        this.totalVolume = totalVolume;
     }
 }

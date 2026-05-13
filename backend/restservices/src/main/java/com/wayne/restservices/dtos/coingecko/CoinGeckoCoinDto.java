@@ -19,16 +19,16 @@ public class CoinGeckoCoinDto {
     private BigDecimal currentPrice;
 
     @JsonProperty("market_cap")
-    private Long marketCap;
+    private BigDecimal marketCap;
 
     @JsonProperty("market_cap_rank")
     private Integer marketCapRank;
 
     @JsonProperty("fully_diluted_valuation")
-    private Long fullyDilutedValuation;
+    private BigDecimal fullyDilutedValuation;
 
     @JsonProperty("total_volume")
-    private Long totalVolume;
+    private BigDecimal totalVolume;
 
     @JsonProperty("high_24h")
     private BigDecimal high24h;
@@ -43,7 +43,7 @@ public class CoinGeckoCoinDto {
     private BigDecimal priceChangePercentage24h;
 
     @JsonProperty("market_cap_change_24h")
-    private Long marketCapChange24h;
+    private BigDecimal marketCapChange24h;
 
     @JsonProperty("market_cap_change_percentage_24h")
     private BigDecimal marketCapChangePercentage24h;
@@ -123,11 +123,11 @@ public class CoinGeckoCoinDto {
         this.currentPrice = currentPrice;
     }
 
-    public Long getMarketCap() {
+    public BigDecimal getMarketCap() {
         return marketCap;
     }
 
-    public void setMarketCap(Long marketCap) {
+    public void setMarketCap(BigDecimal marketCap) {
         this.marketCap = marketCap;
     }
 
@@ -139,19 +139,19 @@ public class CoinGeckoCoinDto {
         this.marketCapRank = marketCapRank;
     }
 
-    public Long getFullyDilutedValuation() {
+    public BigDecimal getFullyDilutedValuation() {
         return fullyDilutedValuation;
     }
 
-    public void setFullyDilutedValuation(Long fullyDilutedValuation) {
+    public void setFullyDilutedValuation(BigDecimal fullyDilutedValuation) {
         this.fullyDilutedValuation = fullyDilutedValuation;
     }
 
-    public Long getTotalVolume() {
+    public BigDecimal getTotalVolume() {
         return totalVolume;
     }
 
-    public void setTotalVolume(Long totalVolume) {
+    public void setTotalVolume(BigDecimal totalVolume) {
         this.totalVolume = totalVolume;
     }
 
@@ -187,11 +187,11 @@ public class CoinGeckoCoinDto {
         this.priceChangePercentage24h = priceChangePercentage24h;
     }
 
-    public Long getMarketCapChange24h() {
+    public BigDecimal getMarketCapChange24h() {
         return marketCapChange24h;
     }
 
-    public void setMarketCapChange24h(Long marketCapChange24h) {
+    public void setMarketCapChange24h(BigDecimal marketCapChange24h) {
         this.marketCapChange24h = marketCapChange24h;
     }
 

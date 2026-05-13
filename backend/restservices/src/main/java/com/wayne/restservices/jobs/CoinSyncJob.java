@@ -1,6 +1,6 @@
 package com.wayne.restservices.jobs;
 
-import com.wayne.restservices.services.CoinSyncService;
+import com.wayne.restservices.services.CoinMarketDataService;
 
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -8,17 +8,16 @@ import org.springframework.stereotype.Component;
 @Component
 public class CoinSyncJob {
 
-    private final CoinSyncService coinSyncService;
+    private final CoinMarketDataService coinMarketDataService;
 
     public CoinSyncJob(
-            CoinSyncService coinSyncService
-    ) {
-        this.coinSyncService = coinSyncService;
+            CoinMarketDataService coinMarketDataService) {
+        this.coinMarketDataService = coinMarketDataService;
     }
 
-    @Scheduled(fixedDelay = 600000)
+    @Scheduled(initialDelay = 60000, fixedDelay = 300000)
     public void syncCoins() {
 
-        //coinSyncService.syncCoins();
+        coinMarketDataService.syncCoins();
     }
 }

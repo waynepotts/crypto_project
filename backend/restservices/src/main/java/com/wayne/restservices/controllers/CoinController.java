@@ -116,11 +116,17 @@ public class CoinController {
             )
     })
 
-    @GetMapping("/api/v1/coins/{id}/history")
+    @GetMapping("/{id}/history")
     public CoinHistoryPagedResponseDto getCoinHistory(@PathVariable Long id, Long from, Long to,
-                                                      int page, int pageSize) {
+                                                      Integer page, Integer pageSize) {
         Instant fromInstant = Instant.ofEpochSecond(from);
         Instant toInstant = Instant.ofEpochSecond(to);
         return coinMarketDataService.getCoinHistory(id,fromInstant, toInstant, page, pageSize);
     }
+
+    @GetMapping("/{id}/history_chart")
+    public CoinHistoryResponseDto getHistoryChart(@PathVariable Long id, Integer days, @RequestParam(defaultValue = "false") Boolean daily ) {
+        return coinMarketDataService.getChartData(id, days, daily);
+    }
+
 }

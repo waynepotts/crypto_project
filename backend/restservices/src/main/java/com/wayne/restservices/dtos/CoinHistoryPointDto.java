@@ -8,9 +8,9 @@ public class CoinHistoryPointDto {
 
     private BigDecimal price;
 
-    private Long marketCap;
+    private BigDecimal marketCap;
 
-    private Long volume;
+    private BigDecimal volume;
 
     public Instant getTimestamp() {
         return timestamp;
@@ -28,19 +28,19 @@ public class CoinHistoryPointDto {
         this.price = price;
     }
 
-    public Long getMarketCap() {
+    public BigDecimal getMarketCap() {
         return marketCap;
     }
 
-    public void setMarketCap(Long marketCap) {
+    public void setMarketCap(BigDecimal marketCap) {
         this.marketCap = marketCap;
     }
 
-    public Long getVolume() {
+    public BigDecimal getVolume() {
         return volume;
     }
 
-    public void setVolume(Long volume) {
+    public void setVolume(BigDecimal volume) {
         this.volume = volume;
     }
 }

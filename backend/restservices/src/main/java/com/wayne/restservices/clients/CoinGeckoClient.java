@@ -3,7 +3,7 @@ package com.wayne.restservices.clients;
 import com.wayne.restservices.config.CoinGeckoProperties;
 import com.wayne.restservices.dtos.coingecko.CoinGeckoCoinDto;
 
-import org.springframework.beans.factory.annotation.Value;
+import com.wayne.restservices.dtos.coingecko.CoinGeckoMarketChartDto;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
@@ -43,5 +43,24 @@ public class CoinGeckoClient {
                 .body(
                         new ParameterizedTypeReference<>() {}
                 );
+    }
+
+    public enum Interval {
+        hourly,
+        daily
+    };
+    public CoinGeckoMarketChartDto  getCoinMarketChart(String coinGeckoId, Integer days, Interval interval) {
+        return restClient.get()
+                .uri(uriBuilder ->
+                        uriBuilder
+                                .path("/coins/{id}/market_chart")
+                                .queryParam("vs_currency", "usd")
+                                .queryParam("days", days)
+                                .queryParam("interval", interval.name().toLowerCase())
+                                .build(coinGeckoId)
+                )
+                .header("x-cg-demo-api-key", properties.getKey())
+                .retrieve()
+                .body(CoinGeckoMarketChartDto.class);
     }
 }

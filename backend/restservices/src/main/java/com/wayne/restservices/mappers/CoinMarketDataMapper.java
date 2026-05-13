@@ -1,16 +1,25 @@
 package com.wayne.restservices.mappers;
 
+
+import com.wayne.restservices.dtos.CoinHistoryPagedResponseDto;
 import com.wayne.restservices.dtos.CoinHistoryPointDto;
+import com.wayne.restservices.dtos.CoinHistoryResponseDto;
+import com.wayne.restservices.dtos.coingecko.CoinGeckoChartPointDto;
 import com.wayne.restservices.dtos.coingecko.CoinGeckoCoinDto;
+import com.wayne.restservices.dtos.coingecko.CoinGeckoMarketChartDto;
 import com.wayne.restservices.entities.jpa.CoinMarketData;
+import org.jspecify.annotations.NonNull;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalField;
+import java.util.*;
 
 public class CoinMarketDataMapper {
 
-    public static CoinMarketData fromDto(CoinGeckoCoinDto dto) {
+    public static CoinMarketData fromDto(@NonNull CoinGeckoCoinDto dto) {
         CoinMarketData marketData = new CoinMarketData();
         marketData.setAth(dto.getAth());
         marketData.setAtl(dto.getAtl());
@@ -34,9 +43,48 @@ public class CoinMarketDataMapper {
         marketData.setTotalVolume(dto.getTotalVolume());
         marketData.setPriceChangePercentage24h(toFinancialScale(dto.getPriceChangePercentage24h()));
         marketData.setPriceChange24h(toFinancialScale(dto.getPriceChange24h()));
+        Instant createdAt = Instant.now();
+        Instant bucket = normalizeFiveMinutes(createdAt);
+        ChronoUnit unit = ChronoUnit.MINUTES;
+        if(normalizeHourly(createdAt).plus(5, ChronoUnit.MINUTES).isBefore(bucket)) {
+            unit = ChronoUnit.HOURS;
+            if(normalizeDaily(createdAt).plus(5, ChronoUnit.MINUTES).isBefore(bucket)) {
+                unit = ChronoUnit.DAYS;
+            }
+        }
         marketData.setSource("coingecko");
-        marketData.setCreatedAt(Instant.now());
+        marketData.setCreatedAt(createdAt);
         return marketData;
+    }
+
+
+    public static Instant normalizeFiveMinutes(
+            Instant instant
+    ) {
+
+        long epochSeconds = instant.getEpochSecond();
+
+        long fiveMinuteBucket =
+                epochSeconds - (epochSeconds % 300);
+
+        return Instant.ofEpochSecond(
+                fiveMinuteBucket
+        );
+    }
+    public static Instant normalizeHourly(
+            Instant instant
+    ) {
+
+        return instant
+                .truncatedTo(ChronoUnit.HOURS);
+    }
+
+    public static Instant normalizeDaily(
+            Instant instant
+    ) {
+
+        return instant
+                .truncatedTo(ChronoUnit.DAYS);
     }
     public static CoinHistoryPointDto toDto(CoinMarketData marketData) {
         CoinHistoryPointDto dto = new CoinHistoryPointDto();
@@ -45,6 +93,31 @@ public class CoinMarketDataMapper {
         dto.setVolume(marketData.getTotalVolume());
         dto.setTimestamp(marketData.getLastUpdated());
         return  dto;
+    }
+    public static CoinHistoryResponseDto fromPaged(CoinHistoryPagedResponseDto dto, double expected){
+        CoinHistoryResponseDto response = new CoinHistoryResponseDto();
+        response.setChartData(dto.getContent());
+        long elements = dto.getTotalElements();
+        response.setCompleteness(elements / expected);
+        return response;
+    }
+
+    public static CoinHistoryResponseDto fromCoinGecko(@NonNull CoinGeckoMarketChartDto dto) {
+        CoinHistoryResponseDto dtoResponse = new CoinHistoryResponseDto();
+        List<CoinHistoryPointDto> chartData = new ArrayList<>();
+        List<CoinGeckoChartPointDto> priceList = dto.getPrices();
+        for (int i = 0; i < priceList.size(); i++) {
+            Instant key = priceList.get(i).getTimeStamp();
+            CoinHistoryPointDto pointDto = new CoinHistoryPointDto();
+            pointDto.setPrice(priceList.get(i).getValue());
+            pointDto.setTimestamp(key);
+            pointDto.setVolume(dto.getTotalVolumes().get(i).getValue());
+            pointDto.setMarketCap(dto.getMarketCaps().get(i).getValue());
+            chartData.add(pointDto);
+        }
+        dtoResponse.setCompleteness(1.0D);
+        dtoResponse.setChartData(chartData);
+        return dtoResponse;
     }
 
     private static final BigDecimal MAX = new BigDecimal("99999999999999999999");
