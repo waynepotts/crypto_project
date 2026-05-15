@@ -128,5 +128,11 @@ public class CoinController {
     public CoinHistoryResponseDto getHistoryChart(@PathVariable Long id, Integer days, @RequestParam(defaultValue = "false") Boolean daily ) {
         return coinMarketDataService.getChartData(id, days, daily);
     }
-
+    @Operation(summary = "Search coins by name or symbol (partial, case-insensitive)")
+    @GetMapping("/search")
+    public PagedResponseDto<CoinResponseDto> searchCoins(
+            @RequestParam String q,
+            @PageableDefault(size = 20, sort = "name") Pageable pageable) {
+        return coinService.searchCoins(q, pageable);
+    }
 }

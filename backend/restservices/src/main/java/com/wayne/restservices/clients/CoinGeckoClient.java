@@ -17,14 +17,11 @@ public class CoinGeckoClient {
 
     private final CoinGeckoProperties properties;
 
-    private static final String BASE_URL = "https://api.coingecko.com/api/v3/";
     public CoinGeckoClient(
             CoinGeckoProperties properties) {
         this.properties = properties;
 
-        this.restClient = RestClient.create(BASE_URL);
-                /*.url("https://api.coingecko.com/api/v3")
-                .build();*/
+        this.restClient = RestClient.create(properties.getUrl());
     }
 
     public List<CoinGeckoCoinDto> getMarkets(int page, int pageSize) {
@@ -48,7 +45,7 @@ public class CoinGeckoClient {
     public enum Interval {
         hourly,
         daily
-    };
+    }
     public CoinGeckoMarketChartDto  getCoinMarketChart(String coinGeckoId, Integer days, Interval interval) {
         return restClient.get()
                 .uri(uriBuilder ->

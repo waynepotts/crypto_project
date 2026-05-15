@@ -5,7 +5,6 @@ import com.wayne.restservices.dtos.CoinHistoryPointDto;
 import com.wayne.restservices.dtos.CoinHistoryPagedResponseDto;
 import com.wayne.restservices.dtos.CoinHistoryResponseDto;
 import com.wayne.restservices.dtos.coingecko.CoinGeckoCoinDto;
-import com.wayne.restservices.dtos.coingecko.CoinGeckoMarketChartDto;
 import com.wayne.restservices.entities.jpa.Coin;
 import com.wayne.restservices.entities.jpa.CoinMarketData;
 import com.wayne.restservices.exceptions.CoinNotFoundException;
@@ -16,13 +15,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.time.temporal.ChronoUnit;
-import java.time.temporal.TemporalAmount;
 import java.util.List;
-import java.util.TreeMap;
 
 @Service
 public class CoinMarketDataService {
@@ -44,28 +41,19 @@ public class CoinMarketDataService {
                 pageSize,
                 Sort.by("lastUpdated").ascending()
         );
-        Page<CoinHistoryPointDto> page = coinMarketDataRepository.findByCoinLastUpdatedRange(coin, from, to, pageable).map(CoinMarketDataMapper::toDto);
+        Page<CoinHistoryPointDto> page = coinMarketDataRepository.findByCoinLastUpdatedRange(coin, from, to, (short)2, pageable).map(CoinMarketDataMapper::toDto);
         CoinHistoryPagedResponseDto retPage = new CoinHistoryPagedResponseDto(page);
         retPage.setCoinName(coin.getName());
         retPage.setCoinId(coin.getId());
         return retPage;
     }
 
+    @Transactional
     public void syncCoins() {
         int page = 1;
         final int pageSize = 250;
-        boolean nextPage = true;
-        nextPage = processPage(page, pageSize);
-        page++;
-
-    }
-
-    //@Transactional
-    public boolean processPage(int page, int pageSize) {
-        boolean nextPage = true;
         List<CoinGeckoCoinDto> coins =
                 coinGeckoClient.getMarkets(page, pageSize);
-        nextPage = (!coins.isEmpty()) && page < 50;
         for (CoinGeckoCoinDto dto : coins) {
             try {
                 Coin coin =
@@ -93,11 +81,10 @@ public class CoinMarketDataService {
                     coinMarketDataRepository.save(coinData);
                 }
             } catch (Exception e) {
-                nextPage = false;
+
                 break;
             }
         }
-        return nextPage;
     }
 
     public CoinHistoryResponseDto getChartData(Long id, Integer days, Boolean daily){
@@ -113,4 +100,6 @@ public class CoinMarketDataService {
                         .findById(id).orElseThrow(()-> new CoinNotFoundException(id));
         return CoinMarketDataMapper.fromCoinGecko(coinGeckoClient.getCoinMarketChart(coin.getCoingeckoId(), days, interval));
     }
+
+
 }

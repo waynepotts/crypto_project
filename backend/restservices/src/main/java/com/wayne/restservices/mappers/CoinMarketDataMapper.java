@@ -50,9 +50,11 @@ public class CoinMarketDataMapper {
         Instant bucket = normalizeTenMinutes(createdAt);
         ChronoUnit unit = ChronoUnit.MINUTES;
         Instant bucketStart = bucket.minus(299, ChronoUnit.SECONDS);
-        if(bucketStart.isBefore(normalizeHourly(createdAt))) {
+        Instant hourly = normalizeHourly(createdAt);
+        if(bucketStart.isBefore(hourly) && hourly.plus(299, ChronoUnit.SECONDS).isAfter(bucket)) {
             unit = ChronoUnit.HOURS;
-            if(bucketStart.isBefore(normalizeDaily(createdAt))) {
+            Instant daily = normalizeDaily(createdAt);
+            if(bucketStart.isBefore(daily) && daily.plus(299, ChronoUnit.SECONDS).isAfter(bucket)) {
                 unit = ChronoUnit.DAYS;
             }
         }

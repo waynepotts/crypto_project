@@ -1,5 +1,6 @@
 package com.wayne.restservices.services;
 
+import com.wayne.restservices.dtos.PagedResponseDto;
 import com.wayne.restservices.dtos.UpdateCoinRequestDto;
 import com.wayne.restservices.dtos.CoinResponseDto;
 import com.wayne.restservices.dtos.CreateCoinRequestDto;
@@ -15,6 +16,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.Optional;
@@ -190,5 +195,93 @@ class CoinServiceTest {
 
        /* verify(coinRepository)
                 .findById(coinId);*/
+    }
+
+    @Test
+    void shouldSearchCoinsByName() {
+        Coin coin = createCoin();
+        Pageable pageable = PageRequest.of(0, 20);
+        Page<Coin> coinPage = new PageImpl<>(List.of(coin), pageable, 1);
+
+        when(coinRepository.findByNameContainingIgnoreCaseOrSymbolContainingIgnoreCase(
+                "bit", "bit", pageable))
+                .thenReturn(coinPage);
+
+        PagedResponseDto<CoinResponseDto> result =
+                coinService.searchCoins("bit", pageable);
+
+        assertNotNull(result);
+        assertEquals(1, result.getContent().size());
+        assertEquals("Bitcoin", result.getContent().get(0).getName());
+        assertEquals(1, result.getTotalElements());
+
+        verify(coinRepository).findByNameContainingIgnoreCaseOrSymbolContainingIgnoreCase(
+                "bit", "bit", pageable);
+    }
+
+    @Test
+    void shouldSearchCoinsBySymbol() {
+        Coin coin = createCoin();
+        Pageable pageable = PageRequest.of(0, 20);
+        Page<Coin> coinPage = new PageImpl<>(List.of(coin), pageable, 1);
+
+        when(coinRepository.findByNameContainingIgnoreCaseOrSymbolContainingIgnoreCase(
+                "btc", "btc", pageable))
+                .thenReturn(coinPage);
+
+        PagedResponseDto<CoinResponseDto> result =
+                coinService.searchCoins("btc", pageable);
+
+        assertNotNull(result);
+        assertEquals(1, result.getContent().size());
+        assertEquals("BTC", result.getContent().get(0).getSymbol());
+        assertEquals(1, result.getTotalElements());
+    }
+
+    @Test
+    void shouldReturnEmptyPageWhenNoCoinsMatchSearch() {
+        Pageable pageable = PageRequest.of(0, 20);
+        Page<Coin> emptyPage = new PageImpl<>(List.of(), pageable, 0);
+
+        when(coinRepository.findByNameContainingIgnoreCaseOrSymbolContainingIgnoreCase(
+                "xyz", "xyz", pageable))
+                .thenReturn(emptyPage);
+
+        PagedResponseDto<CoinResponseDto> result =
+                coinService.searchCoins("xyz", pageable);
+
+        assertNotNull(result);
+        assertTrue(result.getContent().isEmpty());
+        assertEquals(0, result.getTotalElements());
+        assertEquals(0, result.getTotalPages());
+    }
+
+    @Test
+    void shouldSearchCoinsAndReturnPagedResponse() {
+        Coin coin1 = createCoin();
+        Coin coin2 = new Coin();
+        coin2.setId(2L);
+        coin2.setCoingeckoId("ethereum");
+        coin2.setName("Ethereum");
+        coin2.setSymbol("ETH");
+        coin2.setImage("ethereum.png");
+
+        Pageable pageable = PageRequest.of(0, 2);
+        Page<Coin> coinPage = new PageImpl<>(List.of(coin1, coin2), pageable, 2);
+
+        when(coinRepository.findByNameContainingIgnoreCaseOrSymbolContainingIgnoreCase(
+                "coin", "coin", pageable))
+                .thenReturn(coinPage);
+
+        PagedResponseDto<CoinResponseDto> result =
+                coinService.searchCoins("coin", pageable);
+
+        assertNotNull(result);
+        assertEquals(2, result.getContent().size());
+        assertEquals(0, result.getPage());
+        assertEquals(2, result.getSize());
+        assertEquals(2, result.getTotalElements());
+        assertEquals(1, result.getTotalPages());
+        assertTrue(result.isLast());
     }
 }

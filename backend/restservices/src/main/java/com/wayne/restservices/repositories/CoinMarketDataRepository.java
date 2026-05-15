@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 public interface CoinMarketDataRepository extends JpaRepository<CoinMarketData, Long> {
@@ -22,11 +23,13 @@ public interface CoinMarketDataRepository extends JpaRepository<CoinMarketData, 
     FROM CoinMarketData md
     WHERE md.coin = :coin
       AND md.lastUpdated BETWEEN :from AND :to
+      AND md.granularity >= :granularity
 """)
     Page<CoinMarketData> findByCoinLastUpdatedRange(
             @Param("coin") Coin coin,
             @Param("from") Instant from,
             @Param("to") Instant to,
+            @Param("granularity") Short granularity,
             Pageable pageable
     );
 

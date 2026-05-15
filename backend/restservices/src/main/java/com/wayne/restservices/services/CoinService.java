@@ -93,4 +93,11 @@ public class CoinService {
                 coinRepository.save(coin);
         return CoinMapper.toDto(savedCoin);
     }
+
+    public PagedResponseDto<CoinResponseDto> searchCoins(String query, Pageable pageable) {
+        Page<CoinResponseDto> paged = coinRepository
+                .findByNameContainingIgnoreCaseOrSymbolContainingIgnoreCase(query, query, pageable)
+                .map(CoinMapper::toDto);
+        return new PagedResponseDto<>(paged);
+    }
 }
