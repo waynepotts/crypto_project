@@ -198,6 +198,70 @@ class CoinServiceTest {
     }
 
     @Test
+    void shouldSearchCoinsWithCaseInsensitiveQuery() {
+        Coin coin = createCoin();
+        Pageable pageable = PageRequest.of(0, 20);
+        Page<Coin> coinPage = new PageImpl<>(List.of(coin), pageable, 1);
+
+        when(coinRepository.findByNameContainingIgnoreCaseOrSymbolContainingIgnoreCase(
+                "BIT", "BIT", pageable))
+                .thenReturn(coinPage);
+
+        PagedResponseDto<CoinResponseDto> result =
+                coinService.searchCoins("BIT", pageable);
+
+        assertNotNull(result);
+        assertEquals(1, result.getContent().size());
+        assertEquals("Bitcoin", result.getContent().get(0).getName());
+    }
+
+    @Test
+    void shouldSearchCoinsWithEmptyQuery() {
+        Coin coin = createCoin();
+        Pageable pageable = PageRequest.of(0, 20);
+        Page<Coin> coinPage = new PageImpl<>(List.of(coin), pageable, 1);
+
+        when(coinRepository.findByNameContainingIgnoreCaseOrSymbolContainingIgnoreCase(
+                "", "", pageable))
+                .thenReturn(coinPage);
+
+        PagedResponseDto<CoinResponseDto> result =
+                coinService.searchCoins("", pageable);
+
+        assertNotNull(result);
+        assertEquals(1, result.getContent().size());
+    }
+
+    @Test
+    void shouldSearchCoinsReturnsCorrectSecondPage() {
+        Coin coin1 = createCoin();
+        Coin coin2 = new Coin();
+        coin2.setId(2L);
+        coin2.setCoingeckoId("ethereum");
+        coin2.setName("Ethereum");
+        coin2.setSymbol("ETH");
+        coin2.setImage("ethereum.png");
+
+        Pageable pageable = PageRequest.of(1, 1);
+        Page<Coin> coinPage = new PageImpl<>(List.of(coin2), pageable, 2);
+
+        when(coinRepository.findByNameContainingIgnoreCaseOrSymbolContainingIgnoreCase(
+                "coin", "coin", pageable))
+                .thenReturn(coinPage);
+
+        PagedResponseDto<CoinResponseDto> result =
+                coinService.searchCoins("coin", pageable);
+
+        assertNotNull(result);
+        assertEquals(1, result.getContent().size());
+        assertEquals("Ethereum", result.getContent().get(0).getName());
+        assertEquals(1, result.getPage());
+        assertEquals(2, result.getTotalElements());
+        assertEquals(2, result.getTotalPages());
+        assertTrue(result.isLast());
+    }
+
+    @Test
     void shouldSearchCoinsByName() {
         Coin coin = createCoin();
         Pageable pageable = PageRequest.of(0, 20);
