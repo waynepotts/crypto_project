@@ -354,7 +354,6 @@ export function PriceChart({
     });
     return newPoint;
   });
-
   const allValues = convertedData.flatMap((d) =>
       chartCurrencies.map((c) => d[`${c.currency.id}_price`] as number)
   );
@@ -363,10 +362,10 @@ export function PriceChart({
 
   const yAxisMin = showRelative
       ? Math.floor(minPrice - 5)
-      : Math.floor((minPrice * 0.9) / 1000) * 1000;
+      : Math.floor(minPrice * 0.9) ; // Math.floor((minPrice * 0.9) / 1000) * 1000;
   const yAxisMax = showRelative
       ? Math.ceil(maxPrice + 5)
-      : Math.ceil((maxPrice * 1.1) / 1000) * 1000;
+      : Math.ceil(maxPrice * 1.1); // Math.ceil((maxPrice * 1.1) / 1000) * 1;
 
   const currencySymbol = CURRENCY_SYMBOLS[displayCurrency];
 
@@ -512,9 +511,9 @@ export function PriceChart({
                                 ? `${value.toFixed(8)}%`
                                 : displayCurrency === "BTC"
                                     ? `${currencySymbol}${value.toFixed(6)}`
-                                    : `${currencySymbol}${(value / 1000).toFixed(0)}k`
+                                    : `${currencySymbol}${(value).toFixed(2)}`
                         }
-                        width={50}
+                        width={55}
                     />
                     <Tooltip
                         contentStyle={{

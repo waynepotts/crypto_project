@@ -21,11 +21,20 @@ public interface CoinMarketDataRepository extends JpaRepository<CoinMarketData, 
 
     CoinMarketData findFirstByCoinIdOrderByLastUpdatedDesc(Long coinId);
 
-    @Query("""
-    SELECT md 
-    FROM CoinMarketData md 
+    /*@Query("""
+    SELECT md
+    FROM CoinMarketData md
     WHERE md.marketCapRank BETWEEN :lowest and :highest
     ORDER BY md.createdAt DESC LIMIT :limit
+""")*/
+    @Query("""
+    SELECT md1 FROM CoinMarketData md1
+    WHERE md1.id IN
+    (SELECT md.id
+    FROM CoinMarketData md
+    WHERE md.marketCapRank BETWEEN :lowest and :highest
+    ORDER BY md.createdAt DESC LIMIT :limit)
+    ORDER BY md1.marketCapRank
 """)
     List<CoinMarketData> findLatestMarketCapRankRange(@Param("lowest") Integer lowest, @Param("highest") Integer highest,  @Param("limit") Integer limit);
 

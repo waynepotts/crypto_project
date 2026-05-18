@@ -113,9 +113,10 @@ public class CoinMarketDataService {
     public List<CoinMarketDataDto> GetMarketDataByMarketCapRankRange(Integer marketCapRankStart, Integer marketCapRankEnd) {
         //Pageable pageable = PageRequest.of(0, marketCapRankEnd, Sort.by("marketCapRank").ascending());
         return coinMarketDataRepository
-                .findLatestMarketCapRankRange(marketCapRankStart, marketCapRankEnd, Math.min(150,marketCapRankEnd - marketCapRankStart))
+                .findLatestMarketCapRankRange(marketCapRankStart, marketCapRankEnd, Math.min(150, marketCapRankEnd - marketCapRankStart))
                 .stream().map(CoinMarketDataMapper::toMarketDataDto)
-                .collect(Collectors.toList());
+                .toList();//.collect(Collectors.toList());
+
 
     }
 }

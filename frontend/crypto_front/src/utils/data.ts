@@ -4,7 +4,7 @@ import {
   type CoinResponseDto,
   type ErrorResponseDto,
   getAllCoins,
-  type getAllCoinsResponse,
+  type getAllCoinsResponse, getHistoryChart,
   getMarketCapRank, type getMarketCapRankResponse
 } from "../generated/api.ts";
 import {generateMockData} from "@recharts/devtools";
@@ -51,7 +51,7 @@ export function generateMockCurrencies2(): Promise<Currency[]> {
           base.marketCap = d.marketCap;
         }
         base.change24h = (d.priceChange24h / d.currentPrice) * 100.0;
-        base.basePrice = d.currentPrice;
+        base.basePrice = d.currentPrice + d.priceChange24h;
       }
 
   });
@@ -96,6 +96,8 @@ export function generatePriceHistory2(
     currencies: { basePrice: number; id: string }[],
     timeframe: TimeframeValue
 ): { date: string; [key: string]: string | number }[] {
+
+  const response = getHistoryChart(1,{ days:1, daily:false });
   const { days } = getTimeframeParams(timeframe);
   const now = new Date();
 
