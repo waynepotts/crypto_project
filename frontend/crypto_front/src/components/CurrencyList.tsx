@@ -29,7 +29,7 @@ function formatPrice(price: number, currency: CurrencySymbol, exchangeRate: numb
   };
 
   if (currency === "BTC") {
-    return `${CURRENCY_SYMBOLS[currency]}${convertedPrice.toFixed(8)}`;
+    return `${convertedPrice.toFixed(8)}`;
   }
 
   return new Intl.NumberFormat("en-US", {

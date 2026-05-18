@@ -7,30 +7,30 @@ import static org.junit.jupiter.api.Assertions.*;
 class CoinMarketDataMapperTest {
 
     @Test
-    void fromDto() {
+    void ShouldFromDto() {
     }
 
     @Test
-    void normalizeTenMinutes() {
+    void shouldFormalizeTenMinutes() {
     }
 
     @Test
-    void normalizeHourly() {
+    void shouldNormalizeHourly() {
     }
 
     @Test
-    void normalizeDaily() {
+    void ShouldNormalizeDaily() {
     }
 
     @Test
-    void toDto() {
+    void shouldToDto() {
     }
 
     @Test
-    void fromPaged() {
+    void shouldFromPaged() {
     }
 
     @Test
-    void fromCoinGecko() {
+    void shouldFromCoinGecko() {
     }
 }

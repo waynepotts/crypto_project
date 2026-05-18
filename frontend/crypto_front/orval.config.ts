@@ -10,7 +10,15 @@ export default defineConfig({
 
             target: "./src/generated/api.ts",
 
-            client: "fetch"
+            client: "fetch",
+
+            override: {
+                mutator: {
+                    path: "./src/api/client.ts",
+
+                    name: "apiFetch"
+                }
+            }
         }
     }
 });

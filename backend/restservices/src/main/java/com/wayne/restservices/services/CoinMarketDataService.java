@@ -4,6 +4,7 @@ import com.wayne.restservices.clients.CoinGeckoClient;
 import com.wayne.restservices.dtos.CoinHistoryPointDto;
 import com.wayne.restservices.dtos.CoinHistoryPagedResponseDto;
 import com.wayne.restservices.dtos.CoinHistoryResponseDto;
+import com.wayne.restservices.dtos.CoinMarketDataDto;
 import com.wayne.restservices.dtos.coingecko.CoinGeckoCoinDto;
 import com.wayne.restservices.entities.jpa.Coin;
 import com.wayne.restservices.entities.jpa.CoinMarketData;
@@ -19,7 +20,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CoinMarketDataService {
@@ -101,5 +104,18 @@ public class CoinMarketDataService {
         return CoinMarketDataMapper.fromCoinGecko(coinGeckoClient.getCoinMarketChart(coin.getCoingeckoId(), days, interval));
     }
 
+    /**
+     * returns the most recently created coin market data for the ranks between the params
+     * @param marketCapRankStart
+     * @param marketCapRankEnd
+     * @return dto objects for the data, max results 150
+     */
+    public List<CoinMarketDataDto> GetMarketDataByMarketCapRankRange(Integer marketCapRankStart, Integer marketCapRankEnd) {
+        //Pageable pageable = PageRequest.of(0, marketCapRankEnd, Sort.by("marketCapRank").ascending());
+        return coinMarketDataRepository
+                .findLatestMarketCapRankRange(marketCapRankStart, marketCapRankEnd, Math.min(150,marketCapRankEnd - marketCapRankStart))
+                .stream().map(CoinMarketDataMapper::toMarketDataDto)
+                .collect(Collectors.toList());
 
+    }
 }

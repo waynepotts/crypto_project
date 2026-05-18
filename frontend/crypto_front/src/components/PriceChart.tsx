@@ -509,7 +509,7 @@ export function PriceChart({
                         axisLine={{ stroke: "#334155" }}
                         tickFormatter={(value) =>
                             showRelative
-                                ? `${value.toFixed(0)}%`
+                                ? `${value.toFixed(8)}%`
                                 : displayCurrency === "BTC"
                                     ? `${currencySymbol}${value.toFixed(6)}`
                                     : `${currencySymbol}${(value / 1000).toFixed(0)}k`

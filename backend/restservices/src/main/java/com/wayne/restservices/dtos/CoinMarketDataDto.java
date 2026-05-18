@@ -5,10 +5,13 @@ import java.time.Instant;
 
 public class CoinMarketDataDto {
     private Long id;
+    private String name;
+    private String symbol;
     private BigDecimal currentPrice;
-    private Long marketCap;
+    private BigDecimal marketCap;
     private Integer marketCapRank;
     private Instant lastUpdated;
+    private BigDecimal priceChange24h;
 
     public Long getId() {
         return id;
@@ -16,6 +19,22 @@ public class CoinMarketDataDto {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getSymbol() {
+        return symbol;
+    }
+
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
     }
 
     public BigDecimal getCurrentPrice() {
@@ -26,11 +45,11 @@ public class CoinMarketDataDto {
         this.currentPrice = currentPrice;
     }
 
-    public Long getMarketCap() {
+    public BigDecimal getMarketCap() {
         return marketCap;
     }
 
-    public void setMarketCap(Long marketCap) {
+    public void setMarketCap(BigDecimal marketCap) {
         this.marketCap = marketCap;
     }
 
@@ -48,5 +67,11 @@ public class CoinMarketDataDto {
 
     public void setLastUpdated(Instant lastUpdated) {
         this.lastUpdated = lastUpdated;
+    }
+    public void setPriceChange24h(BigDecimal priceChange24h) {
+        this.priceChange24h = priceChange24h;
+    }
+    public BigDecimal getPriceChange24h() {
+        return priceChange24h;
     }
 }

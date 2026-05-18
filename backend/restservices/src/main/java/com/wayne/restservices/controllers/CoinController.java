@@ -1,6 +1,7 @@
 package com.wayne.restservices.controllers;
 
 import com.wayne.restservices.dtos.*;
+import com.wayne.restservices.entities.jpa.CoinMarketData;
 import com.wayne.restservices.services.CoinMarketDataService;
 import com.wayne.restservices.services.CoinService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -135,4 +136,11 @@ public class CoinController {
             @PageableDefault(size = 20, sort = "name") Pageable pageable) {
         return coinService.searchCoins(q, pageable);
     }
+
+    @Operation(summary = "returns the most popular coins in the range")
+    @GetMapping("/marketcaprank")
+    public List<CoinMarketDataDto> getMarketCapRank(@RequestParam(defaultValue = "0") Integer start, @RequestParam(defaultValue = "5") Integer end) {
+        return coinMarketDataService.GetMarketDataByMarketCapRankRange(start, end);
+    }
+
 }

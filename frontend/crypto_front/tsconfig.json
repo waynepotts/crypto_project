@@ -5,6 +5,12 @@
     { "path": "./tsconfig.node.json" }
   ],
   "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "lib": ["ES2020", "DOM"],
+    "jsx": "react-jsx",
+    "strict": true,
   "baseUrl": ".",
   "paths": {
     "@/*": ["./src/*"]

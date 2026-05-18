@@ -3,7 +3,8 @@ import { Header } from "./components/Header";
 import { CurrencyList } from "./components/CurrencyList";
 import PriceChart from "./components/PriceChart";
 import { SearchBar } from "./components/SearchBar";
-import { generateMockCurrencies, generatePriceHistory, type Currency } from "./utils/data";
+import {generateMockCurrencies, generatePriceHistory, type Currency, generateMockCurrencies2} from "./utils/data";
+import type {CoinResponseDto} from "./generated/api.ts";
 
 //import './App.css';
 export type TimeframeValue = "1H" | "1D" | "1W" | "30D" | "90D";
@@ -88,7 +89,7 @@ export function App() {
     // Initialize data
     useEffect(() => {
       const loadData = () => {
-        const mockData = generateMockCurrencies();
+        const mockData = generateMockCurrencies2();
         setCurrencies(mockData);
         setChartCurrencies([{currency: mockData[0], color: AVAILABLE_COLORS[0]}]);
         setIsLoading(false);
@@ -115,10 +116,10 @@ export function App() {
       }, 1000);
 
       // Price update interval
-      intervalRef.current = setInterval(() => {
+      /*intervalRef.current = setInterval(() => {
         updatePrices();
         setTimeRemaining(updateFrequency);
-      }, updateFrequency * 1000);
+      }, updateFrequency * 1000);*/
 
       return () => {
         if (intervalRef.current) clearInterval(intervalRef.current);

@@ -5,6 +5,7 @@
  * REST API for cryptocurrency data
  * OpenAPI spec version: v1
  */
+import { apiFetch } from '../api/client';
 export interface ErrorResponseDto {
   /** Timestamp when the error was made */
   timestamp?: string;
@@ -136,6 +137,17 @@ export interface CoinHistoryPagedResponseDto {
   coinName?: string;
 }
 
+export interface CoinMarketDataDto {
+  id?: number;
+  name?: string;
+  symbol?: string;
+  currentPrice?: number;
+  marketCap?: number;
+  marketCapRank?: number;
+  lastUpdated?: string;
+  priceChange24h?: number;
+}
+
 export type GetCoinsParams = {
 pageable: Pageable;
 };
@@ -155,6 +167,11 @@ pageSize: number;
 export type SearchCoinsParams = {
 q: string;
 pageable: Pageable;
+};
+
+export type GetMarketCapRankParams = {
+start?: number;
+end?: number;
 };
 
 export type getCoinsResponse200 = {
@@ -206,21 +223,14 @@ export const getGetCoinsUrl = (params: GetCoinsParams,) => {
  */
 export const getCoins = async (params: GetCoinsParams, options?: RequestInit): Promise<getCoinsResponse> => {
 
-  const res = await fetch(getGetCoinsUrl(params),
+  return apiFetch<getCoinsResponse>(getGetCoinsUrl(params),
   {
     ...options,
     method: 'GET'
 
 
   }
-)
-
-
-  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-
-  const data: getCoinsResponse['data'] = body !== null ? body : ''
-  return { data, status: res.status, headers: res.headers } as getCoinsResponse
-}
+);}
 
 
 
@@ -266,21 +276,14 @@ export const getUpdateCoinUrl = () => {
  */
 export const updateCoin = async (updateCoinRequestDto: UpdateCoinRequestDto, options?: RequestInit): Promise<updateCoinResponse> => {
 
-  const res = await fetch(getUpdateCoinUrl(),
+  return apiFetch<updateCoinResponse>(getUpdateCoinUrl(),
   {
     ...options,
     method: 'PUT',
     headers: { 'Content-Type': 'application/json', ...options?.headers },
     body: JSON.stringify(updateCoinRequestDto)
   }
-)
-
-
-  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-
-  const data: updateCoinResponse['data'] = body !== null ? body : ''
-  return { data, status: res.status, headers: res.headers } as updateCoinResponse
-}
+);}
 
 
 
@@ -326,21 +329,14 @@ export const getCreateCoinUrl = () => {
  */
 export const createCoin = async (createCoinRequestDto: CreateCoinRequestDto, options?: RequestInit): Promise<createCoinResponse> => {
 
-  const res = await fetch(getCreateCoinUrl(),
+  return apiFetch<createCoinResponse>(getCreateCoinUrl(),
   {
     ...options,
     method: 'POST',
     headers: { 'Content-Type': 'application/json', ...options?.headers },
     body: JSON.stringify(createCoinRequestDto)
   }
-)
-
-
-  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-
-  const data: createCoinResponse['data'] = body !== null ? body : ''
-  return { data, status: res.status, headers: res.headers } as createCoinResponse
-}
+);}
 
 
 
@@ -386,21 +382,14 @@ export const getGetBuildInfoUrl = () => {
  */
 export const getBuildInfo = async ( options?: RequestInit): Promise<getBuildInfoResponse> => {
 
-  const res = await fetch(getGetBuildInfoUrl(),
+  return apiFetch<getBuildInfoResponse>(getGetBuildInfoUrl(),
   {
     ...options,
     method: 'GET'
 
 
   }
-)
-
-
-  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-
-  const data: getBuildInfoResponse['data'] = body !== null ? body : ''
-  return { data, status: res.status, headers: res.headers } as getBuildInfoResponse
-}
+);}
 
 
 
@@ -446,21 +435,14 @@ export const getGetCoinUrl = (id: number,) => {
  */
 export const getCoin = async (id: number, options?: RequestInit): Promise<getCoinResponse> => {
 
-  const res = await fetch(getGetCoinUrl(id),
+  return apiFetch<getCoinResponse>(getGetCoinUrl(id),
   {
     ...options,
     method: 'GET'
 
 
   }
-)
-
-
-  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-
-  const data: getCoinResponse['data'] = body !== null ? body : ''
-  return { data, status: res.status, headers: res.headers } as getCoinResponse
-}
+);}
 
 
 
@@ -512,21 +494,14 @@ export const getGetHistoryChartUrl = (id: number,
 export const getHistoryChart = async (id: number,
     params: GetHistoryChartParams, options?: RequestInit): Promise<getHistoryChartResponse> => {
 
-  const res = await fetch(getGetHistoryChartUrl(id,params),
+  return apiFetch<getHistoryChartResponse>(getGetHistoryChartUrl(id,params),
   {
     ...options,
     method: 'GET'
 
 
   }
-)
-
-
-  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-
-  const data: getHistoryChartResponse['data'] = body !== null ? body : ''
-  return { data, status: res.status, headers: res.headers } as getHistoryChartResponse
-}
+);}
 
 
 
@@ -581,21 +556,14 @@ export const getGetCoinHistoryUrl = (id: number,
 export const getCoinHistory = async (id: number,
     params: GetCoinHistoryParams, options?: RequestInit): Promise<getCoinHistoryResponse> => {
 
-  const res = await fetch(getGetCoinHistoryUrl(id,params),
+  return apiFetch<getCoinHistoryResponse>(getGetCoinHistoryUrl(id,params),
   {
     ...options,
     method: 'GET'
 
 
   }
-)
-
-
-  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-
-  const data: getCoinHistoryResponse['data'] = body !== null ? body : ''
-  return { data, status: res.status, headers: res.headers } as getCoinHistoryResponse
-}
+);}
 
 
 
@@ -648,21 +616,74 @@ export const getSearchCoinsUrl = (params: SearchCoinsParams,) => {
  */
 export const searchCoins = async (params: SearchCoinsParams, options?: RequestInit): Promise<searchCoinsResponse> => {
 
-  const res = await fetch(getSearchCoinsUrl(params),
+  return apiFetch<searchCoinsResponse>(getSearchCoinsUrl(params),
   {
     ...options,
     method: 'GET'
 
 
   }
-)
+);}
 
 
-  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
 
-  const data: searchCoinsResponse['data'] = body !== null ? body : ''
-  return { data, status: res.status, headers: res.headers } as searchCoinsResponse
+export type getMarketCapRankResponse200 = {
+  data: CoinMarketDataDto[]
+  status: 200
 }
+
+export type getMarketCapRankResponse404 = {
+  data: ErrorResponseDto
+  status: 404
+}
+
+export type getMarketCapRankResponse409 = {
+  data: ErrorResponseDto
+  status: 409
+}
+
+export type getMarketCapRankResponse500 = {
+  data: ErrorResponseDto
+  status: 500
+}
+
+export type getMarketCapRankResponseSuccess = (getMarketCapRankResponse200) & {
+  headers: Headers;
+};
+export type getMarketCapRankResponseError = (getMarketCapRankResponse404 | getMarketCapRankResponse409 | getMarketCapRankResponse500) & {
+  headers: Headers;
+};
+
+export type getMarketCapRankResponse = (getMarketCapRankResponseSuccess | getMarketCapRankResponseError)
+
+export const getGetMarketCapRankUrl = (params?: GetMarketCapRankParams,) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? 'null' : value.toString())
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0 ? `/api/v1/coins/marketcaprank?${stringifiedParams}` : `/api/v1/coins/marketcaprank`
+}
+
+/**
+ * @summary returns the most popular coins in the range
+ */
+export const getMarketCapRank = async (params?: GetMarketCapRankParams, options?: RequestInit): Promise<getMarketCapRankResponse> => {
+
+  return apiFetch<getMarketCapRankResponse>(getGetMarketCapRankUrl(params),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
 
 
 
@@ -708,18 +729,11 @@ export const getGetAllCoinsUrl = () => {
  */
 export const getAllCoins = async ( options?: RequestInit): Promise<getAllCoinsResponse> => {
 
-  const res = await fetch(getGetAllCoinsUrl(),
+  return apiFetch<getAllCoinsResponse>(getGetAllCoinsUrl(),
   {
     ...options,
     method: 'GET'
 
 
   }
-)
-
-
-  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-
-  const data: getAllCoinsResponse['data'] = body !== null ? body : ''
-  return { data, status: res.status, headers: res.headers } as getAllCoinsResponse
-}
+);}

@@ -1,4 +1,14 @@
 import type {TimeframeValue} from "../App";
+import {
+  type CoinMarketDataDto,
+  type CoinResponseDto,
+  type ErrorResponseDto,
+  getAllCoins,
+  type getAllCoinsResponse,
+  getMarketCapRank, type getMarketCapRankResponse
+} from "../generated/api.ts";
+import {generateMockData} from "@recharts/devtools";
+import {stringify} from "postcss";
 
 export interface Currency {
   id: string;
@@ -14,7 +24,41 @@ export interface TimeframeParams {
   days: number;
   intervalMinutes: number;
 }
+export function generateMockCurrencies2(): Promise<Currency[]> {
 
+  const response:Promise<getMarketCapRankResponse> = getMarketCapRank();
+
+  console.log("response: " + response + JSON.stringify(response));
+  let resp:CoinMarketDataDto[] | ErrorResponseDto;
+  const baseData = generateMockCurrencies();
+  response.then((data) => {
+    resp = data;
+      console.log("response: " + JSON.stringify(data));
+      for (let i = 0; i < 5; i++) {
+        const base = baseData[i];
+        const d:CoinMarketDataDto = data[i];
+        if (d.name != null) {
+          base.name = d.name;
+        }
+        if (d.symbol != null) {
+          base.symbol = d.symbol;
+        } // d.symbol;
+        //base.id = d.id?.toString();
+        if (d.currentPrice != null) {
+          base.price = d.currentPrice;
+        }
+        if (d.marketCap != null) {
+          base.marketCap = d.marketCap;
+        }
+        base.change24h = (d.priceChange24h / d.currentPrice) * 100.0;
+        base.basePrice = d.currentPrice;
+      }
+
+  });
+
+
+  return baseData;
+}
 export function generateMockCurrencies(): Currency[] {
   const baseData = [
     { id: "bitcoin", name: "Bitcoin", symbol: "BTC", basePrice: 67432.50, marketCap: 1324000000000 },
@@ -46,6 +90,69 @@ function getTimeframeParams(timeframe: TimeframeValue): TimeframeParams {
     default:
       return { days: 30, intervalMinutes: 0 };
   }
+}
+
+export function generatePriceHistory2(
+    currencies: { basePrice: number; id: string }[],
+    timeframe: TimeframeValue
+): { date: string; [key: string]: string | number }[] {
+  const { days } = getTimeframeParams(timeframe);
+  const now = new Date();
+
+  let points: number;
+  let stepMs: number;
+
+  if (timeframe === "1H") {
+    points = 30;
+    stepMs = (60 * 60 * 1000) / points;
+  } else if (timeframe === "1D") {
+    points = 48;
+    stepMs = (24 * 60 * 60 * 1000) / points;
+  } else {
+    points = Math.min(Math.floor(days), 90);
+    stepMs = 24 * 60 * 60 * 1000;
+  }
+
+  // Initialize price tracks for each currency
+  const priceTracks: Map<string, { prices: number[]; current: number }> = new Map();
+
+  currencies.forEach((c) => {
+    const startPrice = c.basePrice * 0.85;
+    const prices: number[] = [];
+    let current = startPrice;
+
+    for (let i = 0; i < points; i++) {
+      const volatility = c.basePrice * 0.015;
+      const change = (Math.random() - 0.48) * volatility;
+      current = Math.max(current + change, c.basePrice * 0.7);
+      prices.push(Math.round(current * 100) / 100);
+    }
+
+    // Set last price to current base price
+    prices[points - 1] = c.basePrice;
+    priceTracks.set(c.id, { prices, current: startPrice });
+  });
+
+  // Build data array
+  const data: { date: string; [key: string]: string | number }[] = [];
+
+  for (let i = 0; i < points; i++) {
+    const timestamp = new Date(now.getTime() - (points - 1 - i) * stepMs);
+    const point: { date: string; [key: string]: string | number } = {
+      date: timestamp.toISOString(),
+    };
+
+    currencies.forEach((c) => {
+      const track = priceTracks.get(c.id);
+      if (track) {
+        point[`${c.id}_price`] = track.prices[i];
+      }
+    });
+
+    data.push(point);
+  }
+
+  return data;
 }
 
 export function generatePriceHistory(
