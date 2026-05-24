@@ -5,6 +5,7 @@ import java.time.Instant;
 
 public class CoinMarketDataDto {
     private Long id;
+    private Long coinId;
     private String name;
     private String symbol;
     private BigDecimal currentPrice;
@@ -19,6 +20,14 @@ public class CoinMarketDataDto {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getCoinId() {
+        return coinId;
+    }
+
+    public void setCoinId(Long coinId) {
+        this.coinId = coinId;
     }
 
     public String getName() {

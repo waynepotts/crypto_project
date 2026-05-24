@@ -1,10 +1,13 @@
-import { useState, useEffect, useMemo, useRef, useCallback } from "react";
-import { Header } from "./components/Header";
-import { CurrencyList } from "./components/CurrencyList";
-import PriceChart from "./components/PriceChart";
-import { SearchBar } from "./components/SearchBar";
-import {generateMockCurrencies, generatePriceHistory, type Currency, generateMockCurrencies2} from "./utils/data";
-import type {CoinResponseDto} from "./generated/api.ts";
+import {useCallback, useEffect, useMemo, useRef, useState} from "react";
+import {Header} from "./components/Header";
+import {CurrencyList} from "./components/CurrencyList";
+import PriceChart, {PriceChart2} from "./components/PriceChart";
+import {SearchBar} from "./components/SearchBar";
+import {type Currency, generateMockCurrencies2, generatePriceHistory, priceHistory} from "./utils/data";
+import type {CoinHistoryPointDto} from "./generated/api.ts";
+import {CartesianGrid, Legend, Line, LineChart, XAxis, YAxis} from "recharts";
+import {RechartsDevtools} from "@recharts/devtools";
+import {type ChartDisplayData, type CoinHistory, createChartHistoryData} from "./types/ChartDisplayData.ts";
 
 //import './App.css';
 export type TimeframeValue = "1H" | "1D" | "1W" | "30D" | "90D";
@@ -36,7 +39,7 @@ export function App() {
     const [currencies, setCurrencies] = useState<Currency[]>([]);
     const [searchQuery, setSearchQuery] = useState("");
     const [isLoading, setIsLoading] = useState(true);
-    const [timeframe, setTimeframe] = useState<TimeframeValue>("30D");
+    const [timeframe, setTimeframe] = useState<TimeframeValue>("1D");
     const [showRelative, setShowRelative] = useState(false);
     const [chartCurrencies, setChartCurrencies] = useState<ChartCurrency[]>([]);
     const [updateFrequency, setUpdateFrequency] =  useState<UpdateFrequency>(30);
@@ -44,6 +47,7 @@ export function App() {
     const [isRefreshing, setIsRefreshing] = useState(false);
     const [displayCurrency, setDisplayCurrency] = useState<CurrencySymbol>("USD");
     const [count, setCount] = useState(0);
+    const [priceData, setPriceData] = useState<Currency[]>([]);
     const [theme, setTheme] = useState<"light" | "dark">(() => {
       if (typeof window !== "undefined") {
         const saved = localStorage.getItem("cryptodash-theme");
@@ -65,6 +69,13 @@ export function App() {
 
     // Update prices function
     const updatePrices = useCallback(() => {
+        setIsRefreshing(true);
+        setTimeout(() => {
+            setIsRefreshing(false);
+        }, 1000);
+        console.log("update prices");
+
+
       setCurrencies((prev) =>
           prev.map((currency) => ({
             ...currency,
@@ -76,14 +87,15 @@ export function App() {
 
     // Manual refresh with visual feedback
     const handleManualRefresh = useCallback(() => {
-      setIsRefreshing(true);
-      updatePrices();
-      setTimeRemaining(updateFrequency);
 
+
+      setTimeRemaining(updateFrequency);
+        updatePrices();
       // Brief visual feedback
-      setTimeout(() => {
+      /*setTimeout(() => {
+          updatePrices();
         setIsRefreshing(false);
-      }, 500);
+      }, 500);*/
     }, [updatePrices, updateFrequency]);
 
     // Initialize data
@@ -93,6 +105,8 @@ export function App() {
         setCurrencies(mockData);
         setChartCurrencies([{currency: mockData[0], color: AVAILABLE_COLORS[0]}]);
         setIsLoading(false);
+        mockData[0].color = AVAILABLE_COLORS[0];
+        setPriceData([mockData[0]]);
       };
 
       loadData();
@@ -102,13 +116,13 @@ export function App() {
     useEffect(() => {
       if (intervalRef.current) clearInterval(intervalRef.current);
       if (countdownRef.current) clearInterval(countdownRef.current);
-
       //setTimeRemaining(updateFrequency);
 
       // Countdown timer (every second)
       countdownRef.current = setInterval(() => {
         setTimeRemaining((prev) => {
           if (prev <= 1) {
+              updatePrices();
             return updateFrequency;
           }
           return prev - 1;
@@ -128,14 +142,14 @@ export function App() {
     }, [updateFrequency, updatePrices]);
 
     // Update chart currency prices when main list updates
-    useEffect(() => {
+    /*useEffect(() => {
       setChartCurrencies((prev) =>
           prev.map((item) => {
             const updated = currencies.find((c) => c.id === item.currency.id);
             return updated ? {...item, currency: updated} : item;
           })
       );
-    }, [currencies]);
+    }, [currencies]);*/
 
     const filteredCurrencies = useMemo(() => {
       return currencies.filter(
@@ -146,22 +160,30 @@ export function App() {
     }, [currencies, searchQuery]);
 
     const chartData = useMemo(() => {
-      if (chartCurrencies.length === 0) return [];
-      return generatePriceHistory(
-          chartCurrencies.map((c) => ({basePrice: c.currency.basePrice, id: c.currency.id})),
+      if (chartCurrencies.length === 0){
+
+          return [];
+      }
+        return generatePriceHistory(
+            chartCurrencies.map((c) => ({basePrice: c.currency.basePrice, id: c.currency.id})),
           timeframe
       );
     }, [chartCurrencies, timeframe]);
 
     const handleCurrencySelect = (currency: Currency) => {
       const isAlreadySelected = chartCurrencies.some((c) => c.currency.id === currency.id);
-
       if (isAlreadySelected) {
         setChartCurrencies((prev) => prev.filter((c) => c.currency.id !== currency.id));
+        setPriceData((prev) => prev.filter((c => c.id !== currency.id)));
       } else {
         const usedColors = chartCurrencies.map((c) => c.color);
         const nextColor = AVAILABLE_COLORS.find((c) => !usedColors.includes(c)) || AVAILABLE_COLORS[0];
+        currency.color = nextColor;
         setChartCurrencies((prev) => [...prev, {currency, color: nextColor}]);
+        let prices: Currency[] = priceData.map(m=> m);
+        prices.push(currency);
+        console.log(prices);
+        setPriceData(prices);
       }
     };
 
@@ -169,6 +191,11 @@ export function App() {
       setChartCurrencies((prev) =>
           prev.map((c) => (c.currency.id === currencyId ? {...c, color} : c))
       );
+      currencies.forEach(c=>{
+          if(c.id === currencyId) {
+              c.color = color;
+          }
+      })
     };
 
     const toggleTheme = () => {
@@ -176,6 +203,23 @@ export function App() {
     };
 
     const exchangeRate = EXCHANGE_RATES[displayCurrency];
+    const priceDtos:CoinHistory[] = useMemo(() => {
+        let history:CoinHistory[] = [];
+        if(!isRefreshing) {
+            // console.log("refreshing...");
+            priceData.forEach((c) => {
+                priceHistory(c, timeframe).then(r => {
+                    // history = history.map(m => m);
+                    history.push(r);
+                });
+            });
+        }
+        return history;
+    },[priceData, timeframe, isRefreshing]);
+
+
+
+
 
     return (
             <div  className={`min-h-screen transition-colors duration-300 ${theme === "dark" ? "bg-slate-950" : "bg-slate-50"}`}>
@@ -189,7 +233,8 @@ export function App() {
                   onManualRefresh={handleManualRefresh}
                   isRefreshing={isRefreshing}
                   displayCurrency={displayCurrency}
-                  onCurrencyChange={setDisplayCurrency}/>
+                  onCurrencyChange={setDisplayCurrency}
+              />
 
               <main className="mt-8 space-y-8">
                 <SearchBar
@@ -203,9 +248,10 @@ export function App() {
                     onSelect={handleCurrencySelect}
                     isLoading={isLoading}
                     displayCurrency={displayCurrency}
-                    exchangeRate={exchangeRate}/>
+                    exchangeRate={exchangeRate}
+                />
 
-                <PriceChart
+                {/*<PriceChart
                     data={chartData}
                     chartCurrencies={chartCurrencies}
                     onColorChange={handleColorChange}
@@ -215,7 +261,20 @@ export function App() {
                     showRelative={showRelative}
                     onToggleRelative={() => setShowRelative((prev) => !prev)}
                     displayCurrency={displayCurrency}
-                    exchangeRate={exchangeRate}/>
+                    exchangeRate={exchangeRate}/>*/}
+                  <PriceChart2
+                      data={priceDtos}
+                      chartCurrencies={chartCurrencies}
+                      onColorChange={handleColorChange}
+                      isLoading={isLoading}
+                      timeframe={timeframe}
+                      onTimeframeChange={setTimeframe}
+                      showRelative={showRelative}
+                      onToggleRelative={() => setShowRelative((prev) => !prev)}
+                      displayCurrency={displayCurrency}
+                      exchangeRate={exchangeRate}
+                      theme={theme}
+                  />
               </main>
 
               <footer className="mt-16 pt-8 border-t border-slate-200 dark:border-slate-800">

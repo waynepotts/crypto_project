@@ -124,6 +124,7 @@ export interface CoinHistoryPointDto {
 export interface CoinHistoryResponseDto {
   chartData?: CoinHistoryPointDto[];
   completeness?: number;
+  coinDto?: CoinResponseDto;
 }
 
 export interface CoinHistoryPagedResponseDto {
@@ -139,6 +140,7 @@ export interface CoinHistoryPagedResponseDto {
 
 export interface CoinMarketDataDto {
   id?: number;
+  coinId?: number;
   name?: string;
   symbol?: string;
   currentPrice?: number;

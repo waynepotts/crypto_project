@@ -18,6 +18,13 @@ import {Button} from './ui/button.tsx';
 import type {ChartCurrency, TimeframeValue, CurrencySymbol} from "../App";
 import { useState } from "react";
 import { LineChartIcon, TableIcon, LayoutGridIcon, ListIcon } from "lucide-react";
+import {RechartsDevtools} from "@recharts/devtools";
+import {
+    type ChartDisplayData,
+    type CoinHistory,
+    createChartHistoryData
+} from "../types/ChartDisplayData.ts";
+import {fromTheme} from "tailwind-merge";
 
 interface PriceChartProps {
   data: { date: string; [key: string]: string | number }[];
@@ -30,6 +37,20 @@ interface PriceChartProps {
   onToggleRelative: () => void;
   displayCurrency: CurrencySymbol;
   exchangeRate: number;
+}
+
+interface PriceChartProps2 {
+  data: CoinHistory[];
+  chartCurrencies: ChartCurrency[];
+  onColorChange: (currencyId: string, color: string) => void;
+  isLoading: boolean;
+  timeframe: TimeframeValue;
+  onTimeframeChange: (value: TimeframeValue) => void;
+  showRelative: boolean;
+  onToggleRelative: () => void;
+  displayCurrency: CurrencySymbol;
+  exchangeRate: number;
+  theme: string
 }
 
 type ViewMode = "chart" | "table-standard" | "table-compact" | "table-detailed";
@@ -313,6 +334,295 @@ function TableView({ data, chartCurrencies, displayCurrency, exchangeRate, timef
   );
 }
 
+export function PriceChart2({
+                             data,
+                             chartCurrencies,
+                             onColorChange,
+                             isLoading,
+                             timeframe,
+                             onTimeframeChange,
+                             showRelative,
+                             onToggleRelative,
+                             displayCurrency,
+                             exchangeRate,
+                             theme
+                           }: PriceChartProps2) {
+  const [viewMode, setViewMode] = useState<ViewMode>("chart");
+
+  if (isLoading) {
+    return <ChartSkeleton />;
+  }
+
+  if (chartCurrencies.length === 0) {
+    return (
+        <Card className="bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800">
+          <CardContent className="py-16">
+            <div className="text-center">
+              <p className="text-slate-500 dark:text-slate-400">
+                Select currencies from the list above to view their price history
+              </p>
+            </div>
+          </CardContent>
+        </Card>
+    );
+  }
+
+  const allValues:number[] = [];
+  const convertedData:ChartDisplayData[] = createChartHistoryData(data, showRelative);
+  convertedData.forEach(c =>{
+      if(c.coin0)
+      allValues.push(c.coin0);
+      if(c.coin1)
+      allValues.push(c.coin1);
+      if(c.coin2)
+      allValues.push(c.coin2);
+      if(c.coin3)
+      allValues.push(c.coin3);
+      if(c.coin4)
+      allValues.push(c.coin4);
+  })
+  const minPrice = Math.min(...allValues);
+  const maxPrice = Math.max(...allValues);
+  const yAxisMin = showRelative
+      ? minPrice * 0.8: Math.floor(minPrice * 0.9) ; // Math.floor((minPrice * 0.9) / 1000) * 1000;
+  const yAxisMax = showRelative
+      ? maxPrice + 0.2
+      : Math.ceil(maxPrice * 1.1); // Math.ceil((maxPrice * 1.1) / 1000) * 1;
+
+  const currencySymbol = CURRENCY_SYMBOLS[displayCurrency];
+
+  return (
+      <Card className="bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 overflow-hidden">
+        <CardHeader className="pb-3 flex flex-col gap-4">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <CardTitle className="text-lg font-semibold text-slate-900 dark:text-white">
+              Price History
+              <span className="ml-2 text-sm font-normal text-slate-500 dark:text-slate-400">
+              ({displayCurrency})
+            </span>
+            </CardTitle>
+
+            <div className="flex flex-wrap items-center gap-2">
+              {/* View Mode Selector */}
+              <div className="flex items-center gap-1 p-1 bg-slate-100 dark:bg-slate-800 rounded-lg">
+                <ViewModeButton
+                    mode="chart"
+                    currentMode={viewMode}
+                    icon={<LineChartIcon className="w-4 h-4" />}
+                    label="Chart"
+                    onClick={() => setViewMode("chart")}
+                />
+                <ViewModeButton
+                    mode="table-standard"
+                    currentMode={viewMode}
+                    icon={<TableIcon className="w-4 h-4" />}
+                    label="Table"
+                    onClick={() => setViewMode("table-standard")}
+                />
+                <ViewModeButton
+                    mode="table-compact"
+                    currentMode={viewMode}
+                    icon={<LayoutGridIcon className="w-4 h-4" />}
+                    label="Compact"
+                    onClick={() => setViewMode("table-compact")}
+                />
+                <ViewModeButton
+                    mode="table-detailed"
+                    currentMode={viewMode}
+                    icon={<ListIcon className="w-4 h-4" />}
+                    label="Detailed"
+                    onClick={() => setViewMode("table-detailed")}
+                />
+              </div>
+
+              {viewMode === "chart" && (
+                  <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={onToggleRelative}
+                      className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-all ${
+                          showRelative
+                              ? "bg-violet-100 dark:bg-violet-900/30 text-violet-700 dark:text-violet-300"
+                              : "text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"
+                      }`}
+                  >
+                    Relative %
+                  </Button>
+              )}
+
+              {TIMEFRAME_OPTIONS.map((option) => (
+                  <Button
+                      key={option.value}
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => onTimeframeChange(option.value)}
+                      className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-all ${
+                          timeframe === option.value
+                              ? "bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300"
+                              : "text-slate-500 dark:text-slate-400 hover:bg-slate-800 dark:hover:bg-slate-100 "
+                      }`}
+                  >
+                    {option.label}
+                  </Button>
+              ))}
+            </div>
+          </div>
+
+          {/* Color Pickers - only show for chart view */}
+          {viewMode === "chart" && (
+              <div className="flex flex-wrap gap-3 pt-2">
+                {chartCurrencies.map((item) => (
+                    <div
+                        key={item.currency.id}
+                        className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-50 dark:bg-slate-800/50"
+                    >
+                      <select
+                          value={item.color}
+                          onChange={(e) => onColorChange(item.currency.id, e.target.value)}
+                          className="w-6 h-6 rounded cursor-pointer border-0 bg-transparent"
+                          style={{ backgroundColor: item.color }}
+                      >
+                        {COLOR_PALETTE.map((color) => (
+                            <option key={color} value={color} style={{ backgroundColor: color }}>
+                              {color}
+                            </option>
+                        ))}
+                      </select>
+                      <span className="text-sm font-medium text-slate-700 dark:text-slate-300">
+                  {item.currency.symbol}
+                </span>
+                    </div>
+                ))}
+              </div>
+          )}
+        </CardHeader>
+
+        <CardContent>
+          {viewMode === "chart" ? (
+              <div className="h-80 w-full">
+                <ResponsiveContainer width="100%" height="100%">
+                  <LineChart
+                      data={convertedData}
+                      margin={{ top: 10, right: 10, left: 0, bottom: 0 }}
+                  >
+                    <CartesianGrid
+                        strokeDasharray="3 3"
+                        stroke="#334155"
+                        vertical={false}
+                    />
+                    <XAxis
+                        dataKey="timestamp"
+                        tick={{ fontSize: 11, fill: "#64748b" }}
+                        tickLine={false}
+                        axisLine={{ stroke: "#334155" }}
+                        tickFormatter={(value) => {
+                          const date = new Date(value);
+                          if (timeframe === "1H" || timeframe === "1D") {
+                            return date.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" });
+                          }
+                          return date.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+                        }}
+                    />
+                    <YAxis
+                        domain={[yAxisMin, yAxisMax]}
+                        tick={{ fontSize: 11, fill: "#64748b" }}
+                        tickLine={false}
+                        axisLine={{ stroke: "#334155" }}
+                        tickFormatter={(value) =>
+                            showRelative
+                                ? `${value.toFixed(2)}%`
+                                : displayCurrency === "BTC"
+                                    ? `${currencySymbol}${value.toFixed(6)}`
+                                    : `${currencySymbol}${(value).toFixed(2)}`
+                        }
+                        width={55}
+                    />
+                    <Tooltip
+                        contentStyle={{
+                            backgroundColor: theme === "dark"?  "#1e293b" : "#fff",
+                          border: "none",
+                          borderRadius: "8px",
+                          boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1)",
+                          padding: "12px",
+                        }}
+                        labelStyle={{
+                          color: theme === "dark"? "#94a3b8": "#111",
+                          fontSize: "12px",
+                          marginBottom: "4px",
+                        }}
+                        labelFormatter={(label) => {
+                          const date = new Date(label);
+                          if (timeframe === "1H" || timeframe === "1D") {
+                            return date.toLocaleString("en-US", {
+                              weekday: "short",
+                              hour: "2-digit",
+                              minute: "2-digit",
+                            });
+                          }
+                          return date.toLocaleDateString("en-US", {
+                            weekday: "short",
+                            month: "short",
+                            day: "numeric",
+                          });
+                        }}
+                        formatter={(value: number, name: string) => {
+                          const currencyId = "1";
+                          const currency = chartCurrencies.find((c) => c.currency.id === currencyId);
+                          return [
+                            showRelative
+                                ? `${value.toFixed(2)}%`
+                                : formatChartPrice(value, displayCurrency, 1),
+                            currency?.currency.symbol || "",
+                          ];
+                        }}
+                    />
+                    <Legend
+                        formatter={(value: string, name:string) => {
+                          const currencyId = "1";
+                          const currency = chartCurrencies.find((c) => c.currency.id === currencyId);
+                          return (
+                              <span style={{ color: currency?.color || "#94a3b8" }}>
+                        {currency?.currency.symbol || value}
+                      </span>
+                          );
+                        }}
+                    />
+                    {data.map((item,idx:number) => (
+                        <Line
+                            key={item.coin.id}
+                            name={item.coin.symbol}
+                            type="monotone"
+                            dataKey={"coin"+idx}
+                            stroke={item.currency.color}
+                            strokeWidth={2}
+                            dot={false}
+                            activeDot={{
+                              r: 5,
+                              fill: "",
+                              stroke: "#1e293b",
+                              strokeWidth: 2,
+                            }}
+                        />
+                    ))}
+                  </LineChart>
+                </ResponsiveContainer>
+              </div>
+          ) : (
+              <div className="max-h-96 overflow-y-auto">
+                <TableView
+                    data={data}
+                    chartCurrencies={chartCurrencies}
+                    displayCurrency={displayCurrency}
+                    exchangeRate={exchangeRate}
+                    timeframe={timeframe}
+                    variant={viewMode === "table-standard" ? "standard" : viewMode === "table-compact" ? "compact" : "detailed"}
+                />
+              </div>
+          )}
+        </CardContent>
+      </Card>
+  );
+}
 export function PriceChart({
                              data,
                              chartCurrencies,
@@ -598,6 +908,18 @@ export function PriceChart({
           )}
         </CardContent>
       </Card>
+  );
+}
+export function Step2(data) {
+  return (
+      <LineChart style={{ width: '100%', aspectRatio: 1.618, maxWidth: 600 }} responsive data={data}>
+        <CartesianGrid />
+        <Line dataKey="price" />
+        <XAxis dataKey="timestamp" />
+        <YAxis />
+        <Legend />
+        <RechartsDevtools />
+      </LineChart>
   );
 }
 

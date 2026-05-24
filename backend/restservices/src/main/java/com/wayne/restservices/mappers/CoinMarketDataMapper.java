@@ -102,6 +102,7 @@ public class CoinMarketDataMapper {
     public static CoinMarketDataDto toMarketDataDto(CoinMarketData data){
         CoinMarketDataDto dto = new CoinMarketDataDto();
         dto.setId(data.getId());
+        dto.setCoinId(data.getCoin().getId());
         dto.setName(data.getCoin().getName());
         dto.setSymbol(data.getCoin().getSymbol());
         dto.setMarketCap(data.getMarketCap());

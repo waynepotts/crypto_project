@@ -9,6 +9,7 @@ import com.wayne.restservices.dtos.coingecko.CoinGeckoCoinDto;
 import com.wayne.restservices.entities.jpa.Coin;
 import com.wayne.restservices.entities.jpa.CoinMarketData;
 import com.wayne.restservices.exceptions.CoinNotFoundException;
+import com.wayne.restservices.mappers.CoinMapper;
 import com.wayne.restservices.mappers.CoinMarketDataMapper;
 import com.wayne.restservices.repositories.CoinMarketDataRepository;
 import com.wayne.restservices.repositories.CoinRepository;
@@ -20,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -44,7 +46,7 @@ public class CoinMarketDataService {
                 pageSize,
                 Sort.by("lastUpdated").ascending()
         );
-        Page<CoinHistoryPointDto> page = coinMarketDataRepository.findByCoinLastUpdatedRange(coin, from, to, (short)2, pageable).map(CoinMarketDataMapper::toDto);
+        Page<CoinHistoryPointDto> page = coinMarketDataRepository.findByCoinLastUpdatedRange(coin, from, to, ChronoUnit.HOURS, pageable).map(CoinMarketDataMapper::toDto);
         CoinHistoryPagedResponseDto retPage = new CoinHistoryPagedResponseDto(page);
         retPage.setCoinName(coin.getName());
         retPage.setCoinId(coin.getId());
@@ -71,12 +73,12 @@ public class CoinMarketDataService {
                 coin = coinRepository.save(coin);
                 if (!newCoin) {
                     CoinMarketData lastData = coinMarketDataRepository.findFirstByCoinIdOrderByLastUpdatedDesc(coin.getId());
-                    if (!lastData.getLastUpdated().equals(dto.getLastUpdated())) {
+                    if (lastData != null && !lastData.getLastUpdated().equals(dto.getLastUpdated())) {
                         CoinMarketData coinData = CoinMarketDataMapper.fromDto(dto);
                         coinData.setCoin(coin);
                         coinMarketDataRepository.save(coinData);
                     } else {
-                        //logger.info("CoinMarketData for coin with id " + coin.getSymbol() + " not updated");
+                        log.info("CoinMarketData for coin " + coin.getSymbol() + " not updated because coin gecko doesn't have new data for the coin");
                     }
                 } else {
                     CoinMarketData coinData = CoinMarketDataMapper.fromDto(dto);
@@ -101,9 +103,10 @@ public class CoinMarketDataService {
         Coin coin =
                 coinRepository
                         .findById(id).orElseThrow(()-> new CoinNotFoundException(id));
-        return CoinMarketDataMapper.fromCoinGecko(coinGeckoClient.getCoinMarketChart(coin.getCoingeckoId(), days, interval));
+        CoinHistoryResponseDto dto = CoinMarketDataMapper.fromCoinGecko(coinGeckoClient.getCoinMarketChart(coin.getCoingeckoId(), days, interval));
+        dto.setCoinDto(CoinMapper.toDto(coin));;
+        return dto;
     }
-
     /**
      * returns the most recently created coin market data for the ranks between the params
      * @param marketCapRankStart
@@ -116,7 +119,5 @@ public class CoinMarketDataService {
                 .findLatestMarketCapRankRange(marketCapRankStart, marketCapRankEnd, Math.min(150, marketCapRankEnd - marketCapRankStart))
                 .stream().map(CoinMarketDataMapper::toMarketDataDto)
                 .toList();//.collect(Collectors.toList());
-
-
     }
 }

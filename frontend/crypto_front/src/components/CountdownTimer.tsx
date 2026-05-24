@@ -24,10 +24,10 @@ export function CountdownTimer({ timeRemaining, total, theme }: CountdownTimerPr
         <PieChart width={40} height={40}>
           <Pie
             data={data}
-            cx={20}
-            cy={20}
-            innerRadius={14}
-            outerRadius={18}
+            cx={15}
+            cy={15}
+            innerRadius={12}
+            outerRadius={16}
             startAngle={90}
             endAngle={-270}
             dataKey="value"
@@ -39,7 +39,7 @@ export function CountdownTimer({ timeRemaining, total, theme }: CountdownTimerPr
         </PieChart>
         <div className="absolute inset-0 flex items-center justify-center">
           <span className="text-xs font-bold text-slate-700 dark:text-slate-300">
-            {timeRemaining}
+            { timeRemaining < (total / 4) ? timeRemaining : "" }
           </span>
         </div>
       </div>

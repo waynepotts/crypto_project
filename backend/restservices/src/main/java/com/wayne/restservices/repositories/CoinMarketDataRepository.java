@@ -49,7 +49,7 @@ public interface CoinMarketDataRepository extends JpaRepository<CoinMarketData, 
             @Param("coin") Coin coin,
             @Param("from") Instant from,
             @Param("to") Instant to,
-            @Param("granularity") Short granularity,
+            @Param("granularity") ChronoUnit granularity,
             Pageable pageable
     );
 

@@ -1,7 +1,8 @@
-import {Card, CardContent} from '@mui/material';
+import {Card, CardContent, type Theme} from '@mui/material';
 import type {Currency} from "../utils/data";
 import { TrendingUp, TrendingDown, Check } from "lucide-react";
 import type {CurrencySymbol} from "../App";
+import {fromTheme} from "tailwind-merge";
 
 interface CurrencyListProps {
   currencies: Currency[];
@@ -41,6 +42,7 @@ function formatPrice(price: number, currency: CurrencySymbol, exchangeRate: numb
 
 function CurrencySkeleton() {
   return (
+
     <Card className="animate-pulse bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800">
       <CardContent className="p-5">
         <div className="flex items-start justify-between mb-4">
@@ -65,7 +67,7 @@ export function CurrencyList({
   onSelect,
   isLoading,
   displayCurrency,
-  exchangeRate,
+  exchangeRate
 }: CurrencyListProps) {
   if (isLoading) {
     return (
@@ -97,16 +99,16 @@ export function CurrencyList({
             onClick={() => onSelect(currency)}
             className={`cursor-pointer transition-all duration-200 hover:scale-[1.02] relative ${
               isSelected
-                ? "ring-2 ring-emerald-500 border-emerald-500/50 bg-emerald-50 dark:bg-emerald-950/30"
-                : "bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700"
+                ? "ring-2 ring-emerald-500 border-emerald-500/50 bg-emerald-50 dark:bg-emerald-950/30 "
+                : "bg-white  border-slate-200 hover:border-slate-300 dark:border-slate-800 dark:bg-slate-900 dark:hover:border-slate-700"
             }`}
           >
             {isSelected && (
               <div className="absolute top-2 right-2 p-0.5 bg-emerald-500 rounded-full">
-                <Check className="w-3 h-3 text-white" />
+                <Check className="w-3 h-3 dark:text-white" />
               </div>
             )}
-            <CardContent className="p-5">
+            <CardContent className="p-5 dark:bg-slate-800 ">
               <div className="flex items-start justify-between mb-4">
                 <div>
                   <h3 className="font-semibold text-slate-900 dark:text-white">
