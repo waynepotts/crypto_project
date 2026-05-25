@@ -15,7 +15,7 @@ export function CountdownTimer({ timeRemaining, total, theme }: CountdownTimerPr
     { value: 360 - remainingAngle, name: "elapsed" },
   ];
 
-  const remainingColor = theme === "dark" ? "#10b981" : "#10b981";
+  const remainingColor = "#10b981";
   const elapsedColor = theme === "dark" ? "#334155" : "#e2e8f0";
 
   return (

@@ -10,10 +10,7 @@ export async function apiFetch<T>(
 
     const response = await fetch(
         `${API_CONFIG.BASE_URL}${path}`,
-        {
-            options
-
-        }
+       options
     );
 
     if (!response.ok) {

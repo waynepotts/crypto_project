@@ -15,33 +15,19 @@ import {
   CardTitle,
 } from "./ui/card.tsx";
 import {Button} from './ui/button.tsx';
-import type {ChartCurrency, TimeframeValue, CurrencySymbol} from "../App";
+import type {TimeframeValue, CurrencySymbol} from "../App";
 import { useState } from "react";
 import { LineChartIcon, TableIcon, LayoutGridIcon, ListIcon } from "lucide-react";
-import {RechartsDevtools} from "@recharts/devtools";
 import {
     type ChartDisplayData,
     type CoinHistory,
     createChartHistoryData
 } from "../types/ChartDisplayData.ts";
-import {fromTheme} from "tailwind-merge";
+import type {Currency} from "../utils/data.ts";
 
 interface PriceChartProps {
-  data: { date: string; [key: string]: string | number }[];
-  chartCurrencies: ChartCurrency[];
-  onColorChange: (currencyId: string, color: string) => void;
-  isLoading: boolean;
-  timeframe: TimeframeValue;
-  onTimeframeChange: (value: TimeframeValue) => void;
-  showRelative: boolean;
-  onToggleRelative: () => void;
-  displayCurrency: CurrencySymbol;
-  exchangeRate: number;
-}
-
-interface PriceChartProps2 {
   data: CoinHistory[];
-  chartCurrencies: ChartCurrency[];
+  chartCurrencies: Currency[];
   onColorChange: (currencyId: string, color: string) => void;
   isLoading: boolean;
   timeframe: TimeframeValue;
@@ -148,7 +134,7 @@ function ViewModeButton({ mode, currentMode, icon, label, onClick }: ViewModeBut
 
 interface TableViewProps {
   data: { date: string; [key: string]: string | number }[];
-  chartCurrencies: ChartCurrency[];
+  chartCurrencies: Currency[];
   displayCurrency: CurrencySymbol;
   exchangeRate: number;
   timeframe: TimeframeValue;
@@ -185,8 +171,8 @@ function TableView({ data, chartCurrencies, displayCurrency, exchangeRate, timef
             <tr className="border-b border-slate-200 dark:border-slate-700">
               <th className="text-left py-2 px-3 font-medium text-slate-500 dark:text-slate-400">Date</th>
               {chartCurrencies.map((c) => (
-                  <th key={c.currency.id} className="text-right py-2 px-3 font-medium text-slate-500 dark:text-slate-400">
-                    {c.currency.symbol}
+                  <th key={c.id} className="text-right py-2 px-3 font-medium text-slate-500 dark:text-slate-400">
+                    {c.symbol}
                   </th>
               ))}
             </tr>
@@ -196,8 +182,8 @@ function TableView({ data, chartCurrencies, displayCurrency, exchangeRate, timef
                 <tr key={idx} className="border-b border-slate-100 dark:border-slate-800/50 hover:bg-slate-50 dark:hover:bg-slate-800/30">
                   <td className="py-2 px-3 text-slate-600 dark:text-slate-300">{formatDate(row.date)}</td>
                   {chartCurrencies.map((c) => (
-                      <td key={c.currency.id} className="text-right py-2 px-3 font-mono text-slate-700 dark:text-slate-300">
-                        {formatChartPrice(row[`${c.currency.id}_price`] as number, displayCurrency, exchangeRate)}
+                      <td key={c.id} className="text-right py-2 px-3 font-mono text-slate-700 dark:text-slate-300">
+                        {formatChartPrice(row[`${c.id}_price`] as number, displayCurrency, exchangeRate)}
                       </td>
                   ))}
                 </tr>
@@ -226,9 +212,9 @@ function TableView({ data, chartCurrencies, displayCurrency, exchangeRate, timef
             <tr className="border-b border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50">
               <th className="text-left py-3 px-4 font-semibold text-slate-700 dark:text-slate-300">Date</th>
               {chartCurrencies.map((c) => (
-                  <th key={c.currency.id} className="text-right py-3 px-4 font-semibold text-slate-700 dark:text-slate-300">
+                  <th key={c.id} className="text-right py-3 px-4 font-semibold text-slate-700 dark:text-slate-300">
                     <div className="flex flex-col items-end gap-0.5">
-                      <span>{c.currency.symbol}</span>
+                      <span>{c.symbol}</span>
                       <span className="text-xs font-normal text-slate-400">Price ({currencySymbol})</span>
                     </div>
                   </th>
@@ -247,8 +233,8 @@ function TableView({ data, chartCurrencies, displayCurrency, exchangeRate, timef
             </thead>
             <tbody>
             {data.slice(-30).map((row, idx) => {
-              const dataArray = data.slice(-30);
-              const change = chartCurrencies.length === 1 ? getChange(idx, chartCurrencies[0].currency.id) : null;
+              //const dataArray = data.slice(-30);
+              const change = chartCurrencies.length === 1 ? getChange(idx, chartCurrencies[0].id) : null;
 
               return (
                   <tr key={idx} className="border-b border-slate-100 dark:border-slate-800/50 hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
@@ -259,9 +245,9 @@ function TableView({ data, chartCurrencies, displayCurrency, exchangeRate, timef
                       </div>
                     </td>
                     {chartCurrencies.map((c) => (
-                        <td key={c.currency.id} className="text-right py-3 px-4">
+                        <td key={c.id} className="text-right py-3 px-4">
                       <span className="font-mono font-medium text-slate-700 dark:text-slate-300">
-                        {formatChartPrice(row[`${c.currency.id}_price`] as number, displayCurrency, exchangeRate)}
+                        {formatChartPrice(row[`${c.id}_price`] as number, displayCurrency, exchangeRate)}
                       </span>
                         </td>
                     ))}
@@ -301,10 +287,10 @@ function TableView({ data, chartCurrencies, displayCurrency, exchangeRate, timef
             <th className="text-left py-3 px-4 font-semibold text-slate-700 dark:text-slate-300">#</th>
             <th className="text-left py-3 px-4 font-semibold text-slate-700 dark:text-slate-300">Date</th>
             {chartCurrencies.map((c) => (
-                <th key={c.currency.id} className="text-right py-3 px-4 font-semibold text-slate-700 dark:text-slate-300">
+                <th key={c.id} className="text-right py-3 px-4 font-semibold text-slate-700 dark:text-slate-300">
                   <div className="flex items-center justify-end gap-2">
                     <div className="w-2 h-2 rounded-full" style={{ backgroundColor: c.color }} />
-                    {c.currency.symbol} Price
+                    {c.symbol} Price
                   </div>
                 </th>
             ))}
@@ -320,9 +306,9 @@ function TableView({ data, chartCurrencies, displayCurrency, exchangeRate, timef
                   </div>
                 </td>
                 {chartCurrencies.map((c) => (
-                    <td key={c.currency.id} className="text-right py-3 px-4">
+                    <td key={c.id} className="text-right py-3 px-4">
                   <span className="font-mono text-slate-700 dark:text-slate-300">
-                    {formatChartPrice(row[`${c.currency.id}_price`] as number, displayCurrency, exchangeRate)}
+                    {formatChartPrice(row[`${c.id}_price`] as number, displayCurrency, exchangeRate)}
                   </span>
                     </td>
                 ))}
@@ -334,7 +320,7 @@ function TableView({ data, chartCurrencies, displayCurrency, exchangeRate, timef
   );
 }
 
-export function PriceChart2({
+export function PriceChart({
                              data,
                              chartCurrencies,
                              onColorChange,
@@ -346,7 +332,7 @@ export function PriceChart2({
                              displayCurrency,
                              exchangeRate,
                              theme
-                           }: PriceChartProps2) {
+                           }: PriceChartProps) {
   const [viewMode, setViewMode] = useState<ViewMode>("chart");
 
   if (isLoading) {
@@ -473,12 +459,12 @@ export function PriceChart2({
               <div className="flex flex-wrap gap-3 pt-2">
                 {chartCurrencies.map((item) => (
                     <div
-                        key={item.currency.id}
+                        key={item.id}
                         className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-50 dark:bg-slate-800/50"
                     >
                       <select
                           value={item.color}
-                          onChange={(e) => onColorChange(item.currency.id, e.target.value)}
+                          onChange={(e) => onColorChange(item.id, e.target.value)}
                           className="w-6 h-6 rounded cursor-pointer border-0 bg-transparent"
                           style={{ backgroundColor: item.color }}
                       >
@@ -489,7 +475,7 @@ export function PriceChart2({
                         ))}
                       </select>
                       <span className="text-sm font-medium text-slate-700 dark:text-slate-300">
-                  {item.currency.symbol}
+                  {item.symbol}
                 </span>
                     </div>
                 ))}
@@ -565,24 +551,24 @@ export function PriceChart2({
                             day: "numeric",
                           });
                         }}
-                        formatter={(value: number, name: string) => {
+                        formatter={(value: number) => {
                           const currencyId = "1";
-                          const currency = chartCurrencies.find((c) => c.currency.id === currencyId);
+                          const currency = chartCurrencies.find((c) => c.id === currencyId);
                           return [
                             showRelative
                                 ? `${value.toFixed(2)}%`
                                 : formatChartPrice(value, displayCurrency, 1),
-                            currency?.currency.symbol || "",
+                            currency?.symbol || "",
                           ];
                         }}
                     />
                     <Legend
-                        formatter={(value: string, name:string) => {
+                        formatter={(value: string) => {
                           const currencyId = "1";
-                          const currency = chartCurrencies.find((c) => c.currency.id === currencyId);
+                          const currency = chartCurrencies.find((c) => c.id === currencyId);
                           return (
                               <span style={{ color: currency?.color || "#94a3b8" }}>
-                        {currency?.currency.symbol || value}
+                        {currency?.symbol || value}
                       </span>
                           );
                         }}
@@ -623,7 +609,7 @@ export function PriceChart2({
       </Card>
   );
 }
-export function PriceChart({
+export function PriceChart_dep({
                              data,
                              chartCurrencies,
                              onColorChange,
@@ -659,13 +645,13 @@ export function PriceChart({
   const convertedData = data.map((d) => {
     const newPoint: { date: string; [key: string]: string | number } = { date: d.date };
     chartCurrencies.forEach((c) => {
-      const originalValue = d[`${c.currency.id}_price`] as number;
-      newPoint[`${c.currency.id}_price`] = originalValue * exchangeRate;
+      const originalValue = d[c.rId] as number;
+      newPoint[`${c.id}_price`] = originalValue * exchangeRate;
     });
     return newPoint;
   });
   const allValues = convertedData.flatMap((d) =>
-      chartCurrencies.map((c) => d[`${c.currency.id}_price`] as number)
+      chartCurrencies.map((c) => d[`${c.id}_price`] as number)
   );
   const minPrice = Math.min(...allValues);
   const maxPrice = Math.max(...allValues);
@@ -761,12 +747,12 @@ export function PriceChart({
               <div className="flex flex-wrap gap-3 pt-2">
                 {chartCurrencies.map((item) => (
                     <div
-                        key={item.currency.id}
+                        key={item.id}
                         className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-50 dark:bg-slate-800/50"
                     >
                       <select
                           value={item.color}
-                          onChange={(e) => onColorChange(item.currency.id, e.target.value)}
+                          onChange={(e) => onColorChange(item.id, e.target.value)}
                           className="w-6 h-6 rounded cursor-pointer border-0 bg-transparent"
                           style={{ backgroundColor: item.color }}
                       >
@@ -777,7 +763,7 @@ export function PriceChart({
                         ))}
                       </select>
                       <span className="text-sm font-medium text-slate-700 dark:text-slate-300">
-                  {item.currency.symbol}
+                  {item.symbol}
                 </span>
                     </div>
                 ))}
@@ -855,31 +841,31 @@ export function PriceChart({
                         }}
                         formatter={(value: number, name: string) => {
                           const currencyId = name.replace("_price", "");
-                          const currency = chartCurrencies.find((c) => c.currency.id === currencyId);
+                          const currency = chartCurrencies.find((c) => c.id === currencyId);
                           return [
                             showRelative
                                 ? `${value.toFixed(2)}%`
                                 : formatChartPrice(value, displayCurrency, 1),
-                            currency?.currency.symbol || "",
+                            currency?.symbol || "",
                           ];
                         }}
                     />
                     <Legend
                         formatter={(value: string) => {
                           const currencyId = value.replace("_price", "");
-                          const currency = chartCurrencies.find((c) => c.currency.id === currencyId);
+                          const currency = chartCurrencies.find((c) => c.id === currencyId);
                           return (
                               <span style={{ color: currency?.color || "#94a3b8" }}>
-                        {currency?.currency.symbol || value}
+                        {currency?.symbol || value}
                       </span>
                           );
                         }}
                     />
                     {chartCurrencies.map((item) => (
                         <Line
-                            key={item.currency.id}
+                            key={item.id}
                             type="monotone"
-                            dataKey={`${item.currency.id}_price`}
+                            dataKey={`${item.id}_price`}
                             stroke={item.color}
                             strokeWidth={2}
                             dot={false}
@@ -918,7 +904,6 @@ export function Step2(data) {
         <XAxis dataKey="timestamp" />
         <YAxis />
         <Legend />
-        <RechartsDevtools />
       </LineChart>
   );
 }

@@ -1,15 +1,12 @@
 import {useCallback, useEffect, useMemo, useRef, useState} from "react";
 import {Header} from "./components/Header";
 import {CurrencyList} from "./components/CurrencyList";
-import PriceChart, {PriceChart2} from "./components/PriceChart";
+import PriceChart from "./components/PriceChart";
 import {SearchBar} from "./components/SearchBar";
-import {type Currency, generateMockCurrencies2, generatePriceHistory, priceHistory} from "./utils/data";
-import type {CoinHistoryPointDto} from "./generated/api.ts";
-import {CartesianGrid, Legend, Line, LineChart, XAxis, YAxis} from "recharts";
-import {RechartsDevtools} from "@recharts/devtools";
-import {type ChartDisplayData, type CoinHistory, createChartHistoryData} from "./types/ChartDisplayData.ts";
+import generateMockCurrencies2, {type Currency, priceHistory} from "./utils/data";
 
-//import './App.css';
+import {type CoinHistory} from "./types/ChartDisplayData.ts";
+
 export type TimeframeValue = "1H" | "1D" | "1W" | "30D" | "90D";
 export type UpdateFrequency = 10 | 30 | 60 | 120;
 export type CurrencySymbol = "USD" | "EUR" | "GBP" | "JPY" | "BTC";
@@ -41,13 +38,12 @@ export function App() {
     const [isLoading, setIsLoading] = useState(true);
     const [timeframe, setTimeframe] = useState<TimeframeValue>("1D");
     const [showRelative, setShowRelative] = useState(false);
-    const [chartCurrencies, setChartCurrencies] = useState<ChartCurrency[]>([]);
     const [updateFrequency, setUpdateFrequency] =  useState<UpdateFrequency>(30);
     const [timeRemaining, setTimeRemaining] = useState(30);
     const [isRefreshing, setIsRefreshing] = useState(false);
     const [displayCurrency, setDisplayCurrency] = useState<CurrencySymbol>("USD");
-    const [count, setCount] = useState(0);
     const [priceData, setPriceData] = useState<Currency[]>([]);
+    const [priceDtos, setPriceDtos] = useState<CoinHistory[]>([]);
     const [theme, setTheme] = useState<"light" | "dark">(() => {
       if (typeof window !== "undefined") {
         const saved = localStorage.getItem("cryptodash-theme");
@@ -55,8 +51,8 @@ export function App() {
       }
       return "light";
     });
-    const intervalRef = useRef<ReturnType<typeof setTimeout> | null>(null);
     const countdownRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+    const refreshTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
     useEffect(() => {
       const root = document.documentElement;
       if (theme === "dark") {
@@ -67,15 +63,12 @@ export function App() {
       localStorage.setItem("cryptodash-theme", theme);
     }, [theme]);
 
-    // Update prices function
     const updatePrices = useCallback(() => {
         setIsRefreshing(true);
-        setTimeout(() => {
+        if (refreshTimeoutRef.current) clearTimeout(refreshTimeoutRef.current);
+        refreshTimeoutRef.current = setTimeout(() => {
             setIsRefreshing(false);
         }, 1000);
-        console.log("update prices");
-
-
       setCurrencies((prev) =>
           prev.map((currency) => ({
             ...currency,
@@ -98,23 +91,20 @@ export function App() {
       }, 500);*/
     }, [updatePrices, updateFrequency]);
 
-    // Initialize data
     useEffect(() => {
-      const loadData = () => {
-        const mockData = generateMockCurrencies2();
-        setCurrencies(mockData);
-        setChartCurrencies([{currency: mockData[0], color: AVAILABLE_COLORS[0]}]);
+      let cancelled = false;
+      generateMockCurrencies2().then(c => {
+        if (cancelled) return;
+        setCurrencies(c);
         setIsLoading(false);
-        mockData[0].color = AVAILABLE_COLORS[0];
-        setPriceData([mockData[0]]);
-      };
-
-      loadData();
+        c[0].color = AVAILABLE_COLORS[0];
+        setPriceData([c[0]]);
+      });
+      return () => { cancelled = true; };
     }, []);
 
     // Manage update interval
     useEffect(() => {
-      if (intervalRef.current) clearInterval(intervalRef.current);
       if (countdownRef.current) clearInterval(countdownRef.current);
       //setTimeRemaining(updateFrequency);
 
@@ -136,20 +126,16 @@ export function App() {
       }, updateFrequency * 1000);*/
 
       return () => {
-        if (intervalRef.current) clearInterval(intervalRef.current);
         if (countdownRef.current) clearInterval(countdownRef.current);
       };
     }, [updateFrequency, updatePrices]);
 
-    // Update chart currency prices when main list updates
-    /*useEffect(() => {
-      setChartCurrencies((prev) =>
-          prev.map((item) => {
-            const updated = currencies.find((c) => c.id === item.currency.id);
-            return updated ? {...item, currency: updated} : item;
-          })
-      );
-    }, [currencies]);*/
+    // Cleanup timeouts/refs on unmount
+    useEffect(() => {
+      return () => {
+        if (refreshTimeoutRef.current) clearTimeout(refreshTimeoutRef.current);
+      };
+    }, []);
 
     const filteredCurrencies = useMemo(() => {
       return currencies.filter(
@@ -159,37 +145,25 @@ export function App() {
       );
     }, [currencies, searchQuery]);
 
-    const chartData = useMemo(() => {
-      if (chartCurrencies.length === 0){
-
-          return [];
-      }
-        return generatePriceHistory(
-            chartCurrencies.map((c) => ({basePrice: c.currency.basePrice, id: c.currency.id})),
-          timeframe
-      );
-    }, [chartCurrencies, timeframe]);
-
     const handleCurrencySelect = (currency: Currency) => {
-      const isAlreadySelected = chartCurrencies.some((c) => c.currency.id === currency.id);
+      const isAlreadySelected = priceData.some((c) => c.id === currency.id);
       if (isAlreadySelected) {
-        setChartCurrencies((prev) => prev.filter((c) => c.currency.id !== currency.id));
-        setPriceData((prev) => prev.filter((c => c.id !== currency.id)));
+          //setChartCurrencies((prev) => prev.filter((c) => c.currency.id !== currency.id));
+          setPriceData((prev) => prev.filter((c => c.id !== currency.id)));
+          setPriceDtos((prev) => prev.filter(c => c.coin.id !== c.coin.id));
       } else {
-        const usedColors = chartCurrencies.map((c) => c.color);
-        const nextColor = AVAILABLE_COLORS.find((c) => !usedColors.includes(c)) || AVAILABLE_COLORS[0];
-        currency.color = nextColor;
-        setChartCurrencies((prev) => [...prev, {currency, color: nextColor}]);
-        let prices: Currency[] = priceData.map(m=> m);
-        prices.push(currency);
-        console.log(prices);
-        setPriceData(prices);
+          const usedColors = priceData.map((c) => c.color);
+          currency.color = AVAILABLE_COLORS.find((c) => !usedColors.includes(c)) || AVAILABLE_COLORS[0];
+          const prices: Currency[] = priceData.map(m => m);
+          prices.push(currency);
+          console.log(prices);
+          setPriceData(prices);
       }
     };
 
     const handleColorChange = (currencyId: string, color: string) => {
-      setChartCurrencies((prev) =>
-          prev.map((c) => (c.currency.id === currencyId ? {...c, color} : c))
+      setPriceData((prev) =>
+          prev.map((c) => (c.id === currencyId ? {...c, color} : c))
       );
       currencies.forEach(c=>{
           if(c.id === currencyId) {
@@ -201,25 +175,22 @@ export function App() {
     const toggleTheme = () => {
       setTheme((prev) => (prev === "light" ? "dark" : "light"));
     };
-
+    useEffect(() => {
+      const abortController = new AbortController();
+      let cancelled = false;
+      const fetchData = async () => {
+         if (priceData.length === 0) return;
+         const results = await Promise.all(
+             priceData.map(c => priceHistory(c, timeframe, abortController.signal))
+         );
+         if (!cancelled) {
+           setPriceDtos(results);
+         }
+       };
+       fetchData();
+      return () => { cancelled = true; abortController.abort(); };
+  }, [priceData, timeframe]);
     const exchangeRate = EXCHANGE_RATES[displayCurrency];
-    const priceDtos:CoinHistory[] = useMemo(() => {
-        let history:CoinHistory[] = [];
-        if(!isRefreshing) {
-            // console.log("refreshing...");
-            priceData.forEach((c) => {
-                priceHistory(c, timeframe).then(r => {
-                    // history = history.map(m => m);
-                    history.push(r);
-                });
-            });
-        }
-        return history;
-    },[priceData, timeframe, isRefreshing]);
-
-
-
-
 
     return (
             <div  className={`min-h-screen transition-colors duration-300 ${theme === "dark" ? "bg-slate-950" : "bg-slate-50"}`}>
@@ -244,27 +215,15 @@ export function App() {
 
                 <CurrencyList
                     currencies={filteredCurrencies}
-                    selectedCurrencies={chartCurrencies.map((c) => c.currency)}
+                    selectedCurrencies={priceData.map((c) => c)}
                     onSelect={handleCurrencySelect}
                     isLoading={isLoading}
                     displayCurrency={displayCurrency}
                     exchangeRate={exchangeRate}
                 />
-
-                {/*<PriceChart
-                    data={chartData}
-                    chartCurrencies={chartCurrencies}
-                    onColorChange={handleColorChange}
-                    isLoading={isLoading}
-                    timeframe={timeframe}
-                    onTimeframeChange={setTimeframe}
-                    showRelative={showRelative}
-                    onToggleRelative={() => setShowRelative((prev) => !prev)}
-                    displayCurrency={displayCurrency}
-                    exchangeRate={exchangeRate}/>*/}
-                  <PriceChart2
+                  <PriceChart
                       data={priceDtos}
-                      chartCurrencies={chartCurrencies}
+                      chartCurrencies={priceData}
                       onColorChange={handleColorChange}
                       isLoading={isLoading}
                       timeframe={timeframe}
@@ -288,117 +247,3 @@ export function App() {
   }
 
 export default App;
-/*return (
-  <>
-    <section id="center">
-      <div className="hero">
-        <img src={heroImg} className="base" width="170" height="179" alt="" />
-        <img src={reactLogo} className="framework" alt="React logo" />
-        <img src={viteLogo} className="vite" alt="Vite logo" />
-      </div>
-      <div>
-        <h1>Get started</h1>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test file changes<code>HMR</code>
-        </p>
-      </div>
-      <button
-        type="button"
-        className="counter"
-        onClick={() => setCount((count) => count + 1)}
-      >
-        Count is {count}
-      </button>
-    </section>
-
-    <div className="ticks"></div>
-
-    <section id="next-steps">
-      <div id="docs">
-        <svg className="icon" role="presentation" aria-hidden="true">
-          <use href="/icons.svg#documentation-icon"></use>
-        </svg>
-        <h2>Documentation</h2>
-        <p>Your questions, answered</p>
-        <ul>
-          <li>
-            <a href="https://vite.dev/" target="_blank">
-              <img className="logo" src={viteLogo} alt="" />
-              Explore Vite
-            </a>
-          </li>
-          <li>
-            <a href="https://react.dev/" target="_blank">
-              <img className="button-icon" src={reactLogo} alt="" />
-              Learn more
-            </a>
-          </li>
-        </ul>
-      </div>
-      <div id="social">
-        <svg className="icon" role="presentation" aria-hidden="true">
-          <use href="/icons.svg#social-icon"></use>
-        </svg>
-        <h2>Connect with us</h2>
-        <p>Join the Vite community</p>
-        <ul>
-          <li>
-            <a href="https://github.com/vitejs/vite" target="_blank">
-              <svg
-                className="button-icon"
-                role="presentation"
-                aria-hidden="true"
-              >
-                <use href="/icons.svg#github-icon"></use>
-              </svg>
-              GitHub
-            </a>
-          </li>
-          <li>
-            <a href="https://chat.vite.dev/" target="_blank">
-              <svg
-                className="button-icon"
-                role="presentation"
-                aria-hidden="true"
-              >
-                <use href="/icons.svg#discord-icon"></use>
-              </svg>
-              Discord
-            </a>
-          </li>
-          <li>
-            <a href="https://x.com/vite_js" target="_blank">
-              <svg
-                className="button-icon"
-                role="presentation"
-                aria-hidden="true"
-              >
-                <use href="/icons.svg#x-icon"></use>
-              </svg>
-              X.com
-            </a>
-          </li>
-          <li>
-            <a href="https://bsky.app/profile/vite.dev" target="_blank">
-              <svg
-                className="button-icon"
-                role="presentation"
-                aria-hidden="true"
-              >
-                <use href="/icons.svg#bluesky-icon"></use>
-              </svg>
-              Bluesky
-            </a>
-          </li>
-        </ul>
-      </div>
-    </section>
-
-    <div className="ticks"></div>
-    <section id="spacer"></section>
-  </>
-)
-}
-
-export default App*/
-

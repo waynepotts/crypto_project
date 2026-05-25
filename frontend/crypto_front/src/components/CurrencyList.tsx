@@ -1,8 +1,7 @@
-import {Card, CardContent, type Theme} from '@mui/material';
+import {Card, CardContent} from '@mui/material';
 import type {Currency} from "../utils/data";
 import { TrendingUp, TrendingDown, Check } from "lucide-react";
 import type {CurrencySymbol} from "../App";
-import {fromTheme} from "tailwind-merge";
 
 interface CurrencyListProps {
   currencies: Currency[];

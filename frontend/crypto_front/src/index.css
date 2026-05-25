@@ -7,15 +7,6 @@
 @custom-variant dark (&:is(.dark *));
 
 @layer base {
-  :root {
-    --background: 250 250 250;
-    --foreground: 15 23 42;
-  }
-
-  .dark {
-    --background: 2 6  23;
-    --foreground: 248 250 252;
-  }
 
   * {
     @apply dark:border-slate-800 border-border outline-ring/50;
