@@ -1,7 +1,7 @@
 import {Card, CardContent} from '@mui/material';
-import type {Currency} from "../utils/data";
+import type {Currency} from "../../utils/data.ts";
 import { TrendingUp, TrendingDown, Check } from "lucide-react";
-import type {CurrencySymbol} from "../App";
+import type {CurrencySymbol} from "../../App.tsx";
 
 interface CurrencyListProps {
   currencies: Currency[];

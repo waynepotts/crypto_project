@@ -1,8 +1,8 @@
 import {useCallback, useEffect, useMemo, useRef, useState} from "react";
-import {Header} from "./components/Header";
-import {CurrencyList} from "./components/CurrencyList";
-import PriceChart from "./components/PriceChart";
-import {SearchBar} from "./components/SearchBar";
+import {Header} from "./components/Header/Header.tsx";
+import {CurrencyList} from "./components/CurrencyList/CurrencyList.tsx";
+import PriceChart from "./components/PriceChart/PriceChart.tsx";
+import {SearchBar} from "./components/SearchBar/SearchBar.tsx";
 import generateMockCurrencies2, {type Currency, priceHistory} from "./utils/data";
 
 import {type CoinHistory} from "./types/ChartDisplayData.ts";

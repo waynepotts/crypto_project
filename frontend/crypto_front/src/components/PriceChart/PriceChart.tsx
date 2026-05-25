@@ -13,17 +13,17 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
-} from "./ui/card.tsx";
-import {Button} from './ui/button.tsx';
-import type {TimeframeValue, CurrencySymbol} from "../App";
+} from "../ui/card.tsx";
+import {Button} from '../ui/button.tsx';
+import type {TimeframeValue, CurrencySymbol} from "../../App.tsx";
 import { useState } from "react";
 import { LineChartIcon, TableIcon, LayoutGridIcon, ListIcon } from "lucide-react";
 import {
     type ChartDisplayData,
     type CoinHistory,
     createChartHistoryData
-} from "../types/ChartDisplayData.ts";
-import type {Currency} from "../utils/data.ts";
+} from "../../types/ChartDisplayData.ts";
+import type {Currency} from "../../utils/data.ts";
 
 interface PriceChartProps {
   data: CoinHistory[];
