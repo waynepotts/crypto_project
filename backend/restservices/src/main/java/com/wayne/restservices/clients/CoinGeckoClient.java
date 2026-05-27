@@ -60,4 +60,20 @@ public class CoinGeckoClient {
                 .retrieve()
                 .body(CoinGeckoMarketChartDto.class);
     }
+
+    public void getCurrencyConversionRate(String currency1, String currency2) {
+        /*ExchangeRatesResponse response =
+                restClient.get()
+                        .uri(uriBuilder ->
+                                uriBuilder
+                                        .path("/exchange_rates")
+                                        .queryParam(
+                                                "x_cg_demo_api_key",
+                                                properties.getKey()
+                                        )
+                                        .build()
+                        )
+                        .retrieve()
+                        .body(ExchangeRatesResponse.class);*/
+    }
 }
