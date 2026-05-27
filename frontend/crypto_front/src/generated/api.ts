@@ -150,6 +150,19 @@ export interface CoinMarketDataDto {
   priceChange24h?: number;
 }
 
+export interface CoinGeckoExchangeRateDto {
+  name?: string;
+  unit?: string;
+  value?: number;
+  type?: string;
+}
+
+export type CoinGeckoExchangeResponseDtoRates = {[key: string]: CoinGeckoExchangeRateDto};
+
+export interface CoinGeckoExchangeResponseDto {
+  rates?: CoinGeckoExchangeResponseDtoRates;
+}
+
 export type GetCoinsParams = {
 pageable: Pageable;
 };
@@ -679,6 +692,59 @@ export const getGetMarketCapRankUrl = (params?: GetMarketCapRankParams,) => {
 export const getMarketCapRank = async (params?: GetMarketCapRankParams, options?: RequestInit): Promise<getMarketCapRankResponse> => {
 
   return apiFetch<getMarketCapRankResponse>(getGetMarketCapRankUrl(params),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+export type getExchangeRatesResponse200 = {
+  data: CoinGeckoExchangeResponseDto
+  status: 200
+}
+
+export type getExchangeRatesResponse404 = {
+  data: ErrorResponseDto
+  status: 404
+}
+
+export type getExchangeRatesResponse409 = {
+  data: ErrorResponseDto
+  status: 409
+}
+
+export type getExchangeRatesResponse500 = {
+  data: ErrorResponseDto
+  status: 500
+}
+
+export type getExchangeRatesResponseSuccess = (getExchangeRatesResponse200) & {
+  headers: Headers;
+};
+export type getExchangeRatesResponseError = (getExchangeRatesResponse404 | getExchangeRatesResponse409 | getExchangeRatesResponse500) & {
+  headers: Headers;
+};
+
+export type getExchangeRatesResponse = (getExchangeRatesResponseSuccess | getExchangeRatesResponseError)
+
+export const getGetExchangeRatesUrl = () => {
+
+
+
+
+  return `/api/v1/coins/exchangerates`
+}
+
+/**
+ * @summary returns the exchange rates for currencies compared to bitcoin
+ */
+export const getExchangeRates = async ( options?: RequestInit): Promise<getExchangeRatesResponse> => {
+
+  return apiFetch<getExchangeRatesResponse>(getGetExchangeRatesUrl(),
   {
     ...options,
     method: 'GET'

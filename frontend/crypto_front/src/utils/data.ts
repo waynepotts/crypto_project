@@ -1,9 +1,11 @@
 import type {TimeframeValue} from "../App";
 import {
+  type CoinGeckoExchangeResponseDto,
   type CoinHistoryPointDto, type CoinHistoryResponseDto,
   type CoinMarketDataDto,
   type CoinResponseDto, getHistoryChart,
   getMarketCapRank,
+  getExchangeRates,
 } from "../generated/api.ts";
 import type {CoinHistory} from "../types/ChartDisplayData.ts";
 
@@ -74,6 +76,7 @@ export function generateMockCurrencies(): Currency[] {
 export async function priceHistory(
     currency: Currency,
     timeframe: TimeframeValue,
+    exchangeRate:number,
     signal?: AbortSignal
 ): Promise<CoinHistory> {
   let dayCount: number = 1;
@@ -92,10 +95,16 @@ export async function priceHistory(
   chartData.forEach((d) => {
     const timestamp:string = d.timestamp as string;
     d.timestamp = clampTime(toDate(timestamp)).toISOString();
+    d.price = d.price * exchangeRate;
     ret.push(d);
   });
 
   return {coin: coin, coinHistory: ret, currency: currency};
+}
+
+export async function getExchange(signal: AbortSignal): Promise<CoinGeckoExchangeResponseDto> {
+  const response = await getExchangeRates();
+  return response as CoinGeckoExchangeResponseDto;
 }
 
 export function formatMarketCap(value: number): string {

@@ -3,6 +3,7 @@ package com.wayne.restservices.clients;
 import com.wayne.restservices.config.CoinGeckoProperties;
 import com.wayne.restservices.dtos.coingecko.CoinGeckoCoinDto;
 
+import com.wayne.restservices.dtos.coingecko.CoinGeckoExchangeResponseDto;
 import com.wayne.restservices.dtos.coingecko.CoinGeckoMarketChartDto;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Component;
@@ -43,6 +44,7 @@ public class CoinGeckoClient {
     }
 
     public enum Interval {
+        mintutes5,
         hourly,
         daily
     }
@@ -61,9 +63,8 @@ public class CoinGeckoClient {
                 .body(CoinGeckoMarketChartDto.class);
     }
 
-    public void getCurrencyConversionRate(String currency1, String currency2) {
-        /*ExchangeRatesResponse response =
-                restClient.get()
+    public CoinGeckoExchangeResponseDto getExchangeRates() {
+        return restClient.get()
                         .uri(uriBuilder ->
                                 uriBuilder
                                         .path("/exchange_rates")
@@ -74,6 +75,6 @@ public class CoinGeckoClient {
                                         .build()
                         )
                         .retrieve()
-                        .body(ExchangeRatesResponse.class);*/
+                        .body(CoinGeckoExchangeResponseDto.class);
     }
 }

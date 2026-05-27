@@ -22,7 +22,6 @@ const CURRENCY_SYMBOLS: Record<CurrencySymbol, string> = {
 
 function formatPrice(price: number, currency: CurrencySymbol, exchangeRate: number): string {
   const convertedPrice = price * exchangeRate;
-  
   const formatterOptions: Intl.NumberFormatOptions = {
     minimumFractionDigits: currency === "BTC" ? 6 : currency === "JPY" ? 0 : 2,
     maximumFractionDigits: currency === "BTC" ? 8 : currency === "JPY" ? 0 : 2,

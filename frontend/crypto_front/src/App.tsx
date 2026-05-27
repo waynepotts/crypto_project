@@ -3,9 +3,10 @@ import {Header} from "./components/Header/Header.tsx";
 import {CurrencyList} from "./components/CurrencyList/CurrencyList.tsx";
 import PriceChart from "./components/PriceChart/PriceChart.tsx";
 import {SearchBar} from "./components/SearchBar/SearchBar.tsx";
-import generateMockCurrencies2, {type Currency, priceHistory} from "./utils/data";
+import generateMockCurrencies2, {type Currency, getExchange, priceHistory} from "./utils/data";
 
 import {type CoinHistory} from "./types/ChartDisplayData.ts";
+import type {CoinGeckoExchangeResponseDto} from "./generated/api.ts";
 
 export type TimeframeValue = "1H" | "1D" | "1W" | "30D" | "90D";
 export type UpdateFrequency = 10 | 30 | 60 | 120;
@@ -25,11 +26,11 @@ const AVAILABLE_COLORS = [
 ];
 
 const EXCHANGE_RATES: Record<CurrencySymbol, number> = {
-  USD: 1,
-  EUR: 0.92,
-  GBP: 0.79,
-  JPY: 149.50,
-  BTC: 0.000023,
+  USD: 0.00001,
+  EUR: 0.00092,
+  GBP: 0.00079,
+  JPY: 0.000001,
+  BTC: 1,
 };
 
 export function App() {
@@ -44,6 +45,7 @@ export function App() {
     const [displayCurrency, setDisplayCurrency] = useState<CurrencySymbol>("USD");
     const [priceData, setPriceData] = useState<Currency[]>([]);
     const [priceDtos, setPriceDtos] = useState<CoinHistory[]>([]);
+    const [exchangeRate, setExchangeRate] = useState<number>(1);
     const [theme, setTheme] = useState<"light" | "dark">(() => {
       if (typeof window !== "undefined") {
         const saved = localStorage.getItem("cryptodash-theme");
@@ -53,6 +55,7 @@ export function App() {
     });
     const countdownRef = useRef<ReturnType<typeof setTimeout> | null>(null);
     const refreshTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+    const exchangeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
     useEffect(() => {
       const root = document.documentElement;
       if (theme === "dark") {
@@ -63,6 +66,29 @@ export function App() {
       localStorage.setItem("cryptodash-theme", theme);
     }, [theme]);
 
+    const updateExchangeRates = useCallback(()=>{
+        if(exchangeTimeoutRef.current) clearTimeout(exchangeTimeoutRef.current);
+        const abortController = new AbortController();
+        let cancelled = false;
+        const fetchExchangeRates = async () => {
+            await getExchange(abortController.signal)
+                .then((exchange)=>{
+                    const btc: number = exchange.rates["btc"]?.value;
+                    const exch = btc / exchange.rates[displayCurrency.toLowerCase()]?.value;
+
+                    Object.keys(EXCHANGE_RATES).forEach((key) => {
+                        const value:number = exchange.rates[key.toLowerCase()]?.value * exch;
+                        EXCHANGE_RATES[key as keyof CurrencySymbol] = value;
+                        console.log(`Key: ${key}, Value: ${value}, btc: ${btc}, exchangeRate: ${exch}`);
+                    });
+                    setExchangeRate(EXCHANGE_RATES[displayCurrency]);
+                });
+        };
+        fetchExchangeRates();
+        exchangeTimeoutRef.current = setInterval(()=>{
+        }, 300000);
+    }, [currencies, displayCurrency]);
+
     const updatePrices = useCallback(() => {
         setIsRefreshing(true);
         if (refreshTimeoutRef.current) clearTimeout(refreshTimeoutRef.current);
@@ -72,8 +98,7 @@ export function App() {
       setCurrencies((prev) =>
           prev.map((currency) => ({
             ...currency,
-            price: currency.price * (1 + (Math.random() - 0.5) * 0.01),
-            change24h: currency.change24h + (Math.random() - 0.5) * 0.2,
+            price: currency.price,
           }))
       );
     }, []);
@@ -92,6 +117,7 @@ export function App() {
     }, [updatePrices, updateFrequency]);
 
     useEffect(() => {
+        updateExchangeRates();
       let cancelled = false;
       generateMockCurrencies2().then(c => {
         if (cancelled) return;
@@ -103,8 +129,14 @@ export function App() {
       return () => { cancelled = true; };
     }, []);
 
-    // Manage update interval
     useEffect(() => {
+        const rate = EXCHANGE_RATES[displayCurrency];
+        console.log("rate", rate);
+        setExchangeRate(rate);
+    }, [displayCurrency]);
+
+    useEffect(() => {
+
       if (countdownRef.current) clearInterval(countdownRef.current);
       //setTimeRemaining(updateFrequency);
 
@@ -134,6 +166,8 @@ export function App() {
     useEffect(() => {
       return () => {
         if (refreshTimeoutRef.current) clearTimeout(refreshTimeoutRef.current);
+        if (countdownRef.current) clearTimeout(countdownRef.current);
+        if(exchangeTimeoutRef.current) clearTimeout(exchangeTimeoutRef.current);
       };
     }, []);
 
@@ -145,7 +179,10 @@ export function App() {
       );
     }, [currencies, searchQuery]);
 
-    const handleCurrencySelect = (currency: Currency) => {
+    const handleCurrencySelect = (symbol: CurrencySymbol) => {
+        const num:number = EXCHANGE_RATES[symbol];
+    };
+    const handleCryptoSelect = (currency: Currency) => {
       const isAlreadySelected = priceData.some((c) => c.id === currency.id);
       if (isAlreadySelected) {
           //setChartCurrencies((prev) => prev.filter((c) => c.currency.id !== currency.id));
@@ -180,17 +217,25 @@ export function App() {
       let cancelled = false;
       const fetchData = async () => {
          if (priceData.length === 0) return;
+          const usdExchange = EXCHANGE_RATES["USD"];
          const results = await Promise.all(
-             priceData.map(c => priceHistory(c, timeframe, abortController.signal))
+             priceData.map(c => priceHistory(c, timeframe, usdExchange, abortController.signal))
          );
          if (!cancelled) {
            setPriceDtos(results);
          }
        };
-       fetchData();
-      return () => { cancelled = true; abortController.abort(); };
-  }, [priceData, timeframe]);
-    const exchangeRate = EXCHANGE_RATES[displayCurrency];
+       fetchData().catch(err=> "Aborted by user?");
+      return () => {
+          cancelled = true;
+          try {
+              abortController.abort("surplus to requirements");
+          } catch (error) {
+              console.log("print the error" + error);
+          }
+      };
+  }, [priceData, timeframe, exchangeRate]);
+    // const exchangeRate = EXCHANGE_RATES[displayCurrency];
 
     return (
             <div  className={`min-h-screen transition-colors duration-300 ${theme === "dark" ? "bg-slate-950" : "bg-slate-50"}`}>
@@ -216,7 +261,7 @@ export function App() {
                 <CurrencyList
                     currencies={filteredCurrencies}
                     selectedCurrencies={priceData.map((c) => c)}
-                    onSelect={handleCurrencySelect}
+                    onSelect={handleCryptoSelect}
                     isLoading={isLoading}
                     displayCurrency={displayCurrency}
                     exchangeRate={exchangeRate}

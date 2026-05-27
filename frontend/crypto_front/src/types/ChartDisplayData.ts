@@ -17,7 +17,7 @@ export interface ChartDisplayData {
     currencies: Currency[];
 }
 
-export function createChartHistoryData(data:CoinHistory[], isRelative:boolean): ChartDisplayData[] {
+export function createChartHistoryData(data:CoinHistory[], exchangeRate:number,  isRelative:boolean): ChartDisplayData[] {
     const dataMap = new Map<string, ChartDisplayData>();
     for(let i = 0; i < data.length; i++) {
         const d = data[i];
@@ -35,7 +35,10 @@ export function createChartHistoryData(data:CoinHistory[], isRelative:boolean): 
                     cData.currencies = [];
                     cData.currencies.push(d.currency);
                 }
-                const price:number = isRelative ? h.price / first : h.price;
+                let price:number = isRelative ? h.price / first : h.price;
+                if(!isRelative) {
+                    price = price * exchangeRate;
+                }
                 switch (i) {
                     case 0:
                         cData.coin0 = price;

@@ -353,22 +353,31 @@ export function PriceChart({
     );
   }
 
-  const allValues:number[] = [];
-  const convertedData:ChartDisplayData[] = createChartHistoryData(data, showRelative);
+  const convertedData:ChartDisplayData[] = createChartHistoryData(data, exchangeRate, showRelative);
+  let minPrice:number = Number.MAX_SAFE_INTEGER;
+  let maxPrice:number = Number.MIN_SAFE_INTEGER;
   convertedData.forEach(c =>{
-      if(c.coin0)
-      allValues.push(c.coin0);
-      if(c.coin1)
-      allValues.push(c.coin1);
-      if(c.coin2)
-      allValues.push(c.coin2);
-      if(c.coin3)
-      allValues.push(c.coin3);
-      if(c.coin4)
-      allValues.push(c.coin4);
-  })
-  const minPrice = Math.min(...allValues);
-  const maxPrice = Math.max(...allValues);
+      if(c.coin0){
+          minPrice = Math.min(minPrice,c.coin0);
+          maxPrice =Math.max(maxPrice,c.coin0);
+      }
+      if(c.coin1){
+          minPrice = Math.min(minPrice,c.coin1);
+          maxPrice = Math.max(maxPrice,c.coin0);
+      }
+      if(c.coin2){
+          minPrice = Math.min(minPrice,c.coin2);
+          maxPrice = Math.max(maxPrice,c.coin2);
+      }
+      if(c.coin3){
+          minPrice = Math.min(minPrice,c.coin3);
+          maxPrice = Math.max(maxPrice,c.coin3);
+      }
+      if(c.coin4){
+          minPrice = Math.min(minPrice,c.coin4);
+          maxPrice = Math.max(maxPrice,c.coin4);
+      }
+  });
   const yAxisMin = showRelative
       ? minPrice * 0.8: Math.floor(minPrice * 0.9) ; // Math.floor((minPrice * 0.9) / 1000) * 1000;
   const yAxisMax = showRelative

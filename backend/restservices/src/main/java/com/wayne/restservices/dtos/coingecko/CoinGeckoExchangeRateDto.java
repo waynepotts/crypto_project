@@ -1,4 +1,8 @@
 package com.wayne.restservices.dtos.coingecko;
 
-public class CoinGeckoExchangeRateDto {
+import java.math.BigDecimal;
+
+
+public record CoinGeckoExchangeRateDto(String name, String unit, BigDecimal value, String type) {
+
 }

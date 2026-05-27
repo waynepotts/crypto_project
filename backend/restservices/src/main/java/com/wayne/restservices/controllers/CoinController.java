@@ -1,6 +1,7 @@
 package com.wayne.restservices.controllers;
 
 import com.wayne.restservices.dtos.*;
+import com.wayne.restservices.dtos.coingecko.CoinGeckoExchangeResponseDto;
 import com.wayne.restservices.entities.jpa.CoinMarketData;
 import com.wayne.restservices.services.CoinMarketDataService;
 import com.wayne.restservices.services.CoinService;
@@ -143,4 +144,9 @@ public class CoinController {
         return coinMarketDataService.GetMarketDataByMarketCapRankRange(start, end);
     }
 
+    @Operation(summary = "returns the exchange rates for currencies compared to bitcoin")
+    @GetMapping("/exchangerates")
+    public CoinGeckoExchangeResponseDto getExchangeRates() {
+        return coinMarketDataService.getExchangeRates();
+    }
 }

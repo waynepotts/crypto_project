@@ -6,6 +6,7 @@ import com.wayne.restservices.dtos.CoinHistoryPagedResponseDto;
 import com.wayne.restservices.dtos.CoinHistoryResponseDto;
 import com.wayne.restservices.dtos.CoinMarketDataDto;
 import com.wayne.restservices.dtos.coingecko.CoinGeckoCoinDto;
+import com.wayne.restservices.dtos.coingecko.CoinGeckoExchangeResponseDto;
 import com.wayne.restservices.entities.jpa.Coin;
 import com.wayne.restservices.entities.jpa.CoinMarketData;
 import com.wayne.restservices.exceptions.CoinNotFoundException;
@@ -22,9 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class CoinMarketDataService {
@@ -119,5 +118,9 @@ public class CoinMarketDataService {
                 .findLatestMarketCapRankRange(marketCapRankStart, marketCapRankEnd, Math.min(150, marketCapRankEnd - marketCapRankStart))
                 .stream().map(CoinMarketDataMapper::toMarketDataDto)
                 .toList();//.collect(Collectors.toList());
+    }
+
+    public CoinGeckoExchangeResponseDto getExchangeRates(){
+        return coinGeckoClient.getExchangeRates();
     }
 }
