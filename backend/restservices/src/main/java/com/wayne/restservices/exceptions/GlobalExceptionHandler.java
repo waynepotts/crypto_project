@@ -59,17 +59,14 @@ public class GlobalExceptionHandler {
                         ))
                         .toList();
 
-        ValidationErrorResponseDto response =
-                new ValidationErrorResponseDto();
-
-        response.setTimestamp(Instant.now());
-        response.setStatus(400);
-        response.setError("Validation Failed");
-        response.setMessage("Request validation failed");
-        response.setPath(request.getRequestURI());
-        response.setValidationErrors(errors);
-
-        return response;
+        return new ValidationErrorResponseDto(
+                Instant.now(),
+                400,
+                "Validation Failed",
+                "Request validation failed",
+                request.getRequestURI(),
+                errors
+        );
     }
 
     @ExceptionHandler(CoinAlreadyExistsException.class)

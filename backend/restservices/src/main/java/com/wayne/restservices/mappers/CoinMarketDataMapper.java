@@ -67,50 +67,45 @@ public class CoinMarketDataMapper {
     }
 
     public static CoinHistoryPointDto toDto(CoinMarketData marketData) {
-        CoinHistoryPointDto dto = new CoinHistoryPointDto();
-        dto.setPrice(marketData.getCurrentPrice());
-        dto.setMarketCap(marketData.getMarketCap());
-        dto.setVolume(marketData.getTotalVolume());
-        dto.setTimestamp(marketData.getLastUpdated());
-        return  dto;
+        return new CoinHistoryPointDto(
+                marketData.getLastUpdated(),
+                marketData.getCurrentPrice(),
+                marketData.getMarketCap(),
+                marketData.getTotalVolume()
+        );
     }
     public static CoinHistoryResponseDto fromPaged(@NonNull CoinHistoryPagedResponseDto dto, double expected){
-        CoinHistoryResponseDto response = new CoinHistoryResponseDto();
-        response.setChartData(dto.getContent());
         long elements = dto.getTotalElements();
-        response.setCompleteness(elements / expected);
-        return response;
+        return new CoinHistoryResponseDto(dto.getContent(), elements / expected, null);
     }
 
     public static CoinHistoryResponseDto fromCoinGecko(@NonNull CoinGeckoMarketChartDto dto) {
-        CoinHistoryResponseDto dtoResponse = new CoinHistoryResponseDto();
         List<CoinHistoryPointDto> chartData = new ArrayList<>();
         List<CoinGeckoChartPointDto> priceList = dto.getPrices();
         for (int i = 0; i < priceList.size(); i++) {
             Instant key = priceList.get(i).getTimeStamp();
-            CoinHistoryPointDto pointDto = new CoinHistoryPointDto();
-            pointDto.setPrice(priceList.get(i).getValue());
-            pointDto.setTimestamp(key);
-            pointDto.setVolume(dto.getTotalVolumes().get(i).getValue());
-            pointDto.setMarketCap(dto.getMarketCaps().get(i).getValue());
+            CoinHistoryPointDto pointDto = new CoinHistoryPointDto(
+                    key,
+                    priceList.get(i).getValue(),
+                    dto.getMarketCaps().get(i).getValue(),
+                    dto.getTotalVolumes().get(i).getValue()
+            );
             chartData.add(pointDto);
         }
-        dtoResponse.setCompleteness(1.0D);
-        dtoResponse.setChartData(chartData);
-        return dtoResponse;
+        return new CoinHistoryResponseDto(chartData, 1.0D, null);
     }
     public static CoinMarketDataDto toMarketDataDto(CoinMarketData data){
-        CoinMarketDataDto dto = new CoinMarketDataDto();
-        dto.setId(data.getId());
-        dto.setCoinId(data.getCoin().getId());
-        dto.setName(data.getCoin().getName());
-        dto.setSymbol(data.getCoin().getSymbol());
-        dto.setMarketCap(data.getMarketCap());
-        dto.setCurrentPrice(data.getCurrentPrice());
-        dto.setLastUpdated(data.getLastUpdated());
-        dto.setMarketCapRank(data.getMarketCapRank());
-        dto.setPriceChange24h(data.getPriceChange24h());
-        return  dto;
+        return new CoinMarketDataDto(
+                data.getId(),
+                data.getCoin().getId(),
+                data.getCoin().getName(),
+                data.getCoin().getSymbol(),
+                data.getCurrentPrice(),
+                data.getMarketCap(),
+                data.getMarketCapRank(),
+                data.getLastUpdated(),
+                data.getPriceChange24h()
+        );
     }
 
     private static final BigDecimal MAX = new BigDecimal("99999999999999999999");

@@ -48,10 +48,7 @@ class CoinControllerTest {
 
     @Test
     void shouldReturnCoins() throws Exception {
-        CoinResponseDto dto = new CoinResponseDto();
-        dto.setName("Bitcoin");
-        dto.setSymbol("BTC");
-        dto.setCoingeckoId("coingeckoId_btc");
+        CoinResponseDto dto = new CoinResponseDto(null, "coingeckoId_btc", "BTC", "Bitcoin", null);
         when(service.getAllCoins())
                 .thenReturn(List.of(dto));
         mockMvc.perform(get("/api/v1/coins/all"))
@@ -62,8 +59,7 @@ class CoinControllerTest {
 
     @Test
     void shouldReturnCoin() throws Exception {
-        CoinResponseDto dto = new CoinResponseDto();
-        dto.setName("Bitcoin");
+        CoinResponseDto dto = new CoinResponseDto(null, null, null, "Bitcoin", null);
 
         when(service.getCoin(1L)).thenReturn(dto);
 
@@ -84,10 +80,7 @@ class CoinControllerTest {
 
     @Test
     void shouldReturnPagedCoins() throws Exception {
-        CoinResponseDto dto = new CoinResponseDto();
-        dto.setId(1L);
-        dto.setName("Bitcoin");
-        dto.setSymbol("BTC");
+        CoinResponseDto dto = new CoinResponseDto(1L, null, "BTC", "Bitcoin", null);
 
         PagedResponseDto<CoinResponseDto> paged = new PagedResponseDto<>(
                 new PageImpl<>(List.of(dto), PageRequest.of(0, 20), 1));
@@ -103,10 +96,7 @@ class CoinControllerTest {
 
     @Test
     void shouldSearchCoins() throws Exception {
-        CoinResponseDto dto = new CoinResponseDto();
-        dto.setId(1L);
-        dto.setName("Bitcoin");
-        dto.setSymbol("BTC");
+        CoinResponseDto dto = new CoinResponseDto(1L, null, "BTC", "Bitcoin", null);
 
         PagedResponseDto<CoinResponseDto> paged = new PagedResponseDto<>(
                 new PageImpl<>(List.of(dto), PageRequest.of(0, 20), 1));
@@ -134,12 +124,7 @@ class CoinControllerTest {
 
     @Test
     void shouldReturnMarketCapRank() throws Exception {
-        CoinMarketDataDto dto = new CoinMarketDataDto();
-        dto.setCoinId(1L);
-        dto.setName("Bitcoin");
-        dto.setSymbol("BTC");
-        dto.setMarketCapRank(1);
-        dto.setCurrentPrice(BigDecimal.valueOf(50000));
+        CoinMarketDataDto dto = new CoinMarketDataDto(null, 1L, "Bitcoin", "BTC", BigDecimal.valueOf(50000), null, 1, null, null);
 
         when(marketDataService.GetMarketDataByMarketCapRankRange(0, 5))
                 .thenReturn(List.of(dto));

@@ -30,11 +30,11 @@ class GlobalExceptionHandlerTest {
         ErrorResponseDto response = handler.handleException(
                 new RuntimeException("Unexpected error"), request);
 
-        assertEquals(500, response.getStatus());
-        assertEquals("Internal Server Error", response.getError());
-        assertEquals("Unexpected error", response.getMessage());
-        assertEquals("/api/v1/test", response.getPath());
-        assertNotNull(response.getTimestamp());
+        assertEquals(500, response.status());
+        assertEquals("Internal Server Error", response.error());
+        assertEquals("Unexpected error", response.message());
+        assertEquals("/api/v1/test", response.path());
+        assertNotNull(response.timestamp());
     }
 
     @Test
@@ -44,10 +44,10 @@ class GlobalExceptionHandlerTest {
         ErrorResponseDto response = handler.handleCoinNotFoundException(
                 new CoinNotFoundException(999L), request);
 
-        assertEquals(404, response.getStatus());
-        assertEquals("Coin not found", response.getError());
-        assertEquals("Coin not found with id: 999", response.getMessage());
-        assertEquals("/api/v1/coins/999", response.getPath());
+        assertEquals(404, response.status());
+        assertEquals("Coin not found", response.error());
+        assertEquals("Coin not found with id: 999", response.message());
+        assertEquals("/api/v1/coins/999", response.path());
     }
 
     @Test
@@ -57,10 +57,10 @@ class GlobalExceptionHandlerTest {
         ErrorResponseDto response = handler.handleCoinAlreadyExists(
                 new CoinAlreadyExistsException("bitcoin"), request);
 
-        assertEquals(409, response.getStatus());
-        assertEquals("Conflict", response.getError());
-        assertEquals("Coin already exists with CoinGecko ID: bitcoin", response.getMessage());
-        assertEquals("/api/v1/coins", response.getPath());
+        assertEquals(409, response.status());
+        assertEquals("Conflict", response.error());
+        assertEquals("Coin already exists with CoinGecko ID: bitcoin", response.message());
+        assertEquals("/api/v1/coins", response.path());
     }
 
     @Test
@@ -77,18 +77,18 @@ class GlobalExceptionHandlerTest {
         ValidationErrorResponseDto response =
                 handler.handleValidationException(ex, request);
 
-        assertEquals(400, response.getStatus());
-        assertEquals("Validation Failed", response.getError());
-        assertEquals("Request validation failed", response.getMessage());
-        assertEquals("/api/v1/coins", response.getPath());
-        assertNotNull(response.getTimestamp());
+        assertEquals(400, response.status());
+        assertEquals("Validation Failed", response.error());
+        assertEquals("Request validation failed", response.message());
+        assertEquals("/api/v1/coins", response.path());
+        assertNotNull(response.timestamp());
 
-        assertEquals(2, response.getValidationErrors().size());
-        assertTrue(response.getValidationErrors().stream()
-                .map(ValidationErrorDto::getField)
+        assertEquals(2, response.validationErrors().size());
+        assertTrue(response.validationErrors().stream()
+                .map(ValidationErrorDto::field)
                 .anyMatch(f -> f.equals("name")));
-        assertTrue(response.getValidationErrors().stream()
-                .map(ValidationErrorDto::getField)
+        assertTrue(response.validationErrors().stream()
+                .map(ValidationErrorDto::field)
                 .anyMatch(f -> f.equals("symbol")));
     }
 }

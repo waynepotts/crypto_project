@@ -92,7 +92,7 @@ public class UpdateCoinRequestDto {
 
         if (o == null || getClass() != o.getClass()) return false;
 
-        CoinResponseDto that = (CoinResponseDto) o;
+        UpdateCoinRequestDto that = (UpdateCoinRequestDto) o;
 
         return new EqualsBuilder().append(getId(), that.getId()).append(getCoingeckoId(), that.getCoingeckoId()).append(getSymbol(), that.getSymbol()).append(getName(), that.getName()).append(getImage(), that.getImage()).isEquals();
     }

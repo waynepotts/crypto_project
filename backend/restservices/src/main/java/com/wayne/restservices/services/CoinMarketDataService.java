@@ -85,7 +85,7 @@ public class CoinMarketDataService {
                     coinMarketDataRepository.save(coinData);
                 }
             } catch (Exception e) {
-
+                log.error("unable to sync coin market data", e);
                 break;
             }
         }
@@ -103,8 +103,7 @@ public class CoinMarketDataService {
                 coinRepository
                         .findById(id).orElseThrow(()-> new CoinNotFoundException(id));
         CoinHistoryResponseDto dto = CoinMarketDataMapper.fromCoinGecko(coinGeckoClient.getCoinMarketChart(coin.getCoingeckoId(), days, interval));
-        dto.setCoinDto(CoinMapper.toDto(coin));;
-        return dto;
+        return new CoinHistoryResponseDto(dto.chartData(), dto.completeness(), CoinMapper.toDto(coin));
     }
     /**
      * returns the most recently created coin market data for the ranks between the params

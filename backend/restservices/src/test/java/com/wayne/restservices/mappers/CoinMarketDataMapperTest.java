@@ -70,17 +70,15 @@ class CoinMarketDataMapperTest {
         CoinHistoryPointDto dto = CoinMarketDataMapper.toDto(marketData);
 
         assertNotNull(dto);
-        assertEquals(BigDecimal.valueOf(50000), dto.getPrice());
-        assertEquals(BigDecimal.valueOf(1000000000L), dto.getMarketCap());
-        assertEquals(BigDecimal.valueOf(50000000L), dto.getVolume());
-        assertEquals(now, dto.getTimestamp());
+        assertEquals(BigDecimal.valueOf(50000), dto.price());
+        assertEquals(BigDecimal.valueOf(1000000000L), dto.marketCap());
+        assertEquals(BigDecimal.valueOf(50000000L), dto.volume());
+        assertEquals(now, dto.timestamp());
     }
 
     @Test
     void shouldMapPagedResponseToHistoryResponse() {
-        CoinHistoryPointDto point = new CoinHistoryPointDto();
-        point.setPrice(BigDecimal.valueOf(50000));
-        point.setTimestamp(Instant.now());
+        CoinHistoryPointDto point = new CoinHistoryPointDto(Instant.now(), BigDecimal.valueOf(50000), null, null);
 
         Page<CoinHistoryPointDto> page = new PageImpl<>(
                 List.of(point), PageRequest.of(0, 20), 1);
@@ -90,9 +88,9 @@ class CoinMarketDataMapperTest {
         CoinHistoryResponseDto response = CoinMarketDataMapper.fromPaged(pagedDto, 24.0);
 
         assertNotNull(response);
-        assertEquals(1, response.getChartData().size());
-        assertEquals(BigDecimal.valueOf(50000), response.getChartData().get(0).getPrice());
-        assertEquals(0.041666666666666664, response.getCompleteness(), 0.0001);
+        assertEquals(1, response.chartData().size());
+        assertEquals(BigDecimal.valueOf(50000), response.chartData().get(0).price());
+        assertEquals(0.041666666666666664, response.completeness(), 0.0001);
     }
 
     @Test
@@ -113,14 +111,14 @@ class CoinMarketDataMapperTest {
         CoinHistoryResponseDto response = CoinMarketDataMapper.fromCoinGecko(chartDto);
 
         assertNotNull(response);
-        assertEquals(1, response.getChartData().size());
-        assertEquals(1.0, response.getCompleteness(), 0.001);
+        assertEquals(1, response.chartData().size());
+        assertEquals(1.0, response.completeness(), 0.001);
 
-        CoinHistoryPointDto point = response.getChartData().get(0);
-        assertEquals(0, BigDecimal.valueOf(50000).compareTo(point.getPrice()));
-        assertEquals(0, BigDecimal.valueOf(1000000).compareTo(point.getVolume()));
-        assertEquals(0, BigDecimal.valueOf(2000000000L).compareTo(point.getMarketCap()));
-        assertEquals(now, point.getTimestamp());
+        CoinHistoryPointDto point = response.chartData().get(0);
+        assertEquals(0, BigDecimal.valueOf(50000).compareTo(point.price()));
+        assertEquals(0, BigDecimal.valueOf(1000000).compareTo(point.volume()));
+        assertEquals(0, BigDecimal.valueOf(2000000000L).compareTo(point.marketCap()));
+        assertEquals(now, point.timestamp());
     }
 
     @Test
@@ -143,15 +141,15 @@ class CoinMarketDataMapperTest {
         CoinMarketDataDto dto = CoinMarketDataMapper.toMarketDataDto(marketData);
 
         assertNotNull(dto);
-        assertEquals(10L, dto.getId());
-        assertEquals(1L, dto.getCoinId());
-        assertEquals("Bitcoin", dto.getName());
-        assertEquals("BTC", dto.getSymbol());
-        assertEquals(BigDecimal.valueOf(50000), dto.getCurrentPrice());
-        assertEquals(BigDecimal.valueOf(1000000000L), dto.getMarketCap());
-        assertEquals(1, dto.getMarketCapRank());
-        assertEquals(now, dto.getLastUpdated());
-        assertEquals(BigDecimal.valueOf(100), dto.getPriceChange24h());
+        assertEquals(10L, dto.id());
+        assertEquals(1L, dto.coinId());
+        assertEquals("Bitcoin", dto.name());
+        assertEquals("BTC", dto.symbol());
+        assertEquals(BigDecimal.valueOf(50000), dto.currentPrice());
+        assertEquals(BigDecimal.valueOf(1000000000L), dto.marketCap());
+        assertEquals(1, dto.marketCapRank());
+        assertEquals(now, dto.lastUpdated());
+        assertEquals(BigDecimal.valueOf(100), dto.priceChange24h());
     }
 
     @Test

@@ -25,7 +25,7 @@ export interface TimeframeParams {
   days: number;
   intervalMinutes: number;
 }
-async function generateMockCurrencies2(): Promise<Currency[]> {
+export async function generateMockCurrencies2(): Promise<Currency[]> {
 
   const baseData = generateMockCurrencies();
   try {
@@ -34,7 +34,6 @@ async function generateMockCurrencies2(): Promise<Currency[]> {
     // @ts-expect-error
     const data = response as CoinMarketDataDto[];
     for (let i = 0; i < Math.min(data.length, 5); i++) {
-      console.log("data " + data[i].name);
       const base = baseData[i];
       const d: CoinMarketDataDto = data[i];
       if (d.coinId != null) base.rId = d.coinId;
@@ -56,7 +55,6 @@ async function generateMockCurrencies2(): Promise<Currency[]> {
   return baseData;
 }
 
-export default generateMockCurrencies2
 export function generateMockCurrencies(): Currency[] {
   const baseData = [
     { id: "bitcoin", rId:1, name: "Bitcoin", symbol: "BTC", basePrice: 67432.50, marketCap: 1324000000000, color:"black" },
@@ -103,7 +101,7 @@ export async function priceHistory(
 }
 
 export async function getExchange(signal: AbortSignal): Promise<CoinGeckoExchangeResponseDto> {
-  const response = await getExchangeRates();
+  const response = await getExchangeRates({ signal });
   return response as CoinGeckoExchangeResponseDto;
 }
 

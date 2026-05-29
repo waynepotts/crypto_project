@@ -14,3 +14,5 @@ application-local.yml
 .idea/
 *.log
 /backend/restservices/.ollamassist
+/frontend/crypto_front/.ollamassist
+/frontend/crypto_front/.ollamassist

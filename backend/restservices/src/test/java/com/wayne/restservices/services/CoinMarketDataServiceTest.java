@@ -72,7 +72,7 @@ class CoinMarketDataServiceTest {
         assertEquals(1, result.getContent().size());
         assertEquals("Bitcoin", result.getCoinName());
         assertEquals(1L, result.getCoinId());
-        assertEquals(BigDecimal.valueOf(50000), result.getContent().get(0).getPrice());
+        assertEquals(BigDecimal.valueOf(50000), result.getContent().get(0).price());
     }
 
     @Test
@@ -202,11 +202,11 @@ class CoinMarketDataServiceTest {
 
         assertNotNull(result);
         assertEquals(1, result.size());
-        assertEquals(1L, result.get(0).getCoinId());
-        assertEquals("Bitcoin", result.get(0).getName());
-        assertEquals("BTC", result.get(0).getSymbol());
-        assertEquals(BigDecimal.valueOf(50000), result.get(0).getCurrentPrice());
-        assertEquals(1, result.get(0).getMarketCapRank());
+        assertEquals(1L, result.get(0).coinId());
+        assertEquals("Bitcoin", result.get(0).name());
+        assertEquals("BTC", result.get(0).symbol());
+        assertEquals(BigDecimal.valueOf(50000), result.get(0).currentPrice());
+        assertEquals(1, result.get(0).marketCapRank());
     }
 
     private Coin createCoin() {

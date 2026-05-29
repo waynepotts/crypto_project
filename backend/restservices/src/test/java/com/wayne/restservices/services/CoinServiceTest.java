@@ -71,11 +71,11 @@ class CoinServiceTest {
 
         assertEquals(
                 "bitcoin",
-                response.getCoingeckoId());
+                response.coingeckoId());
 
         assertEquals(
                 "BTC",
-                response.getSymbol());
+                response.symbol());
 
         verify(coinValidator)
                 .validateCreateCoin(request);
@@ -113,9 +113,9 @@ class CoinServiceTest {
 
         assertEquals(
                 "Bitcoin Updated",
-                response.getName());
+                response.name());
         assertEquals(existingCoin.getId(), updatedCoin.getId());
-        assertEquals(existingCoin.getId(), response.getId());
+        assertEquals(existingCoin.getId(), response.id());
         assertNotEquals(existingCoin.getName(), updatedCoin.getName());
     }
 
@@ -128,11 +128,7 @@ class CoinServiceTest {
         coin.setName("Bitcoin");
         coin.setSymbol("Bitcoin");
 
-        CoinResponseDto dto = new CoinResponseDto();
-        dto.setId(1L);
-        dto.setCoingeckoId("coingeckoId_BTC");
-        dto.setName("Bitcoin");
-        dto.setSymbol("Bitcoin");
+        CoinResponseDto dto = new CoinResponseDto(1L, "coingeckoId_BTC", "Bitcoin", "Bitcoin", null);
         when(coinRepository.findAll())
                 .thenReturn(List.of(coin));
 
@@ -143,7 +139,7 @@ class CoinServiceTest {
         assertTrue(CoinMapper.equals(coin, dto));
         assertEquals(1, result.size());
         assertEquals("Bitcoin",
-                result.get(0).getName());
+                result.get(0).name());
     }
 
     @Test
@@ -155,9 +151,9 @@ class CoinServiceTest {
 
         CoinResponseDto result = coinService.getCoin(1L);
         assertTrue(CoinMapper.equals(coin, dto));
-        assertEquals(1L, result.getId());
-        assertEquals("coingeckoId_BTC", result.getCoingeckoId());
-        assertEquals(dto.getName(), result.getName());
+        assertEquals(1L, result.id());
+        assertEquals("coingeckoId_BTC", result.coingeckoId());
+        assertEquals(dto.name(), result.name());
     }
 
     Coin createCoin() {
@@ -212,7 +208,7 @@ class CoinServiceTest {
 
         assertNotNull(result);
         assertEquals(1, result.getContent().size());
-        assertEquals("Bitcoin", result.getContent().get(0).getName());
+        assertEquals("Bitcoin", result.getContent().get(0).name());
     }
 
     @Test
@@ -254,7 +250,7 @@ class CoinServiceTest {
 
         assertNotNull(result);
         assertEquals(1, result.getContent().size());
-        assertEquals("Ethereum", result.getContent().get(0).getName());
+        assertEquals("Ethereum", result.getContent().get(0).name());
         assertEquals(1, result.getPage());
         assertEquals(2, result.getTotalElements());
         assertEquals(2, result.getTotalPages());
@@ -276,7 +272,7 @@ class CoinServiceTest {
 
         assertNotNull(result);
         assertEquals(1, result.getContent().size());
-        assertEquals("Bitcoin", result.getContent().get(0).getName());
+        assertEquals("Bitcoin", result.getContent().get(0).name());
         assertEquals(1, result.getTotalElements());
 
         verify(coinRepository).findByNameContainingIgnoreCaseOrSymbolContainingIgnoreCase(
@@ -298,7 +294,7 @@ class CoinServiceTest {
 
         assertNotNull(result);
         assertEquals(1, result.getContent().size());
-        assertEquals("BTC", result.getContent().get(0).getSymbol());
+        assertEquals("BTC", result.getContent().get(0).symbol());
         assertEquals(1, result.getTotalElements());
     }
 
