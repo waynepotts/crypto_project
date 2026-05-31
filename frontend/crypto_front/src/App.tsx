@@ -74,12 +74,13 @@ export function App() {
         const fetchExchangeRates = async () => {
             await getExchange(abortController.signal)
                 .then((exchange)=>{
-                    const btc: number = exchange.rates["btc"]?.value;
-                    const exch = btc / exchange.rates[displayCurrency.toLowerCase()]?.value;
+                    //const btc: number = exchange.rates["btc"]?.value;
+                    const exch = 1 / exchange.rates["usd"]?.value;
 
                     Object.keys(EXCHANGE_RATES).forEach((key) => {
                         const value:number = exchange.rates[key.toLowerCase()]?.value * exch;
                         EXCHANGE_RATES[key as keyof CurrencySymbol] = value;
+                        // console.log(EXCHANGE_RATES[key as keyof CurrencySymbol]);
                     });
                     setExchangeRate(EXCHANGE_RATES[displayCurrency]);
                 });
@@ -184,7 +185,7 @@ export function App() {
             currency.color = AVAILABLE_COLORS.find((c) => !usedColors.includes(c)) || AVAILABLE_COLORS[0];
             const prices: Currency[] = priceData.map(m => m);
             prices.push(currency);
-            console.log(prices);
+            // console.log(prices);
             setPriceData(prices);
         }
     };
@@ -277,7 +278,7 @@ export function App() {
 
                 <footer className="mt-16 pt-8 border-t border-slate-200 dark:border-slate-800">
                     <p className="text-center text-sm text-slate-500 dark:text-slate-400">
-                        Prices update every {updateFrequency} seconds · Data is simulated for demo purposes
+                        Prices update every {updateFrequency} seconds
                     </p>
                 </footer>
             </div>

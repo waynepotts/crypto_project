@@ -22,6 +22,7 @@ const CURRENCY_SYMBOLS: Record<CurrencySymbol, string> = {
 
 function formatPrice(price: number, currency: CurrencySymbol, exchangeRate: number): string {
   const convertedPrice = price * exchangeRate;
+  // console.log(exchangeRate);
   const formatterOptions: Intl.NumberFormatOptions = {
     minimumFractionDigits: currency === "BTC" ? 6 : currency === "JPY" ? 0 : 2,
     maximumFractionDigits: currency === "BTC" ? 8 : currency === "JPY" ? 0 : 2,
@@ -86,8 +87,8 @@ export function CurrencyList({
   }
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
-      {currencies.map((currency) => {
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 overflow-hidden max-block-40 ">
+      {currencies.map((currency, idx:number) => {
         const isSelected = selectedCurrencies.some((c) => c.id === currency.id);
         const isPositive = currency.change24h >= 0;
 

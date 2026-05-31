@@ -19,6 +19,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.*;
@@ -48,7 +49,7 @@ class CoinControllerTest {
 
     @Test
     void shouldReturnCoins() throws Exception {
-        CoinResponseDto dto = new CoinResponseDto(null, "coingeckoId_btc", "BTC", "Bitcoin", null);
+        CoinResponseDto dto = new CoinResponseDto(null, "coingeckoId_btc", "BTC", "Bitcoin", null, new ArrayList<>());
         when(service.getAllCoins())
                 .thenReturn(List.of(dto));
         mockMvc.perform(get("/api/v1/coins/all"))
@@ -59,7 +60,7 @@ class CoinControllerTest {
 
     @Test
     void shouldReturnCoin() throws Exception {
-        CoinResponseDto dto = new CoinResponseDto(null, null, null, "Bitcoin", null);
+        CoinResponseDto dto = new CoinResponseDto(null, null, null, "Bitcoin", null, new ArrayList<>());
 
         when(service.getCoin(1L)).thenReturn(dto);
 
@@ -80,7 +81,7 @@ class CoinControllerTest {
 
     @Test
     void shouldReturnPagedCoins() throws Exception {
-        CoinResponseDto dto = new CoinResponseDto(1L, null, "BTC", "Bitcoin", null);
+        CoinResponseDto dto = new CoinResponseDto(1L, null, "BTC", "Bitcoin", null, new ArrayList<>());
 
         PagedResponseDto<CoinResponseDto> paged = new PagedResponseDto<>(
                 new PageImpl<>(List.of(dto), PageRequest.of(0, 20), 1));
@@ -96,7 +97,7 @@ class CoinControllerTest {
 
     @Test
     void shouldSearchCoins() throws Exception {
-        CoinResponseDto dto = new CoinResponseDto(1L, null, "BTC", "Bitcoin", null);
+        CoinResponseDto dto = new CoinResponseDto(1L, null, "BTC", "Bitcoin", null, new ArrayList<>());
 
         PagedResponseDto<CoinResponseDto> paged = new PagedResponseDto<>(
                 new PageImpl<>(List.of(dto), PageRequest.of(0, 20), 1));

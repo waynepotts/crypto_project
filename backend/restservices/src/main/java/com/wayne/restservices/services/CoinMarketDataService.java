@@ -109,12 +109,12 @@ public class CoinMarketDataService {
      * returns the most recently created coin market data for the ranks between the params
      * @param marketCapRankStart
      * @param marketCapRankEnd
-     * @return dto objects for the data, max results 150
+     * @return dto objects for the data, max results 250
      */
     public List<CoinMarketDataDto> GetMarketDataByMarketCapRankRange(Integer marketCapRankStart, Integer marketCapRankEnd) {
         //Pageable pageable = PageRequest.of(0, marketCapRankEnd, Sort.by("marketCapRank").ascending());
         return coinMarketDataRepository
-                .findLatestMarketCapRankRange(marketCapRankStart, marketCapRankEnd, Math.min(150, marketCapRankEnd - marketCapRankStart))
+                .findLatestMarketCapRankRange(marketCapRankStart, marketCapRankEnd, Math.min(250, marketCapRankEnd - marketCapRankStart))
                 .stream().map(CoinMarketDataMapper::toMarketDataDto)
                 .toList();//.collect(Collectors.toList());
     }

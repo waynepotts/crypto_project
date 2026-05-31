@@ -46,7 +46,7 @@ class CoinMapperTest {
 
     @Test
     void shouldMapResponseDtoToEntity() {
-        CoinResponseDto dto = new CoinResponseDto(1L, "bitcoin", "BTC", "Bitcoin", "bitcoin.png");
+        CoinResponseDto dto = new CoinResponseDto(1L, "bitcoin", "BTC", "Bitcoin", "bitcoin.png", null);
 
         Coin coin = CoinMapper.toEntity(dto);
 
@@ -94,7 +94,7 @@ class CoinMapperTest {
     @Test
     void shouldReturnFalseWhenCoinAndDtoAreNotEqual() {
         Coin coin = createCoin();
-        CoinResponseDto dto = new CoinResponseDto(coin.getId(), coin.getCoingeckoId(), coin.getSymbol(), "Different", coin.getImage());
+        CoinResponseDto dto = new CoinResponseDto(coin.getId(), coin.getCoingeckoId(), coin.getSymbol(), "Different", coin.getImage(), null);
 
         assertFalse(CoinMapper.equals(coin, dto));
     }
@@ -102,7 +102,7 @@ class CoinMapperTest {
     @Test
     void shouldReturnFalseWhenCoinOrDtoIsNull() {
         Coin coin = createCoin();
-        assertFalse(CoinMapper.equals(null, new CoinResponseDto(null, null, null, null, null)));
+        assertFalse(CoinMapper.equals(null, new CoinResponseDto(null, null, null, null, null, null)));
         assertFalse(CoinMapper.equals(coin, null));
         assertFalse(CoinMapper.equals(null, null));
     }

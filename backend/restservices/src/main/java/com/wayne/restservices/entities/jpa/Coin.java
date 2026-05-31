@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 @Table(name = "coins")
 public class Coin {
@@ -18,6 +21,20 @@ public class Coin {
     private String symbol;
     private String name;
     private String image;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "coin_categories",
+
+            joinColumns = @JoinColumn(
+                    name = "coin_id"
+            ),
+
+            inverseJoinColumns = @JoinColumn(
+                    name = "category_id"
+            )
+    )
+    private Set<Category> categories =
+            new HashSet<>();
 
     // getters/setters
     public Long getId() { return id; }
@@ -32,6 +49,14 @@ public class Coin {
     public void setName(String name) { this.name = name; }
     public void setImage(String image) { this.image = image; }
 
+    public Set<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(Set<Category> categories) {
+        this.categories = categories;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -40,11 +65,11 @@ public class Coin {
 
         Coin coin = (Coin) o;
 
-        return new EqualsBuilder().append(getId(), coin.getId()).append(getCoingeckoId(), coin.getCoingeckoId()).append(getSymbol(), coin.getSymbol()).append(getName(), coin.getName()).append(getImage(), coin.getImage()).isEquals();
+        return new EqualsBuilder().append(getId(), coin.getId()).append(getCoingeckoId(), coin.getCoingeckoId()).append(getSymbol(), coin.getSymbol()).append(getName(), coin.getName()).append(getImage(), coin.getImage()).append(getCategories(), coin.getCategories()).isEquals();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder(17, 37).append(getId()).append(getCoingeckoId()).append(getSymbol()).append(getName()).append(getImage()).toHashCode();
+        return new HashCodeBuilder(17, 37).append(getId()).append(getCoingeckoId()).append(getSymbol()).append(getName()).append(getImage()).append(getCategories()).toHashCode();
     }
 }

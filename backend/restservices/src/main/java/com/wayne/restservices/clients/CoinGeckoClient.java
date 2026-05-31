@@ -1,10 +1,8 @@
 package com.wayne.restservices.clients;
 
 import com.wayne.restservices.config.CoinGeckoProperties;
-import com.wayne.restservices.dtos.coingecko.CoinGeckoCoinDto;
+import com.wayne.restservices.dtos.coingecko.*;
 
-import com.wayne.restservices.dtos.coingecko.CoinGeckoExchangeResponseDto;
-import com.wayne.restservices.dtos.coingecko.CoinGeckoMarketChartDto;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
@@ -77,4 +75,34 @@ public class CoinGeckoClient {
                         .retrieve()
                         .body(CoinGeckoExchangeResponseDto.class);
     }
+    public List<CoinGeckoCategoryDto> getCategoryDtos(){
+        return restClient.get()
+                .uri(uriBuilder ->
+                        uriBuilder
+                                .path("/coins/categories/list")
+                                .build()
+                )
+                .header("x-cg-demo-api-key", properties.getKey())
+                .retrieve()
+                .body(
+                        new ParameterizedTypeReference<>() {}
+                );
+    }
+
+    public CoinGeckoCoinDetailsDto getCoinDetails(String coinGeckoId) {
+        return restClient.get()
+                .uri(uriBuilder ->
+                        uriBuilder
+                                .path("coins/{id}")
+                                .queryParam(
+                                        "x_cg_demo_api_key",
+                                        properties.getKey()
+                                )
+                                .queryParam("market_data", false)
+                                .build(coinGeckoId)
+                )
+                .retrieve()
+                .body(CoinGeckoCoinDetailsDto.class);
+    }
+
 }

@@ -128,7 +128,7 @@ class CoinServiceTest {
         coin.setName("Bitcoin");
         coin.setSymbol("Bitcoin");
 
-        CoinResponseDto dto = new CoinResponseDto(1L, "coingeckoId_BTC", "Bitcoin", "Bitcoin", null);
+        CoinResponseDto dto = new CoinResponseDto(1L, "coingeckoId_BTC", "Bitcoin", "Bitcoin", null, null);
         when(coinRepository.findAll())
                 .thenReturn(List.of(coin));
 

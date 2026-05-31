@@ -1,8 +1,10 @@
 package com.wayne.restservices.controllers;
 
 import com.wayne.restservices.dtos.*;
+import com.wayne.restservices.dtos.coingecko.CoinGeckoCategoryDto;
 import com.wayne.restservices.dtos.coingecko.CoinGeckoExchangeResponseDto;
 import com.wayne.restservices.entities.jpa.CoinMarketData;
+import com.wayne.restservices.services.CategoryService;
 import com.wayne.restservices.services.CoinMarketDataService;
 import com.wayne.restservices.services.CoinService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -24,10 +26,12 @@ public class CoinController {
 
     private final CoinService coinService;
     private final CoinMarketDataService coinMarketDataService;
+    private final CategoryService categoryService;
 
-    public CoinController(CoinService coinService, CoinMarketDataService coinMarketDataService) {
+    public CoinController(CoinService coinService, CoinMarketDataService coinMarketDataService, CategoryService categoryService) {
         this.coinService = coinService;
         this.coinMarketDataService = coinMarketDataService;
+        this.categoryService = categoryService;
     }
 
     @Operation(summary = "Returns coins in pages")
@@ -148,5 +152,10 @@ public class CoinController {
     @GetMapping("/exchangerates")
     public CoinGeckoExchangeResponseDto getExchangeRates() {
         return coinMarketDataService.getExchangeRates();
+    }
+
+    @GetMapping("/updatecoindata")
+    public List<CoinResponseDto> updateCoinData(){
+        return coinService.refreshCoins();
     }
 }

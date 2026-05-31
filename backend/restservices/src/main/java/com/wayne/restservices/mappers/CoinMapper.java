@@ -3,11 +3,14 @@ package com.wayne.restservices.mappers;
 import com.wayne.restservices.dtos.UpdateCoinRequestDto;
 import com.wayne.restservices.dtos.CoinResponseDto;
 import com.wayne.restservices.dtos.CreateCoinRequestDto;
+import com.wayne.restservices.entities.jpa.Category;
 import com.wayne.restservices.entities.jpa.Coin;
 import com.wayne.restservices.exceptions.CoinNotFoundException;
 import com.wayne.restservices.services.CoinService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.List;
 
 public class CoinMapper {
 
@@ -15,7 +18,8 @@ public class CoinMapper {
             LoggerFactory.getLogger(CoinMapper.class);
     public static CoinResponseDto toDto(Coin coin) {
         try {
-            return new CoinResponseDto(coin.getId(), coin.getCoingeckoId(), coin.getSymbol(), coin.getName(), coin.getImage());
+            List<String> categories =coin.getCategories().stream().map((Category::getName)).toList();
+            return new CoinResponseDto(coin.getId(), coin.getCoingeckoId(), coin.getSymbol(), coin.getName(), coin.getImage(), categories);
         } catch(NullPointerException e) {
             log.debug("NPE while converting coin to DTO, " + e.getMessage());
             return null;
