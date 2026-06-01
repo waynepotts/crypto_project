@@ -2,6 +2,7 @@ package com.wayne.restservices.services;
 
 import com.wayne.restservices.entities.jpa.Category;
 import com.wayne.restservices.repositories.CategoryRepository;
+import com.wayne.restservices.validators.CategoryValidator;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -16,6 +17,9 @@ class CategoryServiceTest {
 
     @Mock
     private CategoryRepository categoryRepository;
+
+    @Mock
+    private CategoryValidator categoryValidator;
 
     @InjectMocks
     private CategoryService categoryService;
