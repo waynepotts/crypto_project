@@ -87,7 +87,7 @@ export function CurrencyList({
   }
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-2 max-block-48 ">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-2 max-block-40">
       {currencies.map((currency, idx:number) => {
         const isSelected = selectedCurrencies.some((c) => c.id === currency.id);
         const isPositive = currency.change24h >= 0;
