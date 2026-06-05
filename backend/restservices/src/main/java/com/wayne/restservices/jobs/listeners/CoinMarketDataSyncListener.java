@@ -3,6 +3,9 @@ package com.wayne.restservices.jobs.listeners;
 import com.wayne.restservices.jobs.SyncTracker;
 import com.wayne.restservices.jobs.events.CoinMarketDataSyncRequestEvent;
 import com.wayne.restservices.services.CoinMarketDataSyncService;
+
+import java.time.Instant;
+
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
@@ -18,15 +21,23 @@ public class CoinMarketDataSyncListener {
         this.syncTracker = syncTracker;
     }
 
-    @Async
     @EventListener
     public void handle(CoinMarketDataSyncRequestEvent event) {
-        String key = event.coinId() + "-" + event.from() + "-" + event.to();
+        Long coinId = event.coinId();
+        Instant from = event.from();
+        Instant to = event.to();
+        String key = coinId + "-" + from + "-" + to;
+
+        // delegate to executeWithCleanup in a new thread for async behavior
+        syncTaskExecutor.execute(() -> executeWithCleanup(coinId, from, to, key));
+    }
+
+    void executeWithCleanup(Long coinId, Instant from, Instant to, String key) {
         if (!syncTracker.start(key)) {
             return;
         }
         try {
-            coinMarketDataSyncService.syncMissingRange(event.coinId(), event.from(), event.to());
+            coinMarketDataSyncService.syncMissingRange(coinId, from, to);
         } finally {
             syncTracker.finish(key);
         }

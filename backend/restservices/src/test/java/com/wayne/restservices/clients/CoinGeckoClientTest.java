@@ -33,5 +33,5 @@ class CoinGeckoClientTest {
             assertNotNull(client);
         });
     }
-    
+
 }
