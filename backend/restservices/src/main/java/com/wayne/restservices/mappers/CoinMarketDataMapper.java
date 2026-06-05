@@ -56,22 +56,25 @@ public class CoinMarketDataMapper {
         return marketData;
     }
     public static List<CoinMarketData> fromHistory(CoinGeckoMarketChartDto dto, Coin coin) {
-        if(dto.getPrices() == null || dto.getPrices().isEmpty()) {
-            // TODO: fix properly
-            return new ArrayList<>();
-        }
-        List<CoinMarketData> entities = new ArrayList<>(dto.getPrices().size());
-        for(int index = 0; index < dto.getPrices().size(); index++) {
-            CoinMarketData marketData = new CoinMarketData();
-            CoinGeckoChartPointDto pointDto = dto.getPrices().get(index);
-            marketData.setCurrentPrice(pointDto.getValue());
-            marketData.setMarketCap(dto.getMarketCaps().get(index).getValue());
-            marketData.setTotalVolume(dto.getTotalVolumes().get(index).getValue());
-            marketData.setLastUpdated(pointDto.getTimeStamp());
-            marketData.setCoin(coin);
-            marketData.setGranularity(ChronoUnitConverter.getGranularity(pointDto.getTimeStamp()));
-            marketData.setSource("coingecko");
-            entities.add(marketData);
+
+        List<CoinMarketData> entities = null;
+        try {
+            entities = new ArrayList<>(dto.getPrices().size());
+            for (int index = 0; index < dto.getPrices().size(); index++) {
+                CoinMarketData marketData = new CoinMarketData();
+                CoinGeckoChartPointDto pointDto = dto.getPrices().get(index);
+                marketData.setCurrentPrice(pointDto.getValue());
+                marketData.setMarketCap(dto.getMarketCaps().get(index).getValue());
+                marketData.setTotalVolume(dto.getTotalVolumes().get(index).getValue());
+                marketData.setLastUpdated(pointDto.getTimeStamp());
+                marketData.setCoin(coin);
+                marketData.setGranularity(ChronoUnitConverter.getGranularity(pointDto.getTimeStamp()));
+                marketData.setSource("coingecko");
+                entities.add(marketData);
+            }
+        } catch(NullPointerException npe){
+            entities = new ArrayList<>();
+            log.info("handled NPE in CoinMarketDataMapper::fromHistory, returning empty list. " + npe.getMessage());
         }
         return entities;
     }
