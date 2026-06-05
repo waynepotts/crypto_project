@@ -1,5 +1,5 @@
 import { Sun, Moon, Settings, Clock, RefreshCw, DollarSign } from "lucide-react";
-import Button from '@mui/material/Button';
+import {Button} from "../ui/button.tsx";
 import { CountdownTimer } from "../CoundownTimer/CountdownTimer.tsx";
 import type {UpdateFrequency, CurrencySymbol} from "../../App.tsx";
 import { useState, useRef, useEffect } from "react";

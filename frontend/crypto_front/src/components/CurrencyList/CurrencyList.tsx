@@ -1,4 +1,4 @@
-import {Card, CardContent} from '@mui/material';
+import {Card, CardContent} from '../ui/card.tsx';
 import type {Currency} from "../../utils/data.ts";
 import { TrendingUp, TrendingDown, Check } from "lucide-react";
 import type {CurrencySymbol} from "../../App.tsx";
@@ -87,11 +87,11 @@ export function CurrencyList({
   }
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 overflow-hidden max-block-40 ">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-2 max-block-48 ">
       {currencies.map((currency, idx:number) => {
         const isSelected = selectedCurrencies.some((c) => c.id === currency.id);
         const isPositive = currency.change24h >= 0;
-
+        if(idx < 5)
         return (
           <Card
             key={currency.id}
@@ -107,7 +107,7 @@ export function CurrencyList({
                 <Check className="w-3 h-3 dark:text-white" />
               </div>
             )}
-            <CardContent className="p-5 dark:bg-slate-800 ">
+            <CardContent className="p-1 dark:bg-slate-800 ">
               <div className="flex items-start justify-between mb-4">
                 <div>
                   <h3 className="font-semibold text-slate-900 dark:text-white">

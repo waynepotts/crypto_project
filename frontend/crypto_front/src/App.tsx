@@ -8,6 +8,7 @@ import {type Currency, getExchange, priceHistory, generateMockCurrencies2} from 
 import {type ChartDisplayData, type CoinHistory, createChartHistoryData} from "./types/ChartDisplayData.ts";
 import type {CoinGeckoExchangeResponseDto} from "./generated/api.ts";
 
+
 export type TimeframeValue = "1H" | "1D" | "1W" | "30D" | "90D";
 export type UpdateFrequency = 10 | 30 | 60 | 120;
 export type CurrencySymbol = "USD" | "EUR" | "GBP" | "JPY" | "BTC";
@@ -232,7 +233,7 @@ export function App() {
     // const exchangeRate = EXCHANGE_RATES[displayCurrency];
 
     return (
-        <div  className={`min-h-screen transition-colors duration-300 ${theme === "dark" ? "bg-slate-950" : "bg-slate-50"}`}>
+        <div  className={`min-h-screen transition-colors duration-300 text-slate-700 dark:text-slate-300 ${theme === "dark" ? "bg-slate-950" : "bg-slate-50"}`}>
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10">
                 <Header
                     theme={theme}

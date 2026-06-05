@@ -28,11 +28,6 @@ public class CoinMarketDataSyncListener {
         Instant to = event.to();
         String key = coinId + "-" + from + "-" + to;
 
-        // delegate to executeWithCleanup in a new thread for async behavior
-        syncTaskExecutor.execute(() -> executeWithCleanup(coinId, from, to, key));
-    }
-
-    void executeWithCleanup(Long coinId, Instant from, Instant to, String key) {
         if (!syncTracker.start(key)) {
             return;
         }

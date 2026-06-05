@@ -32,6 +32,7 @@ export function CountdownTimer({ timeRemaining, total, theme }: CountdownTimerPr
             endAngle={-270}
             dataKey="value"
             stroke="none"
+            animationDuration={400}
           >
             <Cell fill={remainingColor} />
             <Cell fill={elapsedColor} />
