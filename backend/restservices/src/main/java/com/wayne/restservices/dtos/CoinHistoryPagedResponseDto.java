@@ -7,6 +7,7 @@ public class CoinHistoryPagedResponseDto extends PagedResponseDto<CoinHistoryPoi
     private Long coinId;
 
     private String coinName;
+    private double completeness;
 
     public CoinHistoryPagedResponseDto(Page<CoinHistoryPointDto> paged) {
         super(paged);

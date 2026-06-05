@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.persistence.autoconfigure.EntityScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
@@ -15,6 +16,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 )
 @EnableJpaRepositories("com.wayne.restservices.repositories")
 @EntityScan("com.wayne.restservices.entities.jpa")
+@EnableAsync
 public class RestservicesApplication {
 
 

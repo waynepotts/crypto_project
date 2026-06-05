@@ -3,6 +3,7 @@ package com.wayne.restservices.utils;
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
 
+import java.time.Duration;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Map;
@@ -72,5 +73,36 @@ public class ChronoUnitConverter
 
         return instant
                 .truncatedTo(ChronoUnit.DAYS);
+    }
+
+    public static ChronoUnit getGranularity(
+            Instant instant
+    ) {
+        Instant bucket = ChronoUnitConverter.normalizeFiveMinutes(instant);
+        ChronoUnit unit = ChronoUnit.MINUTES;
+        Instant bucketStart = bucket.minus(299, ChronoUnit.SECONDS);
+        Instant hourly = ChronoUnitConverter.normalizeHourly(instant);
+        if(bucketStart.isBefore(hourly) && hourly.plus(299, ChronoUnit.SECONDS).isAfter(bucket)) {
+            unit = ChronoUnit.HOURS;
+            Instant daily = ChronoUnitConverter.normalizeDaily(instant);
+            if(bucketStart.isBefore(daily) && daily.plus(299, ChronoUnit.SECONDS).isAfter(bucket)) {
+                unit = ChronoUnit.DAYS;
+            }
+        }
+        return unit;
+    }
+
+    public static ChronoUnit FromBoundaries(Duration duration, int minuteBoundary, int hourBoundary){
+        ChronoUnit chronoUnit = ChronoUnit.MINUTES;
+        if(duration.toDays() > minuteBoundary){
+            chronoUnit = ChronoUnit.HOURS;
+            if(duration.toDays() > hourBoundary){
+                chronoUnit = ChronoUnit.DAYS;
+            }
+        }
+        return chronoUnit;
+    }
+    public static ChronoUnit FromBoundaries(Duration duration){
+        return FromBoundaries(duration, 7, 30);
     }
 }

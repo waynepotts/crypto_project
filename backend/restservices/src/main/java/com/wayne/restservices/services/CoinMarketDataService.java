@@ -10,12 +10,14 @@ import com.wayne.restservices.dtos.coingecko.CoinGeckoExchangeResponseDto;
 import com.wayne.restservices.entities.jpa.Coin;
 import com.wayne.restservices.entities.jpa.CoinMarketData;
 import com.wayne.restservices.exceptions.CoinNotFoundException;
+import com.wayne.restservices.jobs.events.CoinMarketDataSyncRequestEvent;
 import com.wayne.restservices.mappers.CoinMapper;
 import com.wayne.restservices.mappers.CoinMarketDataMapper;
 import com.wayne.restservices.repositories.CoinMarketDataRepository;
 import com.wayne.restservices.repositories.CoinRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,23 +34,32 @@ public class CoinMarketDataService {
     private final CoinRepository coinRepository;
     private final CoinMarketDataRepository coinMarketDataRepository;
     private final CoinGeckoClient coinGeckoClient;
-    public CoinMarketDataService(CoinRepository coinRepository, CoinMarketDataRepository coinMarketDataRepository, CoinGeckoClient coinGeckoClient) {
+    private final ApplicationEventPublisher publisher;
+    public CoinMarketDataService(CoinRepository coinRepository, CoinMarketDataRepository coinMarketDataRepository, CoinGeckoClient coinGeckoClient, ApplicationEventPublisher applicationEventPublisher) {
         this.coinRepository = coinRepository;
         this.coinMarketDataRepository = coinMarketDataRepository;
         this.coinGeckoClient = coinGeckoClient;
+        this.publisher = applicationEventPublisher;
     }
 
     public CoinHistoryPagedResponseDto getCoinHistory(Long id, Instant from, Instant to, int pageNumber, int pageSize) {
+        return getCoinHistory( id, from, to, ChronoUnit.HOURS, pageNumber,  pageSize);
+    }
+
+    public CoinHistoryPagedResponseDto getCoinHistory(Long id, Instant from, Instant to,ChronoUnit granularity, int pageNumber, int pageSize) {
         Coin coin = coinRepository.findById(id).orElseThrow(()->new CoinNotFoundException(id));
         Pageable pageable = PageRequest.of(
                 pageNumber,
                 pageSize,
                 Sort.by("lastUpdated").ascending()
         );
-        Page<CoinHistoryPointDto> page = coinMarketDataRepository.findByCoinLastUpdatedRange(coin, from, to, ChronoUnit.HOURS, pageable).map(CoinMarketDataMapper::toDto);
+        Page<CoinHistoryPointDto> page = coinMarketDataRepository.findByCoinLastUpdatedRange(coin, from, to, granularity, pageable).map(CoinMarketDataMapper::toDto);
         CoinHistoryPagedResponseDto retPage = new CoinHistoryPagedResponseDto(page);
         retPage.setCoinName(coin.getName());
         retPage.setCoinId(coin.getId());
+        if(page.getSize() == 0){
+            publisher.publishEvent(new CoinMarketDataSyncRequestEvent(coin.getId(),from, to ));
+        }
         return retPage;
     }
 
@@ -105,6 +116,7 @@ public class CoinMarketDataService {
         CoinHistoryResponseDto dto = CoinMarketDataMapper.fromCoinGecko(coinGeckoClient.getCoinMarketChart(coin.getCoingeckoId(), days, interval));
         return new CoinHistoryResponseDto(dto.chartData(), dto.completeness(), CoinMapper.toDto(coin));
     }
+
     /**
      * returns the most recently created coin market data for the ranks between the params
      * @param marketCapRankStart

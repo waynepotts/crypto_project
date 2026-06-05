@@ -135,7 +135,7 @@ export function App() {
 
     useEffect(() => {
         const rate = EXCHANGE_RATES[displayCurrency];
-        setExchangeRate(rate);
+        //setExchangeRate(rate);
     }, [displayCurrency]);
 
     useEffect(() => {

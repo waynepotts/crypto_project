@@ -7,6 +7,7 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 
+import java.time.Instant;
 import java.util.List;
 
 @Component
@@ -54,6 +55,21 @@ public class CoinGeckoClient {
                                 .queryParam("vs_currency", "usd")
                                 .queryParam("days", days)
                                 .queryParam("interval", interval.name().toLowerCase())
+                                .build(coinGeckoId)
+                )
+                .header("x-cg-demo-api-key", properties.getKey())
+                .retrieve()
+                .body(CoinGeckoMarketChartDto.class);
+    }
+
+    public CoinGeckoMarketChartDto  getCoinMarketChartRange(String coinGeckoId, Instant from, Instant to) {
+        return restClient.get()
+                .uri(uriBuilder ->
+                        uriBuilder
+                                .path("/coins/{id}/market_chart/range")
+                                .queryParam("vs_currency", "usd")
+                                .queryParam("from", (from.toEpochMilli() / 1000))
+                                .queryParam("to", (to.toEpochMilli() / 1000))
                                 .build(coinGeckoId)
                 )
                 .header("x-cg-demo-api-key", properties.getKey())

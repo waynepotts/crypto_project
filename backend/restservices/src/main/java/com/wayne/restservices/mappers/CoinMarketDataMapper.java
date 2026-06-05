@@ -8,6 +8,7 @@ import com.wayne.restservices.dtos.CoinMarketDataDto;
 import com.wayne.restservices.dtos.coingecko.CoinGeckoChartPointDto;
 import com.wayne.restservices.dtos.coingecko.CoinGeckoCoinDto;
 import com.wayne.restservices.dtos.coingecko.CoinGeckoMarketChartDto;
+import com.wayne.restservices.entities.jpa.Coin;
 import com.wayne.restservices.entities.jpa.CoinMarketData;
 import org.jspecify.annotations.NonNull;
 import org.slf4j.Logger;
@@ -49,21 +50,30 @@ public class CoinMarketDataMapper {
         marketData.setPriceChangePercentage24h(toFinancialScale(dto.getPriceChangePercentage24h()));
         marketData.setPriceChange24h(toFinancialScale(dto.getPriceChange24h()));
         Instant createdAt = Instant.now();
-        Instant bucket = ChronoUnitConverter.normalizeFiveMinutes(createdAt);
-        ChronoUnit unit = ChronoUnit.MINUTES;
-        Instant bucketStart = bucket.minus(299, ChronoUnit.SECONDS);
-        Instant hourly = ChronoUnitConverter.normalizeHourly(createdAt);
-        if(bucketStart.isBefore(hourly) && hourly.plus(299, ChronoUnit.SECONDS).isAfter(bucket)) {
-            unit = ChronoUnit.HOURS;
-            Instant daily = ChronoUnitConverter.normalizeDaily(createdAt);
-            if(bucketStart.isBefore(daily) && daily.plus(299, ChronoUnit.SECONDS).isAfter(bucket)) {
-                unit = ChronoUnit.DAYS;
-            }
-        }
-        marketData.setGranularity(unit);
+        marketData.setGranularity(ChronoUnitConverter.getGranularity(createdAt));
         marketData.setSource("coingecko");
         marketData.setCreatedAt(createdAt);
         return marketData;
+    }
+    public static List<CoinMarketData> fromHistory(CoinGeckoMarketChartDto dto, Coin coin) {
+        if(dto.getPrices() == null || dto.getPrices().isEmpty()) {
+            // TODO: fix properly
+            return new ArrayList<>();
+        }
+        List<CoinMarketData> entities = new ArrayList<>(dto.getPrices().size());
+        for(int index = 0; index < dto.getPrices().size(); index++) {
+            CoinMarketData marketData = new CoinMarketData();
+            CoinGeckoChartPointDto pointDto = dto.getPrices().get(index);
+            marketData.setCurrentPrice(pointDto.getValue());
+            marketData.setMarketCap(dto.getMarketCaps().get(index).getValue());
+            marketData.setTotalVolume(dto.getTotalVolumes().get(index).getValue());
+            marketData.setLastUpdated(pointDto.getTimeStamp());
+            marketData.setCoin(coin);
+            marketData.setGranularity(ChronoUnitConverter.getGranularity(pointDto.getTimeStamp()));
+            marketData.setSource("coingecko");
+            entities.add(marketData);
+        }
+        return entities;
     }
 
     public static CoinHistoryPointDto toDto(CoinMarketData marketData) {
