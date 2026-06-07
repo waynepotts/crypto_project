@@ -10,7 +10,7 @@ import type {CoinGeckoExchangeResponseDto} from "./generated/api.ts";
 
 
 export type TimeframeValue = "1H" | "1D" | "1W" | "30D" | "90D";
-export type UpdateFrequency = 10 | 30 | 60 | 120;
+export type UpdateFrequency = 120 | 300 | 600 | 900;
 export type CurrencySymbol = "USD" | "EUR" | "GBP" | "JPY" | "BTC";
 
 export interface ChartCurrency {
@@ -40,8 +40,8 @@ export function App() {
     const [isLoading, setIsLoading] = useState(true);
     const [timeframe, setTimeframe] = useState<TimeframeValue>("1D");
     const [showRelative, setShowRelative] = useState(false);
-    const [updateFrequency, setUpdateFrequency] =  useState<UpdateFrequency>(30);
-    const [timeRemaining, setTimeRemaining] = useState(30);
+    const [updateFrequency, setUpdateFrequency] =  useState<UpdateFrequency>(300);
+    const [timeRemaining, setTimeRemaining] = useState(300);
     const [isRefreshing, setIsRefreshing] = useState(false);
     const [displayCurrency, setDisplayCurrency] = useState<CurrencySymbol>("USD");
     const [priceData, setPriceData] = useState<Currency[]>([]);
@@ -81,7 +81,7 @@ export function App() {
                     Object.keys(EXCHANGE_RATES).forEach((key) => {
                         const value:number = exchange.rates[key.toLowerCase()]?.value * exch;
                         EXCHANGE_RATES[key as keyof CurrencySymbol] = value;
-                        // console.log(EXCHANGE_RATES[key as keyof CurrencySymbol]);
+                        console.log(EXCHANGE_RATES[key as keyof CurrencySymbol]);
                     });
                     setExchangeRate(EXCHANGE_RATES[displayCurrency]);
                 });
@@ -108,8 +108,7 @@ export function App() {
     // Manual refresh with visual feedback
     const handleManualRefresh = useCallback(() => {
 
-
-        setTimeRemaining(updateFrequency);
+        setTimeRemaining(0);
         updatePrices();
         // Brief visual feedback
         /*setTimeout(() => {
@@ -183,7 +182,10 @@ export function App() {
             // setPriceDtos((prev) => prev.filter(c => c.coin.id !== c.coin.id));
         } else {
             const usedColors = priceData.map((c) => c.color);
-            currency.color = AVAILABLE_COLORS.find((c) => !usedColors.includes(c)) || AVAILABLE_COLORS[0];
+            if(!currency.color){
+                currency.color = AVAILABLE_COLORS.find((c) => !usedColors.includes(c)) || AVAILABLE_COLORS[0];
+            }
+
             const prices: Currency[] = priceData.map(m => m);
             prices.push(currency);
             // console.log(prices);
@@ -207,6 +209,7 @@ export function App() {
     };
     useEffect(() => {
         // console.log("updating prices");
+        updateExchangeRates();
         const abortController = new AbortController();
         let cancelled = false;
         const fetchData = async () => {
@@ -229,7 +232,7 @@ export function App() {
                 console.log("print the error" + error);
             }
         };
-    }, [priceData, timeframe, exchangeRate, showRelative]);
+    }, [priceData, timeframe, exchangeRate, showRelative, updateExchangeRates]);
     // const exchangeRate = EXCHANGE_RATES[displayCurrency];
 
     return (

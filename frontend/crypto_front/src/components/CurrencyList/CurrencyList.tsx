@@ -70,7 +70,7 @@ export function CurrencyList({
 }: CurrencyListProps) {
   if (isLoading) {
     return (
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4  ">
         {[...Array(5)].map((_, i) => (
           <CurrencySkeleton key={i} />
         ))}
@@ -87,11 +87,11 @@ export function CurrencyList({
   }
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-2 max-block-40">
+    <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-6 xl:grid-cols-6 gap-2   ">
       {currencies.map((currency, idx:number) => {
         const isSelected = selectedCurrencies.some((c) => c.id === currency.id);
         const isPositive = currency.change24h >= 0;
-        if(idx < 5)
+        if(idx < 6)
         return (
           <Card
             key={currency.id}

@@ -17,10 +17,10 @@ interface HeaderProps {
 }
 
 const FREQUENCY_OPTIONS: { value: UpdateFrequency; label: string }[] = [
-  { value: 10, label: "10s" },
-  { value: 30, label: "30s" },
-  { value: 60, label: "1m" },
   { value: 120, label: "2m" },
+  { value: 300, label: "5m" },
+  { value: 600, label: "10m" },
+  { value: 900, label: "15m" },
 ];
 
 const CURRENCY_OPTIONS: { value: CurrencySymbol; label: string; symbol: string }[] = [

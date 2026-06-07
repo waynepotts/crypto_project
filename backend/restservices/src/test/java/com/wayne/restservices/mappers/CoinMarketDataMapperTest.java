@@ -1,9 +1,6 @@
 package com.wayne.restservices.mappers;
 
-import com.wayne.restservices.dtos.CoinHistoryPagedResponseDto;
-import com.wayne.restservices.dtos.CoinHistoryPointDto;
-import com.wayne.restservices.dtos.CoinHistoryResponseDto;
-import com.wayne.restservices.dtos.CoinMarketDataDto;
+import com.wayne.restservices.dtos.*;
 import com.wayne.restservices.dtos.coingecko.CoinGeckoChartPointDto;
 import com.wayne.restservices.dtos.coingecko.CoinGeckoCoinDto;
 import com.wayne.restservices.dtos.coingecko.CoinGeckoMarketChartDto;
@@ -17,6 +14,7 @@ import org.springframework.data.domain.PageRequest;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -85,7 +83,8 @@ class CoinMarketDataMapperTest {
 
         CoinHistoryPagedResponseDto pagedDto = new CoinHistoryPagedResponseDto(page);
 
-        CoinHistoryResponseDto response = CoinMarketDataMapper.fromPaged(pagedDto, 24.0);
+        CoinResponseDto coinDto = new CoinResponseDto(1L,"bitcoin", "btc","", "", new ArrayList<>());
+        CoinHistoryResponseDto response = CoinMarketDataMapper.fromPaged(pagedDto, coinDto, 24.0);
 
         assertNotNull(response);
         assertEquals(1, response.chartData().size());

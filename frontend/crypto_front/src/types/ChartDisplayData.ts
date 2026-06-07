@@ -18,7 +18,7 @@ export interface ChartDisplayData {
 }
 
 export function createChartHistoryData(data:CoinHistory[], exchangeRate:number,  isRelative:boolean): ChartDisplayData[] {
-    const dataMap = new Map<string, ChartDisplayData>();
+    const dataMap = new Map<Date, ChartDisplayData>();
     for(let i = 0; i < data.length; i++) {
         const d = data[i];
         if(d) {
@@ -27,7 +27,8 @@ export function createChartHistoryData(data:CoinHistory[], exchangeRate:number, 
                 if(idx === 0) {
                     first = h.price;
                 }
-                const cData: ChartDisplayData = dataMap.has(h.timestamp)? dataMap.get(h.timestamp):
+                const date:Date = Date.parse(h.timestamp);
+                const cData: ChartDisplayData = dataMap.has(date)? dataMap.get(date):
                     {timestamp: h.timestamp, coinId:d.coin.id} as ChartDisplayData;
                 if(cData.currencies && !cData.currencies.some(c=> c.id=== d.currency.id)){
                     cData.currencies.push(d.currency);
@@ -56,9 +57,13 @@ export function createChartHistoryData(data:CoinHistory[], exchangeRate:number, 
                         cData.coin4 = price;
                         break;
                 }
-                dataMap.set(h.timestamp, cData);
+                dataMap.set(date, cData);
             });
         }
     }
-    return [...dataMap.values()];
+    let keys = Array.from(dataMap.keys());
+    let ret: ChartDisplayData[] = [];
+    keys.sort().forEach(k=> ret.push(dataMap.get(k)));
+    return ret;
+    //return [...dataMap.values()];
 }

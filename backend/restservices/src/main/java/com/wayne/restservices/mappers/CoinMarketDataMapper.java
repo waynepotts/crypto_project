@@ -1,10 +1,7 @@
 package com.wayne.restservices.mappers;
 
 
-import com.wayne.restservices.dtos.CoinHistoryPagedResponseDto;
-import com.wayne.restservices.dtos.CoinHistoryPointDto;
-import com.wayne.restservices.dtos.CoinHistoryResponseDto;
-import com.wayne.restservices.dtos.CoinMarketDataDto;
+import com.wayne.restservices.dtos.*;
 import com.wayne.restservices.dtos.coingecko.CoinGeckoChartPointDto;
 import com.wayne.restservices.dtos.coingecko.CoinGeckoCoinDto;
 import com.wayne.restservices.dtos.coingecko.CoinGeckoMarketChartDto;
@@ -67,6 +64,7 @@ public class CoinMarketDataMapper {
                 marketData.setMarketCap(dto.getMarketCaps().get(index).getValue());
                 marketData.setTotalVolume(dto.getTotalVolumes().get(index).getValue());
                 marketData.setLastUpdated(pointDto.getTimeStamp());
+                marketData.setCreatedAt(Instant.now());
                 marketData.setCoin(coin);
                 marketData.setGranularity(ChronoUnitConverter.getGranularity(pointDto.getTimeStamp()));
                 marketData.setSource("coingecko");
@@ -87,9 +85,9 @@ public class CoinMarketDataMapper {
                 marketData.getTotalVolume()
         );
     }
-    public static CoinHistoryResponseDto fromPaged(@NonNull CoinHistoryPagedResponseDto dto, double expected){
+    public static CoinHistoryResponseDto fromPaged(@NonNull CoinHistoryPagedResponseDto dto, CoinResponseDto coinDto, double expected){
         long elements = dto.getTotalElements();
-        return new CoinHistoryResponseDto(dto.getContent(), elements / expected, null);
+        return new CoinHistoryResponseDto(dto.getContent(), elements / expected, coinDto);
     }
 
     public static CoinHistoryResponseDto fromCoinGecko(@NonNull CoinGeckoMarketChartDto dto) {

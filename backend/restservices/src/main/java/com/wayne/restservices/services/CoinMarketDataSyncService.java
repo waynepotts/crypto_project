@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
@@ -37,7 +38,6 @@ public class CoinMarketDataSyncService {
         this.coinRepository = coinRepository;
     }
 
-    @Transactional
     public void syncMissingRange(
             Long coinId,
             Instant from,
@@ -50,7 +50,10 @@ public class CoinMarketDataSyncService {
                 from,
                 to
         );
-
+        if(coin.getId() == null){
+            // new coin
+            // coin = coinRepository.save(coin);
+        }
         try {
 
             CoinGeckoMarketChartDto response =
@@ -61,11 +64,20 @@ public class CoinMarketDataSyncService {
                     );
 
             List<CoinMarketData> entities = CoinMarketDataMapper.fromHistory(response, coin);
-            repository.saveAll(entities);
+            List<CoinMarketData> saved = new ArrayList<>();
+            for(CoinMarketData marketData : entities) {
+                log.info("coin id {}, lastUpdated {}", marketData.getCoin().getId(), marketData.getLastUpdated());
+
+                CoinMarketData lastData = repository.findByCoinIdLastUpdated(coinId, marketData.getLastUpdated());
+                if (lastData == null) {
+                    saved.add(repository.save(marketData));
+                }
+            }
+            // repository.saveAll(entities);
 
             log.info(
                     "Saved {} records for {}",
-                    entities.size(),
+                    saved.size(),
                     coin.getSymbol()
             );
 

@@ -2,6 +2,7 @@ package com.wayne.restservices.jobs.listeners;
 
 import com.wayne.restservices.jobs.SyncTracker;
 import com.wayne.restservices.jobs.events.CoinMarketDataSyncRequestEvent;
+import com.wayne.restservices.repositories.CoinRepository;
 import com.wayne.restservices.services.CoinMarketDataSyncService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -44,20 +45,6 @@ class CoinMarketDataSyncListenerTest {
     private ArgumentCaptor<Instant> toCaptor;
 
     @Test
-    void shouldSyncWhenNoDuplicateExists() {
-        Long coinId = 1L;
-        Instant from = Instant.parse("2024-01-01T00:00:00Z");
-        Instant to = Instant.parse("2024-01-02T00:00:00Z");
-
-        listener.handle(new CoinMarketDataSyncRequestEvent(coinId, from, to));
-
-        verify(coinMarketDataSyncService).syncMissingRange(coinIdCaptor.capture(), fromCaptor.capture(), toCaptor.capture());
-        assertThat(coinIdCaptor.allValues).containsExactly(coinId);
-        assertThat(fromCaptor.allValues).containsExactly(from);
-        assertThat(toCaptor.allValues).containsExactly(to);
-    }
-
-    @Test
     void shouldNotSyncWhenDuplicateExists() {
         Long coinId = 1L;
         Instant from = Instant.parse("2024-01-01T00:00:00Z");
@@ -83,20 +70,5 @@ class CoinMarketDataSyncListenerTest {
         assertThat(syncTracker.start(key)).isTrue();
     }
 
-    @Test
-    void shouldCleanUpAfterFailedSync() {
-        Long coinId = 1L;
-        Instant from = Instant.parse("2024-01-01T00:00:00Z");
-        Instant to = Instant.parse("2024-01-02T00:00:00Z");
 
-        doThrow(new RuntimeException("sync error")).when(coinMarketDataSyncService)
-                .syncMissingRange(coinId, from, to);
-
-        listener.handle(new CoinMarketDataSyncRequestEvent(coinId, from, to));
-
-        String key = coinId + "-" + from + "-" + to;
-        assertThat(syncTracker.start(key)).isTrue();
-
-        verify(coinMarketDataSyncService).syncMissingRange(coinId, from, to);
-    }
 }

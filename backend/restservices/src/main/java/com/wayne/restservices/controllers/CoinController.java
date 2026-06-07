@@ -131,8 +131,8 @@ public class CoinController {
     }
 
     @GetMapping("/{id}/history_chart")
-    public CoinHistoryResponseDto getHistoryChart(@PathVariable Long id, Integer days, @RequestParam(defaultValue = "false") Boolean daily ) {
-        return coinMarketDataService.getChartData(id, days, daily);
+    public CoinHistoryResponseDto getHistoryChart(@PathVariable Long id, Integer days, @RequestParam(defaultValue = "3") int chronoUnit ) {
+        return coinMarketDataService.getChartData(id, days, chronoUnit);
     }
     @Operation(summary = "Search coins by name or symbol (partial, case-insensitive)")
     @GetMapping("/search")

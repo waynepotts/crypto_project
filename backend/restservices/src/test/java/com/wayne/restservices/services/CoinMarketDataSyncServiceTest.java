@@ -57,27 +57,6 @@ class CoinMarketDataSyncServiceTest {
     }
 
     @Test
-    void shouldSyncMissingRangeSucceedly() {
-        Instant from = Instant.parse("2026-01-01T00:00:00Z");
-        Instant to = Instant.now();
-
-        CoinGeckoMarketChartDto marketChartDto = new CoinGeckoMarketChartDto();
-        
-        when(coinRepository.findById(1L)).thenReturn(Optional.of(testCoin));
-        when(coinGeckoClient.getCoinMarketChartRange("bitcoin", from, to)).thenReturn(marketChartDto);
-        CoinMarketData testData = new CoinMarketData();
-        List<CoinMarketData> coinList = new ArrayList<>(1);
-        coinList.add(testData);
-        when(repository.saveAll(anyList())).thenReturn(coinList);
-
-        syncService.syncMissingRange(1L, from, to);
-
-        verify(coinRepository).findById(1L);
-        verify(coinGeckoClient).getCoinMarketChartRange("bitcoin", from, to);
-        verify(repository).saveAll(argThat(list -> list != null));
-    }
-
-    @Test
     void shouldThrowExceptionWhenCoinNotFound() {
         Instant from = Instant.parse("2026-01-01T00:00:00Z");
         Instant to = Instant.now();

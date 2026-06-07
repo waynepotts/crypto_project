@@ -366,7 +366,7 @@ export function PriceChart({
         );
     }
 
-    const chartData = convertedData ?? createChartHistoryData(data, exchangeRate, showRelative);
+    const chartData = convertedData;// ?? createChartHistoryData(data, exchangeRate, showRelative);
     let minPrice: number = Number.MAX_SAFE_INTEGER;
     let maxPrice: number = Number.MIN_SAFE_INTEGER;
     chartData.forEach(c => {
@@ -574,11 +574,13 @@ export function PriceChart({
                                             weekday: "short",
                                             month: "short",
                                             day: "numeric",
+                                            hour: "2-digit",
+                                            minute: "2-digit"
                                         });
                                     }}
-                                    formatter={(value: number) => {
-                                        const currencyId = "1";
-                                        const currency = chartCurrencies.find((c) => c.id === currencyId);
+                                    formatter={(value: number, val) => {
+                                        const currencyId= val;
+                                        const currency = chartCurrencies.find((c) => c.symbol === currencyId);
                                         return [
                                             showRelative
                                                 ? `${value.toFixed(2)}%`
@@ -589,8 +591,8 @@ export function PriceChart({
                                 />
                                 <Legend
                                     formatter={(value: string) => {
-                                        const currencyId = "1";
-                                        const currency = chartCurrencies.find((c) => c.id === currencyId);
+                                        const currencyId = value.toLowerCase();
+                                        const currency = chartCurrencies.find((c) => c.symbol === currencyId);
                                         return (
                                             <span style={{color: currency?.color || "#94a3b8"}}>
                         {currency?.symbol || value}

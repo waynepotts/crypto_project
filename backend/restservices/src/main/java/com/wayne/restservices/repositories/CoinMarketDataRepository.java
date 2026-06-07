@@ -21,6 +21,18 @@ public interface CoinMarketDataRepository extends JpaRepository<CoinMarketData, 
 
     CoinMarketData findFirstByCoinIdOrderByLastUpdatedDesc(Long coinId);
 
+    @Query("""
+    SELECT md FROM CoinMarketData md
+    WHERE md.coin.id = :coinId
+    AND md.lastUpdated = :lastUpdated
+    """)
+    CoinMarketData findByCoinIdLastUpdated(Long coinId, Instant lastUpdated);
+    @Query("""
+    SELECT md FROM CoinMarketData md
+    WHERE md.coin.id = :coinId
+    AND md.lastUpdated = :lastUpdated
+    """)
+    List<CoinMarketData> findByCoinIdLastUpdatedList(Long coinId, Instant lastUpdated);
     /*@Query("""
     SELECT md
     FROM CoinMarketData md

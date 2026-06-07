@@ -102,19 +102,41 @@ public class CoinMarketDataService {
         }
     }
 
-    public CoinHistoryResponseDto getChartData(Long id, Integer days, Boolean daily){
+    public CoinHistoryResponseDto getChartData(Long id, Integer days, int duration){
         Instant now = Instant.now();
-        Instant last = now;
-        double expected = days / (daily ? 1.0d: 24.0d);
+        Instant last = now.minus(Duration.ofDays(days));
+        ChronoUnit granularity = ChronoUnit.MINUTES;
+        double timeDuration = 288.0d;
+        switch(duration) {
+            case 1:
+                timeDuration = 288.0d;
+                break;
+            case 2:
+                timeDuration = 24.0d;
+                granularity = ChronoUnit.HOURS;
+                break;
+            case 3:
+                timeDuration = 1.0d;
+                granularity = ChronoUnit.DAYS;
+                break;
+        }
+        double expected = days * timeDuration;
         int page = 0;
-        CoinHistoryPagedResponseDto paged = getCoinHistory(id, now.minus(Duration.ofDays(days)), now, page, 500);
-        CoinHistoryResponseDto found = CoinMarketDataMapper.fromPaged(paged, expected);
-        CoinGeckoClient.Interval interval = daily ? CoinGeckoClient.Interval.daily : CoinGeckoClient.Interval.hourly;
+        CoinHistoryPagedResponseDto paged = getCoinHistory(id, last , now, granularity, page, (int)expected*2);
         Coin coin =
                 coinRepository
                         .findById(id).orElseThrow(()-> new CoinNotFoundException(id));
+        CoinHistoryResponseDto found = CoinMarketDataMapper.fromPaged(paged, CoinMapper.toDto(coin),  expected);
+        log.info("completeness {} {}", found.completeness(), expected);
+        if(found.completeness() < 1.0d) {
+
+            publisher.publishEvent(new CoinMarketDataSyncRequestEvent(id, last, now));
+        }
+        return found;
+        /*CoinGeckoClient.Interval interval = daily ? CoinGeckoClient.Interval.daily : CoinGeckoClient.Interval.hourly;
+
         CoinHistoryResponseDto dto = CoinMarketDataMapper.fromCoinGecko(coinGeckoClient.getCoinMarketChart(coin.getCoingeckoId(), days, interval));
-        return new CoinHistoryResponseDto(dto.chartData(), dto.completeness(), CoinMapper.toDto(coin));
+        return new CoinHistoryResponseDto(dto.chartData(), dto.completeness(), CoinMapper.toDto(coin));*/
     }
 
     /**

@@ -122,15 +122,20 @@ export async function priceHistory(
     signal?: AbortSignal
 ): Promise<CoinHistory> {
     let dayCount: number = 1;
+    let chrono: number = 1;
     if (timeframe === "1W") {
         dayCount = 7;
+        chrono = 2;
     } else if (timeframe === "30D") {
         dayCount = 30;
+        chrono = 3;
     } else if (timeframe === "90D") {
         dayCount = 90;
+        chrono = 3;
     }
+    console.log("chrono " + chrono);
     const ret: CoinHistoryPointDto[] = [];
-    const resp = await getHistoryChart(currency.coinId, {days: dayCount, daily: false}, {signal});
+    const resp = await getHistoryChart(currency.coinId, {days: dayCount, chronoUnit:chrono}, {signal});
     const response = resp as CoinHistoryResponseDto;
     const coin = response.coinDto as CoinResponseDto;
     const chartData = response.chartData as CoinHistoryPointDto[];
@@ -168,8 +173,8 @@ export function toDate(str: string): Date {
 
 export function clampTime(date: Date): Date {
     const ret = new Date(date);
-    const minutes: number = Number((date.getMinutes() / 5).toFixed(0));
-
+    let minutes: number =  Math.trunc(date.getMinutes() / 5);
+    minutes *= 5;
     ret.setMinutes(minutes, 0, 0);
     return ret;
 }
