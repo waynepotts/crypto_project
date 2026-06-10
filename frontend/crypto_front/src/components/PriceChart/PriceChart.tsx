@@ -347,7 +347,7 @@ export function PriceChart({
                                theme
                            }: PriceChartProps) {
     const [viewMode, setViewMode] = useState<ViewMode>("chart");
-
+    // console.log(viewMode);
     if (isLoading) {
         return <ChartSkeleton/>;
     }

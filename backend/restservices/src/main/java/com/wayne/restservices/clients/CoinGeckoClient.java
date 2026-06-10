@@ -30,7 +30,7 @@ public class CoinGeckoClient {
                 .uri(uriBuilder ->
                         uriBuilder
                                 .path("/coins/markets")
-                                .queryParam("vs_currency", "usd")
+                                .queryParam("vs_currency", properties.getDefaultCurrency())
                                 .queryParam("per_page", pageSize)
                                 .queryParam("page", page)
                                 .queryParam("x_cg_demo_api_key", properties.getKey())
@@ -52,7 +52,7 @@ public class CoinGeckoClient {
                 .uri(uriBuilder ->
                         uriBuilder
                                 .path("/coins/{id}/market_chart")
-                                .queryParam("vs_currency", "usd")
+                                .queryParam("vs_currency", properties.getDefaultCurrency())
                                 .queryParam("days", days)
                                 .queryParam("interval", interval.name().toLowerCase())
                                 .build(coinGeckoId)
@@ -67,7 +67,7 @@ public class CoinGeckoClient {
                 .uri(uriBuilder ->
                         uriBuilder
                                 .path("/coins/{id}/market_chart/range")
-                                .queryParam("vs_currency", "usd")
+                                .queryParam("vs_currency", properties.getDefaultCurrency())
                                 .queryParam("from", (from.toEpochMilli() / 1000))
                                 .queryParam("to", (to.toEpochMilli() / 1000))
                                 .build(coinGeckoId)

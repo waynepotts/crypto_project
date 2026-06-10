@@ -1,15 +1,16 @@
 import { PieChart, Pie, Cell } from "recharts";
+import {useState} from "react";
 
 interface CountdownTimerProps {
   timeRemaining: number;
   total: number;
   theme: "light" | "dark";
+  isRefreshing: boolean;
 }
 
 export function CountdownTimer({ timeRemaining, total, theme }: CountdownTimerProps) {
   const percentage = (timeRemaining / total) * 100;
   const remainingAngle = (percentage / 100) * 360;
-
   const data = [
     { value: remainingAngle, name: "remaining" },
     { value: 360 - remainingAngle, name: "elapsed" },
@@ -32,7 +33,7 @@ export function CountdownTimer({ timeRemaining, total, theme }: CountdownTimerPr
             endAngle={-270}
             dataKey="value"
             stroke="none"
-            animationDuration={400}
+            animationDuration={500}
           >
             <Cell fill={remainingColor} />
             <Cell fill={elapsedColor} />
@@ -40,7 +41,8 @@ export function CountdownTimer({ timeRemaining, total, theme }: CountdownTimerPr
         </PieChart>
         <div className="absolute inset-0 flex items-center justify-center">
           <span className="text-xs font-bold text-slate-700 dark:text-slate-300">
-            { timeRemaining < (total / 4) ? timeRemaining : "" }
+
+           {timeRemaining / total < 0.25 ? timeRemaining : ""}
           </span>
         </div>
       </div>

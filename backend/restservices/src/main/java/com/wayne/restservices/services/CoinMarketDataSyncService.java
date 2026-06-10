@@ -10,6 +10,7 @@ import com.wayne.restservices.jobs.events.CoinMarketDataSyncRequestEvent;
 import com.wayne.restservices.mappers.CoinMarketDataMapper;
 import com.wayne.restservices.repositories.CoinMarketDataRepository;
 import com.wayne.restservices.repositories.CoinRepository;
+import com.wayne.restservices.utils.ChronoUnitConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationEventPublisher;
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -66,11 +68,17 @@ public class CoinMarketDataSyncService {
             List<CoinMarketData> entities = CoinMarketDataMapper.fromHistory(response, coin);
             List<CoinMarketData> saved = new ArrayList<>();
             for(CoinMarketData marketData : entities) {
-                log.info("coin id {}, lastUpdated {}", marketData.getCoin().getId(), marketData.getLastUpdated());
+                //log.info("coin id {}, lastUpdated {}", marketData.getCoin().getId(), marketData.getLastUpdated());
 
                 CoinMarketData lastData = repository.findByCoinIdLastUpdated(coinId, marketData.getLastUpdated());
                 if (lastData == null) {
-                    saved.add(repository.save(marketData));
+                    lastData = repository.findFirstByCoinIdOrderByLastUpdatedDesc(coinId);
+                    if(lastData == null ||
+                            !ChronoUnitConverter.normalizeFiveMinutes(lastData.getLastUpdated()).equals(
+                            ChronoUnitConverter.normalizeFiveMinutes(marketData.getLastUpdated()))) {
+                        repository.save(marketData);
+                    }
+
                 }
             }
             // repository.saveAll(entities);

@@ -7,7 +7,8 @@ import { useState, useRef, useEffect } from "react";
 interface HeaderProps {
   theme: "light" | "dark";
   toggleTheme: () => void;
-  timeRemaining: number;
+  timeOut: number;
+  startTime: Date;
   updateFrequency: UpdateFrequency;
   onUpdateFrequency: (frequency: UpdateFrequency) => void;
   onManualRefresh: () => void;
@@ -34,7 +35,8 @@ const CURRENCY_OPTIONS: { value: CurrencySymbol; label: string; symbol: string }
 export function Header({
   theme,
   toggleTheme,
-  timeRemaining,
+  timeOut,
+  startTime,
   updateFrequency,
   onUpdateFrequency,
   onManualRefresh,
@@ -46,7 +48,31 @@ export function Header({
   const [showCurrency, setShowCurrency] = useState(false);
   const settingsRef = useRef<HTMLDivElement>(null);
   const currencyRef = useRef<HTMLDivElement>(null);
+  const [timeRemaining, setTimeRemaining] = useState(timeOut);
+  const [syncTime, setSyncTime] = useState(startTime);
+  const countdownRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
+  useEffect(() => {
+
+    if (countdownRef.current) clearInterval(countdownRef.current);
+    //setTimeRemaining(updateFrequency);
+
+    // Countdown timer (every second)
+    countdownRef.current = setInterval(() => {
+      setTimeRemaining((prev) => {
+        // console.log("header timer " + prev);
+        if(prev <= 1 || isRefreshing)
+        {
+          return updateFrequency;
+        }
+        return Math.min(prev, updateFrequency) - 1;
+      });
+    }, 1000);
+
+    return () => {
+      if (countdownRef.current) clearInterval(countdownRef.current);
+    };
+  }, [isRefreshing, updateFrequency]);
   // Close dropdowns when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -57,7 +83,6 @@ export function Header({
         setShowCurrency(false);
       }
     };
-
     if (showSettings || showCurrency) {
       document.addEventListener("mousedown", handleClickOutside);
     }
@@ -91,6 +116,7 @@ export function Header({
           timeRemaining={timeRemaining}
           total={updateFrequency}
           theme={theme}
+          isRefreshing={isRefreshing}
         />
 
         {/* Refresh Button */}

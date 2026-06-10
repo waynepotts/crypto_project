@@ -48,6 +48,7 @@ export function App() {
     const [priceDtos, setPriceDtos] = useState<CoinHistory[]>([]);
     const [convertedData, setConvertedData] = useState<ChartDisplayData[]>([]);
     const [exchangeRate, setExchangeRate] = useState<number>(1);
+    const [startTime, setStartTime] = useState<Date>(new Date());
     const [theme, setTheme] = useState<"light" | "dark">(() => {
         if (typeof window !== "undefined") {
             const saved = localStorage.getItem("cryptodash-theme");
@@ -76,12 +77,12 @@ export function App() {
             await getExchange(abortController.signal)
                 .then((exchange)=>{
                     //const btc: number = exchange.rates["btc"]?.value;
-                    const exch = 1 / exchange.rates["usd"]?.value;
+                    const exch = exchange.rates["usd"]?.value;
 
                     Object.keys(EXCHANGE_RATES).forEach((key) => {
-                        const value:number = exchange.rates[key.toLowerCase()]?.value * exch;
+                        const value:number = 1 * (exchange.rates[key.toLowerCase()]?.value / exch);
                         EXCHANGE_RATES[key as keyof CurrencySymbol] = value;
-                        console.log(EXCHANGE_RATES[key as keyof CurrencySymbol]);
+                        // console.log(EXCHANGE_RATES[key as keyof CurrencySymbol]);
                     });
                     setExchangeRate(EXCHANGE_RATES[displayCurrency]);
                 });
@@ -91,8 +92,8 @@ export function App() {
 
     const updatePrices = useCallback(() => {
         setIsRefreshing(true);
+        console.log("update refreshing " + isRefreshing);
         if (refreshTimeoutRef.current) clearTimeout(refreshTimeoutRef.current);
-
         setPriceData(prev => prev.map(c => c));
         setCurrencies((prev) =>
             prev.map((currency) => ({
@@ -100,10 +101,11 @@ export function App() {
                 price: currency.price,
             }))
         );
+        setStartTime(new Date());
         refreshTimeoutRef.current = setTimeout(() => {
             setIsRefreshing(false);
-        }, 1000);
-    }, []);
+        }, 1500);
+    }, [isRefreshing]);
 
     // Manual refresh with visual feedback
     const handleManualRefresh = useCallback(() => {
@@ -115,7 +117,7 @@ export function App() {
             updatePrices();
           setIsRefreshing(false);
         }, 500);*/
-    }, [updatePrices, updateFrequency]);
+    }, [updatePrices]);
 
     useEffect(() => {
         updateExchangeRates();
@@ -144,20 +146,29 @@ export function App() {
         //setTimeRemaining(updateFrequency);
 
         // Countdown timer (every second)
+        let timer = updateFrequency;
         countdownRef.current = setInterval(() => {
-            setTimeRemaining((prev) => {
+            timer -= 1;
+            // console.log("main timer " + timer);
+            if(timer <= 1){
+                // console.log("refreshing main ", timer, isRefreshing);
+                timer = updateFrequency;
+                setTimeRemaining(0);
+                updatePrices();
+            }
+            /*setTimeRemaining((prev) => {
                 if (prev <= 1) {
                     updatePrices();
                     return updateFrequency;
                 }
                 return prev - 1;
-            });
+            });*/
         }, 1000);
 
         return () => {
             if (countdownRef.current) clearInterval(countdownRef.current);
         };
-    }, [updateFrequency, updatePrices]);
+    }, [displayCurrency, isRefreshing, updateFrequency, updatePrices]);
 
     // Cleanup timeouts/refs on unmount
     useEffect(() => {
@@ -208,10 +219,12 @@ export function App() {
         setTheme((prev) => (prev === "light" ? "dark" : "light"));
     };
     useEffect(() => {
-        // console.log("updating prices");
-        updateExchangeRates();
-        const abortController = new AbortController();
         let cancelled = false;
+        const abortController = new AbortController();
+        console.log("updating prices " + new Date());
+        updateExchangeRates();
+
+
         const fetchData = async () => {
             if (priceData.length === 0) return;
             const usdExchange = EXCHANGE_RATES["USD"];
@@ -221,9 +234,11 @@ export function App() {
             if (!cancelled) {
                 setPriceDtos(results);
                 setConvertedData(createChartHistoryData(results, exchangeRate, showRelative));
+
             }
         };
         fetchData().catch(err => "Aborted by user?");
+
         return () => {
             cancelled = true;
             try {
@@ -231,8 +246,9 @@ export function App() {
             } catch (error) {
                 console.log("print the error" + error);
             }
+
         };
-    }, [priceData, timeframe, exchangeRate, showRelative, updateExchangeRates]);
+    }, [priceData, timeframe, exchangeRate, showRelative, updateExchangeRates, isRefreshing, isLoading]);
     // const exchangeRate = EXCHANGE_RATES[displayCurrency];
 
     return (
@@ -241,7 +257,8 @@ export function App() {
                 <Header
                     theme={theme}
                     toggleTheme={toggleTheme}
-                    timeRemaining={timeRemaining}
+                    timeOut={timeRemaining}
+                    startTime={startTime}
                     updateFrequency={updateFrequency}
                     onUpdateFrequency={setUpdateFrequency}
                     onManualRefresh={handleManualRefresh}

@@ -7,6 +7,7 @@ public class CoinGeckoProperties {
 
     private String key;
     private String url;
+    private String defaultCurrency;
 
     public String getKey() {
         return key;
@@ -19,4 +20,6 @@ public class CoinGeckoProperties {
     public String getUrl() { return url; }
 
     public void setUrl(String url) { this.url = url; }
+    public void setDefaultCurrency(String defaultCurrency) { this.defaultCurrency = defaultCurrency; }
+    public String getDefaultCurrency() { return defaultCurrency; }
 }

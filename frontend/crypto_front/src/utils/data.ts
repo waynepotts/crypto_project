@@ -50,7 +50,7 @@ export async function generateMockCurrencies2(): Promise<Currency[]> {
             }
             baseData.push(base);
         }
-        console.log(baseData);
+        // console.log(baseData);
     } catch (e) {
         console.error("Failed to fetch market data, using mock data", e);
     }
@@ -133,7 +133,7 @@ export async function priceHistory(
         dayCount = 90;
         chrono = 3;
     }
-    console.log("chrono " + chrono);
+
     const ret: CoinHistoryPointDto[] = [];
     const resp = await getHistoryChart(currency.coinId, {days: dayCount, chronoUnit:chrono}, {signal});
     const response = resp as CoinHistoryResponseDto;
