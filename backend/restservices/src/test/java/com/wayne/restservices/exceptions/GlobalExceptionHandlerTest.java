@@ -59,7 +59,7 @@ class GlobalExceptionHandlerTest {
 
         assertEquals(409, response.status());
         assertEquals("Conflict", response.error());
-        assertEquals("Coin already exists with CoinGecko ID: bitcoin", response.message());
+        assertEquals("Coin already exists with CoinGecko ID, or symbol: bitcoin", response.message());
         assertEquals("/api/v1/coins", response.path());
     }
 

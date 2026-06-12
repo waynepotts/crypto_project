@@ -70,9 +70,7 @@ public class CoinValidator {
                 symbol
         )) {
 
-            throw new CoinAlreadyExistsException(
-                    "Coin symbol already exists: "
-                            + symbol
+            throw new CoinAlreadyExistsException(symbol
             );
         }
     }

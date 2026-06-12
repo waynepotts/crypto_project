@@ -1,0 +1,10 @@
+package com.wayne.restservices.config;
+
+public final class CacheNames {
+
+    private CacheNames() {}
+
+    public static final String COINS = "coins";
+    public static final String MARKET_DATA = "market-data";
+    public static final String EXCHANGE_RATES = "exchange-rates";
+}

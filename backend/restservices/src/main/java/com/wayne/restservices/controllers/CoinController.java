@@ -1,9 +1,7 @@
 package com.wayne.restservices.controllers;
 
 import com.wayne.restservices.dtos.*;
-import com.wayne.restservices.dtos.coingecko.CoinGeckoCategoryDto;
 import com.wayne.restservices.dtos.coingecko.CoinGeckoExchangeResponseDto;
-import com.wayne.restservices.entities.jpa.CoinMarketData;
 import com.wayne.restservices.services.CategoryService;
 import com.wayne.restservices.services.CoinMarketDataService;
 import com.wayne.restservices.services.CoinService;

@@ -84,4 +84,34 @@ public class GlobalExceptionHandler {
                 request.getRequestURI()
         );
     }
+
+    @ExceptionHandler(CategoryNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorResponseDto handleCategoryNotFoundException(
+            CategoryNotFoundException ex,
+            HttpServletRequest request
+    ) {
+        return new ErrorResponseDto(
+                Instant.now(),
+                404,
+                "Category not found",
+                ex.getMessage(),
+                request.getRequestURI()
+        );
+    }
+
+    @ExceptionHandler(CategoryAlreadyExistsException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ErrorResponseDto handleCategoryAlreadyExists(
+            CategoryAlreadyExistsException ex,
+            HttpServletRequest request
+    ) {
+        return new ErrorResponseDto(
+                Instant.now(),
+                409,
+                "Conflict",
+                ex.getMessage(),
+                request.getRequestURI()
+        );
+    }
 }

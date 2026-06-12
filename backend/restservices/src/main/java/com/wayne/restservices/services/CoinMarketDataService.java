@@ -1,6 +1,7 @@
 package com.wayne.restservices.services;
 
 import com.wayne.restservices.clients.CoinGeckoClient;
+import com.wayne.restservices.config.CacheNames;
 import com.wayne.restservices.dtos.CoinHistoryPointDto;
 import com.wayne.restservices.dtos.CoinHistoryPagedResponseDto;
 import com.wayne.restservices.dtos.CoinHistoryResponseDto;
@@ -17,6 +18,7 @@ import com.wayne.restservices.repositories.CoinMarketDataRepository;
 import com.wayne.restservices.repositories.CoinRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
@@ -102,6 +104,7 @@ public class CoinMarketDataService {
         }
     }
 
+    @Cacheable(value = CacheNames.MARKET_DATA, key = "#coinId")
     public CoinHistoryResponseDto getChartData(Long id, Integer days, int duration){
         Instant now = Instant.now();
         Instant last = now.minus(Duration.ofDays(days));

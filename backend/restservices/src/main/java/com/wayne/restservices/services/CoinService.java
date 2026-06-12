@@ -34,16 +34,19 @@ public class CoinService {
     private static final Logger log =
             LoggerFactory.getLogger(CoinService.class);
 
-    public List<CoinResponseDto> refreshCoins() {
+    public void updateCoinCategories(){
         log.info("Starting Category refresh");
         List<CoinGeckoCategoryDto> cats = coinGeckoClient.getCategoryDtos();
-        /*for (CoinGeckoCategoryDto cat : cats) {
+        for (CoinGeckoCategoryDto cat : cats) {
             Category c = Optional.ofNullable(categoryRepository.findByCoingeckoId(cat.categoryId())).orElse(new Category());
             c.setName(cat.name());
             c.setCoingeckoCategoryId(cat.categoryId());
             categoryRepository.save(c);
-            log.info("Category save "+ cat.name());
-        }*/
+            // log.info("Category save "+ cat.name());
+        }
+    }
+    public List<CoinResponseDto> refreshCoins() {
+
         log.info("Starting CoinGecko refresh");
         List<CoinResponseDto> updatedCoins = new ArrayList<>();
         try {
@@ -55,10 +58,10 @@ public class CoinService {
                 }
                 boolean updated = false;
                 CoinGeckoCoinDetailsDto dto = coinGeckoClient.getCoinDetails(coin.getCoingeckoId());
-                count--; // we don't want to spam coingecko with requests
                 if(dto.categories().size() == coin.getCategories().size()){
                     continue;
                 }
+                count--; // we don't want to spam coingecko with requests
                 Set<Category> catSet = new HashSet<>();
                 for(String c: dto.categories()){
                     Category category = categoryRepository.findByName(c);

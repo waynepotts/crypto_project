@@ -34,6 +34,6 @@ class CategoryAlreadyExistsExceptionTest {
     void shouldHandleEmptyCategoryIdInMessage() {
         CategoryAlreadyExistsException ex = new CategoryAlreadyExistsException("");
 
-        assertTrue(ex.getMessage().contains("Coingecko category ID: "));
+        assertTrue(ex.getMessage().contains("Category already exists with Coingecko category ID:"));
     }
 }

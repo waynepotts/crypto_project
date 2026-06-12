@@ -3,17 +3,25 @@ package com.wayne.restservices.controllers;
 import com.wayne.restservices.dtos.*;
 import com.wayne.restservices.exceptions.CoinNotFoundException;
 import com.wayne.restservices.repositories.CoinRepository;
+import com.wayne.restservices.services.CategoryService;
 import com.wayne.restservices.services.CoinMarketDataService;
 import com.wayne.restservices.services.CoinService;
 import org.junit.jupiter.api.Test;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.cache.autoconfigure.CacheAutoConfiguration;
+import org.springframework.boot.data.jpa.autoconfigure.DataJpaRepositoriesAutoConfiguration;
+import org.springframework.boot.hibernate.autoconfigure.HibernateJpaAutoConfiguration;
+import org.springframework.boot.jdbc.autoconfigure.DataSourceAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
+import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
+import org.springframework.cache.CacheManager;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -32,11 +40,27 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@ActiveProfiles({"test","dev"})
+//@WebMvcTest
+/*(
+        controllers = CoinController.class
+        , excludeAutoConfiguration = {
+                HibernateJpaAutoConfiguration.class,
+                DataSourceAutoConfiguration.class,
+                DataJpaRepositoriesAutoConfiguration.class
+        }
+)*/
+//@WebMvcTest(controllers = CoinController.class)
+//@ActiveProfiles("test")
 class CoinControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
+
+    @MockitoBean
+    private CacheManager cacheManager;
+
+    @MockitoBean
+    private CategoryService categoryService;
 
     @MockitoBean
     private CoinService service;
@@ -44,12 +68,9 @@ class CoinControllerTest {
     @MockitoBean
     private CoinMarketDataService marketDataService;
 
-    @MockitoBean
-    private CoinRepository repository;
-
     @Test
     void shouldReturnCoins() throws Exception {
-        CoinResponseDto dto = new CoinResponseDto(null, "coingeckoId_btc", "BTC", "Bitcoin", null, new ArrayList<>());
+        CoinResponseDto dto = new CoinResponseDto(1L, "coingeckoId_btc", "BTC", "Bitcoin", "", new ArrayList<>());
         when(service.getAllCoins())
                 .thenReturn(List.of(dto));
         mockMvc.perform(get("/api/v1/coins/all"))

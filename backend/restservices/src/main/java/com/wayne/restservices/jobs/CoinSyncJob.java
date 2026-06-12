@@ -25,5 +25,8 @@ public class CoinSyncJob {
         coinMarketDataService.syncCoins();
     }
 
-
+    @Scheduled(cron = "* * * 5 * ?")
+    public void syncCategories(){
+        coinService.updateCoinCategories();
+    }
 }

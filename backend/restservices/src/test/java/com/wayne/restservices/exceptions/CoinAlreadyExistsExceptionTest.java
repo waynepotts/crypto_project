@@ -19,7 +19,7 @@ class CoinAlreadyExistsExceptionTest {
     void shouldContainCorrectPrefixInMessage() {
         CoinAlreadyExistsException ex = new CoinAlreadyExistsException("ethereum");
 
-        assertTrue(ex.getMessage().startsWith("Coin already exists with CoinGecko ID: "));
+        assertTrue(ex.getMessage().startsWith("Coin already exists with CoinGecko ID, or symbol: "));
     }
 
     @Test
@@ -34,6 +34,6 @@ class CoinAlreadyExistsExceptionTest {
     void shouldHandleEmptyCoinIdInMessage() {
         CoinAlreadyExistsException ex = new CoinAlreadyExistsException("");
 
-        assertTrue(ex.getMessage().contains("CoinGecko ID: "));
+        assertTrue(ex.getMessage().contains("Coin already exists with CoinGecko ID, or symbol:"));
     }
 }

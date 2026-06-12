@@ -14,14 +14,14 @@ import java.util.List;
 
 public class CoinMapper {
 
-    private static final Logger log =
-            LoggerFactory.getLogger(CoinMapper.class);
+   /* private static final Logger log =
+            LoggerFactory.getLogger(CoinMapper.class);*/
     public static CoinResponseDto toDto(Coin coin) {
         try {
             List<String> categories =coin.getCategories().stream().map((Category::getName)).toList();
             return new CoinResponseDto(coin.getId(), coin.getCoingeckoId(), coin.getSymbol(), coin.getName(), coin.getImage(), categories);
         } catch(NullPointerException e) {
-            log.debug("NPE while converting coin to DTO, " + e.getMessage());
+            //log.debug("NPE while converting coin to DTO, " + e.getMessage());
             return null;
         }
     }

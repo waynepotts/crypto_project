@@ -3,6 +3,7 @@ package com.wayne.restservices.services;
 
 import com.wayne.restservices.clients.CoinGeckoClient;
 import com.wayne.restservices.dtos.CoinMarketDataDto;
+import com.wayne.restservices.dtos.coingecko.CoinGeckoChartPointDto;
 import com.wayne.restservices.dtos.coingecko.CoinGeckoMarketChartDto;
 import com.wayne.restservices.entities.jpa.Coin;
 import com.wayne.restservices.entities.jpa.CoinMarketData;
@@ -84,4 +85,37 @@ class CoinMarketDataSyncServiceTest {
         verify(coinRepository).findById(1L);
         verify(coinGeckoClient).getCoinMarketChartRange("bitcoin", from, to);
     }
+
+    @Test
+    void shouldSyncSuccessfullyWhenDataExists() {
+        // TODO: change this to check that the update time is truncated to 5 minutes
+        // if there is already a saved value at this time don't save
+
+        /*Instant from = Instant.parse("2026-01-01T00:00:00Z");
+        Instant to = Instant.parse("2026-01-05T00:00:00Z");
+
+        when(coinRepository.findById(1L)).thenReturn(Optional.of(testCoin));
+
+        CoinGeckoMarketChartDto chartDto = new CoinGeckoMarketChartDto();
+        List<Object> list = List.of(
+                1L,
+                BigDecimal.valueOf(1.1)
+        );
+        CoinGeckoChartPointDto pointDto = new CoinGeckoChartPointDto(list);
+        chartDto.setPrices(List.of(pointDto));
+        when(coinGeckoClient.getCoinMarketChartRange("bitcoin", from, to))
+                .thenReturn(chartDto);
+
+        when(repository.findByCoinIdLastUpdated(eq(1L), any(Instant.class)))
+                .thenReturn(null);
+        when(repository.findFirstByCoinIdOrderByLastUpdatedDesc(1L))
+                .thenReturn(null);
+
+        assertDoesNotThrow(() -> syncService.syncMissingRange(1L, from, to));
+
+        verify(coinRepository).findById(1L);
+        verify(coinGeckoClient).getCoinMarketChartRange("bitcoin", from, to);*/
+        //verify(repository, atLeastOnce()).findByCoinIdLastUpdated(eq(1L), any(Instant.class));
+    }
+
 }
