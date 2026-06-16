@@ -144,7 +144,7 @@ export function CurrencyList({
                   }`}
                 >
                   {isPositive ? "+" : ""}
-                  {currency.change24h.toFixed(2)}%
+                  {currency.change24h?.toFixed(2)}%
                 </p>
               </div>
             </CardContent>

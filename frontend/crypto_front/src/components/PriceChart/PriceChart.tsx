@@ -134,7 +134,8 @@ function ViewModeButton({mode, currentMode, icon, label, onClick}: ViewModeButto
 }
 
 interface TableViewProps {
-    data: { date: string; [key: string]: string | number }[];
+    //data: { date: string; [key: string]: string | number }[];
+    data:ChartDisplayData[],
     chartCurrencies: Currency[];
     displayCurrency: CurrencySymbol;
     exchangeRate: number;
@@ -183,11 +184,11 @@ function TableView({data, chartCurrencies, displayCurrency, exchangeRate, timefr
                     {data.slice(-20).map((row, idx) => (
                         <tr key={idx}
                             className="border-b border-slate-100 dark:border-slate-800/50 hover:bg-slate-50 dark:hover:bg-slate-800/30">
-                            <td className="py-2 px-3 text-slate-600 dark:text-slate-300">{formatDate(row.date)}</td>
+                            <td className="py-2 px-3 text-slate-600 dark:text-slate-300">{formatDate(row.timestamp)}</td>
                             {chartCurrencies.map((c) => (
                                 <td key={c.id}
                                     className="text-right py-2 px-3 font-mono text-slate-700 dark:text-slate-300">
-                                    {formatChartPrice(row[`${c.id}_price`] as number, displayCurrency, exchangeRate)}
+                                    {formatChartPrice(row[`coin${c.symbol}`] as number, displayCurrency, exchangeRate)}
                                 </td>
                             ))}
                         </tr>
@@ -200,10 +201,10 @@ function TableView({data, chartCurrencies, displayCurrency, exchangeRate, timefr
 
     // Detailed table - with change calculations
     if (variant === "detailed") {
-        const getChange = (currentIdx: number, currencyId: string) => {
+        const getChange = (currentIdx: number, currencySymbol: number) => {
             if (currentIdx === 0) return {value: 0, percent: 0};
-            const prevPrice = data[currentIdx - 1][`${currencyId}_price`] as number;
-            const currPrice = data[currentIdx][`${currencyId}_price`] as number;
+            const prevPrice = data[currentIdx - 1][`coin${currencySymbol}`] as number;
+            const currPrice = data[currentIdx][`coin${currencySymbol}`] as number;
             const change = currPrice - prevPrice;
             const percent = prevPrice !== 0 ? ((change / prevPrice) * 100) : 0;
             return {value: change * exchangeRate, percent};
@@ -239,7 +240,7 @@ function TableView({data, chartCurrencies, displayCurrency, exchangeRate, timefr
                     <tbody>
                     {data.slice(-30).map((row, idx) => {
                         //const dataArray = data.slice(-30);
-                        const change = chartCurrencies.length === 1 ? getChange(idx, chartCurrencies[0].id) : null;
+                        const change = chartCurrencies.length === 1 ? getChange(idx, chartCurrencies[0].symbol) : null;
 
                         return (
                             <tr key={idx}
@@ -247,15 +248,15 @@ function TableView({data, chartCurrencies, displayCurrency, exchangeRate, timefr
                                 <td className="py-3 px-4">
                                     <div className="flex flex-col">
                                         <span
-                                            className="font-medium text-slate-700 dark:text-slate-300">{formatDate(row.date)}</span>
+                                            className="font-medium text-slate-700 dark:text-slate-300">{formatDate(row.timestamp)}</span>
                                         <span
-                                            className="text-xs text-slate-400 dark:text-slate-500">{formatFullDate(row.date)}</span>
+                                            className="text-xs text-slate-400 dark:text-slate-500">{formatFullDate(row.timestamp)}</span>
                                     </div>
                                 </td>
                                 {chartCurrencies.map((c) => (
                                     <td key={c.id} className="text-right py-3 px-4">
                       <span className="font-mono font-medium text-slate-700 dark:text-slate-300">
-                        {formatChartPrice(row[`${c.id}_price`] as number, displayCurrency, exchangeRate)}
+                        {formatChartPrice(row[`coin${c.symbol}`] as number, displayCurrency, exchangeRate)}
                       </span>
                                     </td>
                                 ))}
@@ -314,13 +315,13 @@ function TableView({data, chartCurrencies, displayCurrency, exchangeRate, timefr
                         <td className="py-3 px-4">
                             <div className="flex flex-col">
                                 <span
-                                    className="font-medium text-slate-700 dark:text-slate-300">{formatDate(row.date)}</span>
+                                    className="font-medium text-slate-700 dark:text-slate-300">{formatDate(row.timestamp)}</span>
                             </div>
                         </td>
                         {chartCurrencies.map((c) => (
                             <td key={c.id} className="text-right py-3 px-4">
                   <span className="font-mono text-slate-700 dark:text-slate-300">
-                    {formatChartPrice(row[`${c.id}_price`] as number, displayCurrency, exchangeRate)}
+                    {formatChartPrice(row[`coin${c.symbol}`] as number, displayCurrency, exchangeRate)}
                   </span>
                             </td>
                         ))}
@@ -347,7 +348,7 @@ export function PriceChart({
                                theme
                            }: PriceChartProps) {
     const [viewMode, setViewMode] = useState<ViewMode>("chart");
-    // console.log(viewMode);
+     console.log(viewMode);
     if (isLoading) {
         return <ChartSkeleton/>;
     }
@@ -605,7 +606,7 @@ export function PriceChart({
                                         key={item.coin.id}
                                         name={item.coin.symbol}
                                         type="monotone"
-                                        dataKey={"coin" + idx}
+                                        dataKey={"coin"+ item.coin.symbol}
                                         stroke={item.currency.color}
                                         strokeWidth={2}
                                         dot={false}
@@ -623,7 +624,7 @@ export function PriceChart({
                 ) : (
                     <div className="max-h-96 overflow-y-auto">
                         <TableView
-                            data={data}
+                            data={chartData}
                             chartCurrencies={chartCurrencies}
                             displayCurrency={displayCurrency}
                             exchangeRate={exchangeRate}

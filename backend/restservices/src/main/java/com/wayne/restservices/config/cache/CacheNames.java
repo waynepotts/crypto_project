@@ -1,4 +1,4 @@
-package com.wayne.restservices.config;
+package com.wayne.restservices.config.cache;
 
 public final class CacheNames {
 

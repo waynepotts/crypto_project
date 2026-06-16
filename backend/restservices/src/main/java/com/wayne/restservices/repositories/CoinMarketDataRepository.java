@@ -24,6 +24,13 @@ public interface CoinMarketDataRepository extends JpaRepository<CoinMarketData, 
     @Query("""
     SELECT md FROM CoinMarketData md
     WHERE md.coin.id = :coinId
+    AND md.createdAt = :createdAt
+    """)
+    CoinMarketData findByCoinIdCreatedAt(Long coinId, Instant createdAt);
+
+    @Query("""
+    SELECT md FROM CoinMarketData md
+    WHERE md.coin.id = :coinId
     AND md.lastUpdated = :lastUpdated
     """)
     CoinMarketData findByCoinIdLastUpdated(Long coinId, Instant lastUpdated);
@@ -33,12 +40,7 @@ public interface CoinMarketDataRepository extends JpaRepository<CoinMarketData, 
     AND md.lastUpdated = :lastUpdated
     """)
     List<CoinMarketData> findByCoinIdLastUpdatedList(Long coinId, Instant lastUpdated);
-    /*@Query("""
-    SELECT md
-    FROM CoinMarketData md
-    WHERE md.marketCapRank BETWEEN :lowest and :highest
-    ORDER BY md.createdAt DESC LIMIT :limit
-""")*/
+
     @Query("""
     SELECT md1 FROM CoinMarketData md1
     WHERE md1.id IN

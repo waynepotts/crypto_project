@@ -46,7 +46,7 @@ public class CoinMarketDataMapper {
         marketData.setTotalVolume(dto.getTotalVolume());
         marketData.setPriceChangePercentage24h(toFinancialScale(dto.getPriceChangePercentage24h()));
         marketData.setPriceChange24h(toFinancialScale(dto.getPriceChange24h()));
-        Instant createdAt = Instant.now();
+        final Instant createdAt = ChronoUnitConverter.normalizeFiveMinutes(Instant.now());
         marketData.setGranularity(ChronoUnitConverter.getGranularity(createdAt));
         marketData.setSource("coingecko");
         marketData.setCreatedAt(createdAt);
@@ -64,9 +64,10 @@ public class CoinMarketDataMapper {
                 marketData.setMarketCap(dto.getMarketCaps().get(index).getValue());
                 marketData.setTotalVolume(dto.getTotalVolumes().get(index).getValue());
                 marketData.setLastUpdated(pointDto.getTimeStamp());
-                marketData.setCreatedAt(Instant.now());
+                final Instant createdAt = ChronoUnitConverter.normalizeFiveMinutes(pointDto.getTimeStamp());
+                marketData.setCreatedAt(createdAt);
                 marketData.setCoin(coin);
-                marketData.setGranularity(ChronoUnitConverter.getGranularity(pointDto.getTimeStamp()));
+                marketData.setGranularity(ChronoUnitConverter.getGranularity(createdAt));
                 marketData.setSource("coingecko");
                 entities.add(marketData);
             }
@@ -79,15 +80,21 @@ public class CoinMarketDataMapper {
 
     public static CoinHistoryPointDto toDto(CoinMarketData marketData) {
         return new CoinHistoryPointDto(
-                marketData.getLastUpdated(),
+                ChronoUnitConverter.normalizeFiveMinutes(marketData.getLastUpdated()),
                 marketData.getCurrentPrice(),
                 marketData.getMarketCap(),
                 marketData.getTotalVolume()
         );
     }
-    public static CoinHistoryResponseDto fromPaged(@NonNull CoinHistoryPagedResponseDto dto, CoinResponseDto coinDto, double expected){
-        long elements = dto.getTotalElements();
-        return new CoinHistoryResponseDto(dto.getContent(), elements / expected, coinDto);
+    public static CoinHistoryResponseDto fromPaged(@NonNull CoinHistoryPagedResponseDto dto, CoinResponseDto coinDto, Instant from, Instant to, ChronoUnit granularity) {
+        double elements = dto.getTotalElements();
+        long seconds = switch (granularity) {
+            case MINUTES -> from.until(to, ChronoUnit.MINUTES) / 5;
+            case HOURS -> from.until(to, ChronoUnit.HOURS);
+            case DAYS -> from.until(to, ChronoUnit.DAYS);
+            default -> 1;
+        };
+        return new CoinHistoryResponseDto(dto.getContent(),elements / seconds , coinDto);
     }
 
     public static CoinHistoryResponseDto fromCoinGecko(@NonNull CoinGeckoMarketChartDto dto) {

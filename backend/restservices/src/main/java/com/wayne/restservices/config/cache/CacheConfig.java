@@ -1,4 +1,4 @@
-package com.wayne.restservices.config;
+package com.wayne.restservices.config.cache;
 
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Configuration;

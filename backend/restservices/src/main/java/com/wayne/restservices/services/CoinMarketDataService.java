@@ -1,7 +1,7 @@
 package com.wayne.restservices.services;
 
 import com.wayne.restservices.clients.CoinGeckoClient;
-import com.wayne.restservices.config.CacheNames;
+import com.wayne.restservices.config.cache.CacheNames;
 import com.wayne.restservices.dtos.CoinHistoryPointDto;
 import com.wayne.restservices.dtos.CoinHistoryPagedResponseDto;
 import com.wayne.restservices.dtos.CoinHistoryResponseDto;
@@ -27,6 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -47,9 +48,9 @@ public class CoinMarketDataService {
     public CoinHistoryPagedResponseDto getCoinHistory(Long id, Instant from, Instant to, int pageNumber, int pageSize) {
         return getCoinHistory( id, from, to, ChronoUnit.HOURS, pageNumber,  pageSize);
     }
-
-    public CoinHistoryPagedResponseDto getCoinHistory(Long id, Instant from, Instant to,ChronoUnit granularity, int pageNumber, int pageSize) {
-        Coin coin = coinRepository.findById(id).orElseThrow(()->new CoinNotFoundException(id));
+    @Cacheable(value = CacheNames.MARKET_DATA, key = "#coinId + ':' + #days + ':' + #duration")
+    public CoinHistoryPagedResponseDto getCoinHistory(Long coinId, Instant from, Instant to,ChronoUnit granularity, int pageNumber, int pageSize) {
+        Coin coin = coinRepository.findById(coinId).orElseThrow(()->new CoinNotFoundException(coinId));
         Pageable pageable = PageRequest.of(
                 pageNumber,
                 pageSize,
@@ -71,6 +72,7 @@ public class CoinMarketDataService {
         final int pageSize = 250;
         List<CoinGeckoCoinDto> coins =
                 coinGeckoClient.getMarkets(page, pageSize);
+        List<String> notUpdated = new ArrayList<>();
         for (CoinGeckoCoinDto dto : coins) {
             try {
                 Coin coin =
@@ -90,7 +92,8 @@ public class CoinMarketDataService {
                         coinData.setCoin(coin);
                         coinMarketDataRepository.save(coinData);
                     } else {
-                        log.info("CoinMarketData for coin " + coin.getSymbol() + " not updated because coin gecko doesn't have new data for the coin");
+                        notUpdated.add(coin.getSymbol());
+
                     }
                 } else {
                     CoinMarketData coinData = CoinMarketDataMapper.fromDto(dto);
@@ -102,37 +105,27 @@ public class CoinMarketDataService {
                 break;
             }
         }
+        log.info("coins not updated because there is no new data {}", notUpdated);
     }
 
-    @Cacheable(value = CacheNames.MARKET_DATA, key = "#coinId")
-    public CoinHistoryResponseDto getChartData(Long id, Integer days, int duration){
+    public CoinHistoryResponseDto getChartData(Long id, Integer days, int chrono){
         Instant now = Instant.now();
         Instant last = now.minus(Duration.ofDays(days));
-        ChronoUnit granularity = ChronoUnit.MINUTES;
-        double timeDuration = 288.0d;
-        switch(duration) {
-            case 1:
-                timeDuration = 288.0d;
-                break;
-            case 2:
-                timeDuration = 24.0d;
-                granularity = ChronoUnit.HOURS;
-                break;
-            case 3:
-                timeDuration = 1.0d;
-                granularity = ChronoUnit.DAYS;
-                break;
-        }
-        double expected = days * timeDuration;
+        ChronoUnit granularity  = switch (chrono) {
+            case 1 -> ChronoUnit.MINUTES;
+            case 2 -> ChronoUnit.HOURS;
+            default -> ChronoUnit.DAYS;
+        };
+
         int page = 0;
-        CoinHistoryPagedResponseDto paged = getCoinHistory(id, last , now, granularity, page, (int)expected*2);
+        CoinHistoryPagedResponseDto paged = getCoinHistory(id, last , now, granularity, page, 500);
         Coin coin =
                 coinRepository
                         .findById(id).orElseThrow(()-> new CoinNotFoundException(id));
-        CoinHistoryResponseDto found = CoinMarketDataMapper.fromPaged(paged, CoinMapper.toDto(coin),  expected);
-        log.info("completeness {} {}", found.completeness(), expected);
-        if(found.completeness() < 1.0d) {
+        CoinHistoryResponseDto found = CoinMarketDataMapper.fromPaged(paged, CoinMapper.toDto(coin),  last, now, granularity);
 
+        if(found.completeness() < 0.95d) {
+            log.info("completeness {} {}", coin.getSymbol(), found.completeness());
             publisher.publishEvent(new CoinMarketDataSyncRequestEvent(id, last, now));
         }
         return found;
@@ -156,6 +149,10 @@ public class CoinMarketDataService {
                 .toList();//.collect(Collectors.toList());
     }
 
+    @Cacheable(
+            value = CacheNames.EXCHANGE_RATES,
+            key = "'btc'"
+    )
     public CoinGeckoExchangeResponseDto getExchangeRates(){
         return coinGeckoClient.getExchangeRates();
     }

@@ -26,9 +26,10 @@ export interface TimeframeParams {
     intervalMinutes: number;
 }
 
-export async function generateMockCurrencies2(): Promise<Currency[]> {
+export async function getCryptoPrices(): Promise<Currency[]> {
 
-    const baseData:Currency[] = [];//  = generateMockCurrencies();
+    //const baseData:Currency[] = [];//  = generateMockCurrencies();
+    const mappedData:Map<string, Currency> = new Map<string, Currency>();
     try {
         const response = await getMarketCapRank({start: 0, end: 250});
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -47,16 +48,18 @@ export async function generateMockCurrencies2(): Promise<Currency[]> {
             if (d.priceChange24h != null && d.currentPrice != null) {
                 base.change24h = (d.priceChange24h / d.currentPrice) * 100.0;
                 base.basePrice = d.currentPrice + d.priceChange24h;
+                mappedData.set(base.symbol, base);
             }
-            baseData.push(base);
+
+           // baseData.push(base);
         }
-        // console.log(baseData);
+        console.log(mappedData);
     } catch (e) {
         console.error("Failed to fetch market data, using mock data", e);
     }
 
 
-    return baseData;
+    return [...mappedData.values()];
 }
 
 export function generateMockCurrencies(): Currency[] {
@@ -123,7 +126,11 @@ export async function priceHistory(
 ): Promise<CoinHistory> {
     let dayCount: number = 1;
     let chrono: number = 1;
-    if (timeframe === "1W") {
+    if(timeframe ==="1H"){
+        dayCount = 0;
+        chrono = 1;
+    }
+    else if (timeframe === "1W") {
         dayCount = 7;
         chrono = 2;
     } else if (timeframe === "30D") {
@@ -141,7 +148,7 @@ export async function priceHistory(
     const chartData = response.chartData as CoinHistoryPointDto[];
     chartData.forEach((d) => {
         const timestamp: string = d.timestamp as string;
-        d.timestamp = clampTime(toDate(timestamp)).toISOString();
+        d.timestamp = toDate(timestamp).toISOString();
         d.price = d.price * exchangeRate;
         ret.push(d);
     });

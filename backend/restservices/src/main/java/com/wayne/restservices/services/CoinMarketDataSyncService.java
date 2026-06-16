@@ -70,15 +70,10 @@ public class CoinMarketDataSyncService {
             for(CoinMarketData marketData : entities) {
                 //log.info("coin id {}, lastUpdated {}", marketData.getCoin().getId(), marketData.getLastUpdated());
 
-                CoinMarketData lastData = repository.findByCoinIdLastUpdated(coinId, marketData.getLastUpdated());
+                CoinMarketData lastData = repository.findByCoinIdCreatedAt(coinId, marketData.getCreatedAt());
                 if (lastData == null) {
-                    lastData = repository.findFirstByCoinIdOrderByLastUpdatedDesc(coinId);
-                    if(lastData == null ||
-                            !ChronoUnitConverter.normalizeFiveMinutes(lastData.getLastUpdated()).equals(
-                            ChronoUnitConverter.normalizeFiveMinutes(marketData.getLastUpdated()))) {
-                        repository.save(marketData);
-                    }
-
+                    marketData = repository.save(marketData);
+                    saved.add(marketData);
                 }
             }
             // repository.saveAll(entities);

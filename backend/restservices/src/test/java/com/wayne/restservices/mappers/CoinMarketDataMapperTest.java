@@ -6,12 +6,14 @@ import com.wayne.restservices.dtos.coingecko.CoinGeckoCoinDto;
 import com.wayne.restservices.dtos.coingecko.CoinGeckoMarketChartDto;
 import com.wayne.restservices.entities.jpa.Coin;
 import com.wayne.restservices.entities.jpa.CoinMarketData;
+import com.wayne.restservices.utils.ChronoUnitConverter;
 import org.junit.jupiter.api.Test;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 
 import java.math.BigDecimal;
+import java.time.Duration;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -58,12 +60,13 @@ class CoinMarketDataMapperTest {
 
     @Test
     void shouldMapCoinMarketDataToHistoryPointDto() {
-        Instant now = Instant.now();
+        Instant now = ChronoUnitConverter.normalizeFiveMinutes(Instant.now());
         CoinMarketData marketData = new CoinMarketData();
         marketData.setCurrentPrice(BigDecimal.valueOf(50000));
         marketData.setMarketCap(BigDecimal.valueOf(1000000000L));
         marketData.setTotalVolume(BigDecimal.valueOf(50000000L));
         marketData.setLastUpdated(now);
+        marketData.setCreatedAt(now);
 
         CoinHistoryPointDto dto = CoinMarketDataMapper.toDto(marketData);
 
@@ -76,7 +79,9 @@ class CoinMarketDataMapperTest {
 
     @Test
     void shouldMapPagedResponseToHistoryResponse() {
-        CoinHistoryPointDto point = new CoinHistoryPointDto(Instant.now(), BigDecimal.valueOf(50000), null, null);
+        CoinHistoryPointDto point = new CoinHistoryPointDto(
+                ChronoUnitConverter.normalizeFiveMinutes(Instant.now())
+                , BigDecimal.valueOf(50000), null, null);
 
         Page<CoinHistoryPointDto> page = new PageImpl<>(
                 List.of(point), PageRequest.of(0, 20), 1);
@@ -84,12 +89,12 @@ class CoinMarketDataMapperTest {
         CoinHistoryPagedResponseDto pagedDto = new CoinHistoryPagedResponseDto(page);
 
         CoinResponseDto coinDto = new CoinResponseDto(1L,"bitcoin", "btc","", "", new ArrayList<>());
-        CoinHistoryResponseDto response = CoinMarketDataMapper.fromPaged(pagedDto, coinDto, 24.0);
+        CoinHistoryResponseDto response = CoinMarketDataMapper.fromPaged(pagedDto, coinDto, Instant.now().minus(Duration.ofDays(1)),Instant.now(), ChronoUnit.DAYS);
 
         assertNotNull(response);
         assertEquals(1, response.chartData().size());
         assertEquals(BigDecimal.valueOf(50000), response.chartData().get(0).price());
-        assertEquals(0.041666666666666664, response.completeness(), 0.0001);
+        assertEquals(1, response.completeness(), 0.0001);
     }
 
     @Test

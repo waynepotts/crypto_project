@@ -18,7 +18,7 @@ export interface ChartDisplayData {
 }
 
 export function createChartHistoryData(data:CoinHistory[], exchangeRate:number,  isRelative:boolean): ChartDisplayData[] {
-    const dataMap = new Map<Date, ChartDisplayData>();
+    const dataMap = new Map<string, ChartDisplayData>();
     for(let i = 0; i < data.length; i++) {
         const d = data[i];
         if(d) {
@@ -27,9 +27,10 @@ export function createChartHistoryData(data:CoinHistory[], exchangeRate:number, 
                 if(idx === 0) {
                     first = h.price;
                 }
-                const date:Date = Date.parse(h.timestamp);
-                const cData: ChartDisplayData = dataMap.has(date)? dataMap.get(date):
-                    {timestamp: h.timestamp, coinId:d.coin.id} as ChartDisplayData;
+                //const date:Date = Date.parse(h.timestamp);
+                const date:string = h.timestamp as string;
+                const cData: ChartDisplayData = dataMap.has(date) ? dataMap.get(date) as ChartDisplayData:
+                    {timestamp: date, coinId: d.coin.id, currencies: []};
                 if(cData.currencies && !cData.currencies.some(c=> c.id=== d.currency.id)){
                     cData.currencies.push(d.currency);
                 } else{
@@ -37,12 +38,17 @@ export function createChartHistoryData(data:CoinHistory[], exchangeRate:number, 
                     cData.currencies.push(d.currency);
                 }
                 let price:number = isRelative ? h.price / first : h.price;
+
                 if(!isRelative) {
                     price = price * exchangeRate;
                 }
-                switch (i) {
+                cData.currencies.push(d.currency);
+               // eval('cData.coin' + i + ' =  price');
+                eval('cData.coin' + d.coin.symbol + ' =  price');
+                /*switch (i) {
                     case 0:
                         cData.coin0 = price;
+
                         break;
                     case 1:
                         cData.coin1 = price;
@@ -56,10 +62,21 @@ export function createChartHistoryData(data:CoinHistory[], exchangeRate:number, 
                     case 4:
                         cData.coin4 = price;
                         break;
-                }
+                }*/
                 dataMap.set(date, cData);
             });
         }
+    }
+    for(let i = 0; i < data.length; i++) {
+        const d = data[i];
+        let last:number = 1;
+        dataMap.forEach((h, i) => {
+            if(eval('h.coin'+d.coin.symbol) !== undefined ){
+                last = eval('h.coin'+d.coin.symbol);
+            } else{
+                eval('h.coin' + d.coin.symbol + ' =  last');
+            }
+        });
     }
     let keys = Array.from(dataMap.keys());
     let ret: ChartDisplayData[] = [];

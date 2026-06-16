@@ -15,6 +15,7 @@
 	<properties>
 		<java.version>21</java.version>
 		<java.target>21</java.target>
+		<maven.compiler.parameters>true</maven.compiler.parameters>
 		<spring.version>4.0.6</spring.version>
 		<springdoc.openapi>2.8.5</springdoc.openapi>
 		<spring.env>4.0.0</spring.env>

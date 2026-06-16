@@ -1,4 +1,4 @@
-package com.wayne.restservices.config;
+package com.wayne.restservices.config.cache;
 
 import com.hazelcast.config.Config;
 import com.hazelcast.core.Hazelcast;
