@@ -50,10 +50,8 @@ export async function getCryptoPrices(): Promise<Currency[]> {
                 base.basePrice = d.currentPrice + d.priceChange24h;
                 mappedData.set(base.symbol, base);
             }
-
-           // baseData.push(base);
         }
-        console.log(mappedData);
+        // console.log(mappedData);
     } catch (e) {
         console.error("Failed to fetch market data, using mock data", e);
     }
@@ -127,7 +125,7 @@ export async function priceHistory(
     let dayCount: number = 1;
     let chrono: number = 1;
     if(timeframe ==="1H"){
-        dayCount = 0;
+        dayCount = 1;
         chrono = 1;
     }
     else if (timeframe === "1W") {
@@ -176,13 +174,5 @@ export function formatMarketCap(value: number): string {
 
 export function toDate(str: string): Date {
     return new Date(str);
-}
-
-export function clampTime(date: Date): Date {
-    const ret = new Date(date);
-    let minutes: number =  Math.trunc(date.getMinutes() / 5);
-    minutes *= 5;
-    ret.setMinutes(minutes, 0, 0);
-    return ret;
 }
 

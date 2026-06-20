@@ -2,10 +2,8 @@ package com.wayne.restservices.services;
 
 import com.wayne.restservices.clients.CoinGeckoClient;
 import com.wayne.restservices.dtos.CoinHistoryPagedResponseDto;
-import com.wayne.restservices.dtos.CoinHistoryPointDto;
 import com.wayne.restservices.dtos.CoinMarketDataDto;
 import com.wayne.restservices.dtos.coingecko.CoinGeckoCoinDto;
-import com.wayne.restservices.dtos.coingecko.CoinGeckoMarketChartDto;
 import com.wayne.restservices.entities.jpa.Coin;
 import com.wayne.restservices.entities.jpa.CoinMarketData;
 import com.wayne.restservices.exceptions.CoinNotFoundException;
@@ -20,7 +18,6 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -64,12 +61,12 @@ class CoinMarketDataServiceTest {
         Page<CoinMarketData> dataPage = new PageImpl<>(List.of(marketData));
 
         when(coinRepository.findById(1L)).thenReturn(Optional.of(coin));
-        when(coinMarketDataRepository.findByCoinLastUpdatedRange(
+        when(coinMarketDataRepository.findByCoinLastUpdatedRangePaged(
                 eq(coin), eq(from), eq(to), eq(ChronoUnit.HOURS), any(PageRequest.class)))
                 .thenReturn(dataPage);
 
         CoinHistoryPagedResponseDto result =
-                coinMarketDataService.getCoinHistory(1L, from, to, 0, 20);
+                coinMarketDataService.getCoinHistoryPaged(1L, from, to, 0, 20);
 
         assertNotNull(result);
         assertEquals(1, result.getContent().size());
@@ -83,7 +80,7 @@ class CoinMarketDataServiceTest {
         when(coinRepository.findById(999L)).thenReturn(Optional.empty());
 
         assertThrows(CoinNotFoundException.class,
-                () -> coinMarketDataService.getCoinHistory(
+                () -> coinMarketDataService.getCoinHistoryPaged(
                         999L, Instant.now(), Instant.now(), 0, 20));
     }
 
@@ -142,7 +139,7 @@ class CoinMarketDataServiceTest {
         when(coinGeckoClient.getMarkets(1, 250)).thenReturn(List.of(dto));
         when(coinRepository.findByCoingeckoId("bitcoin")).thenReturn(Optional.of(existingCoin));
         when(coinRepository.save(any(Coin.class))).thenReturn(existingCoin);
-        when(coinMarketDataRepository.findFirstByCoinIdOrderByLastUpdatedDesc(1L))
+        when(coinMarketDataRepository.findFirstByCoinIdOrderByGranularTimestampDesc(1L))
                 .thenReturn(lastData);
         when(coinMarketDataRepository.save(any(CoinMarketData.class)))
                 .thenAnswer(invocation -> invocation.getArgument(0));
@@ -177,7 +174,7 @@ class CoinMarketDataServiceTest {
         when(coinGeckoClient.getMarkets(1, 250)).thenReturn(List.of(dto));
         when(coinRepository.findByCoingeckoId("bitcoin")).thenReturn(Optional.of(existingCoin));
         when(coinRepository.save(any(Coin.class))).thenReturn(existingCoin);
-        when(coinMarketDataRepository.findFirstByCoinIdOrderByLastUpdatedDesc(1L))
+        when(coinMarketDataRepository.findFirstByCoinIdOrderByGranularTimestampDesc(1L))
                 .thenReturn(lastData);
 
         coinMarketDataService.syncCoins();
@@ -201,7 +198,7 @@ class CoinMarketDataServiceTest {
                 .thenReturn(List.of(marketData));
 
         List<CoinMarketDataDto> result =
-                coinMarketDataService.GetMarketDataByMarketCapRankRange(1, 5);
+                coinMarketDataService.getMarketDataByMarketCapRankRange(1, 5);
 
         assertNotNull(result);
         assertEquals(1, result.size());

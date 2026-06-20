@@ -2,6 +2,7 @@ package com.wayne.restservices.dtos;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
+import java.io.Serializable;
 import java.util.List;
 
 public record CoinResponseDto(
@@ -11,4 +12,4 @@ public record CoinResponseDto(
     @Schema(description = "Display name", example = "Bitcoin") String name,
     @Schema(description = "URL to the logo image", example = "www.url.com/btc.jpg") String image,
     @Schema(description = "Categories this coin belongs to", example = "DefI, Layer 1") List<String> categories
-) {}
+) implements Serializable {}

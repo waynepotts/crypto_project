@@ -158,6 +158,9 @@ public class CoinMarketData {
     @Column(name = "created_at", updatable = false)
     private Instant createdAt;
 
+    @Column(name = "granular_timestamp", updatable = false)
+    private Instant granularTimestamp;
+
     @Column(nullable = false)
     @Convert(converter = ChronoUnitConverter.class)
     private ChronoUnit granularity;
@@ -359,6 +362,14 @@ public class CoinMarketData {
 
     public void setCreatedAt(Instant createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public Instant getGranularTimestamp() {
+        return granularTimestamp;
+    }
+
+    public void setGranularTimestamp(Instant granularTimestamp) {
+        this.granularTimestamp = granularTimestamp;
     }
 
     public ChronoUnit getGranularity() {

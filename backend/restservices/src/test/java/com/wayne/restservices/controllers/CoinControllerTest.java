@@ -2,31 +2,22 @@ package com.wayne.restservices.controllers;
 
 import com.wayne.restservices.dtos.*;
 import com.wayne.restservices.exceptions.CoinNotFoundException;
-import com.wayne.restservices.repositories.CoinRepository;
 import com.wayne.restservices.services.CategoryService;
 import com.wayne.restservices.services.CoinMarketDataService;
 import com.wayne.restservices.services.CoinService;
 import org.junit.jupiter.api.Test;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.cache.autoconfigure.CacheAutoConfiguration;
-import org.springframework.boot.data.jpa.autoconfigure.DataJpaRepositoriesAutoConfiguration;
-import org.springframework.boot.hibernate.autoconfigure.HibernateJpaAutoConfiguration;
-import org.springframework.boot.jdbc.autoconfigure.DataSourceAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
-import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.cache.CacheManager;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.math.BigDecimal;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -148,7 +139,7 @@ class CoinControllerTest {
     void shouldReturnMarketCapRank() throws Exception {
         CoinMarketDataDto dto = new CoinMarketDataDto(null, 1L, "Bitcoin", "BTC", BigDecimal.valueOf(50000), null, 1, null, null);
 
-        when(marketDataService.GetMarketDataByMarketCapRankRange(0, 5))
+        when(marketDataService.getMarketDataByMarketCapRankRange(0, 5))
                 .thenReturn(List.of(dto));
 
         mockMvc.perform(get("/api/v1/coins/marketcaprank?start=0&end=5"))

@@ -1,5 +1,6 @@
 import type {CoinHistoryPointDto, CoinResponseDto} from "../generated/api.ts";
 import type {Currency} from "../utils/data.ts";
+import type {TimeframeValue} from "../App.tsx";
 
 export interface CoinHistory {
     coin: CoinResponseDto;
@@ -17,8 +18,9 @@ export interface ChartDisplayData {
     currencies: Currency[];
 }
 
-export function createChartHistoryData(data:CoinHistory[], exchangeRate:number,  isRelative:boolean): ChartDisplayData[] {
+export function createChartHistoryData(data:CoinHistory[], exchangeRate:number,  isRelative:boolean, frame:TimeframeValue): ChartDisplayData[] {
     const dataMap = new Map<string, ChartDisplayData>();
+    const oldest = getOldestTime(frame, new Date());
     for(let i = 0; i < data.length; i++) {
         const d = data[i];
         if(d) {
@@ -27,43 +29,26 @@ export function createChartHistoryData(data:CoinHistory[], exchangeRate:number, 
                 if(idx === 0) {
                     first = h.price;
                 }
-                //const date:Date = Date.parse(h.timestamp);
-                const date:string = h.timestamp as string;
-                const cData: ChartDisplayData = dataMap.has(date) ? dataMap.get(date) as ChartDisplayData:
-                    {timestamp: date, coinId: d.coin.id, currencies: []};
-                if(cData.currencies && !cData.currencies.some(c=> c.id=== d.currency.id)){
-                    cData.currencies.push(d.currency);
-                } else{
-                    cData.currencies = [];
-                    cData.currencies.push(d.currency);
-                }
-                let price:number = isRelative ? h.price / first : h.price;
+                const date:Date = Date.parse(h.timestamp);
+                if(date > oldest) {
+                    const date: string = h.timestamp as string;
+                    const cData: ChartDisplayData = dataMap.has(date) ? dataMap.get(date) as ChartDisplayData :
+                        {timestamp: date, coinId: d.coin.id, currencies: []};
+                    if (cData.currencies && !cData.currencies.some(c => c.id === d.currency.id)) {
+                        cData.currencies.push(d.currency);
+                    } else {
+                        cData.currencies = [];
+                        cData.currencies.push(d.currency);
+                    }
+                    let price: number = isRelative ? h.price / first : h.price;
 
-                if(!isRelative) {
-                    price = price * exchangeRate;
+                    if (!isRelative) {
+                        price = price * exchangeRate;
+                    }
+                    cData.currencies.push(d.currency);
+                    eval('cData.coin' + d.coin.symbol + ' =  price');
+                    dataMap.set(date, cData);
                 }
-                cData.currencies.push(d.currency);
-               // eval('cData.coin' + i + ' =  price');
-                eval('cData.coin' + d.coin.symbol + ' =  price');
-                /*switch (i) {
-                    case 0:
-                        cData.coin0 = price;
-
-                        break;
-                    case 1:
-                        cData.coin1 = price;
-                        break;
-                    case 2:
-                        cData.coin2 = price;
-                        break;
-                    case 3:
-                        cData.coin3 = price ;
-                        break;
-                    case 4:
-                        cData.coin4 = price;
-                        break;
-                }*/
-                dataMap.set(date, cData);
             });
         }
     }
@@ -83,4 +68,26 @@ export function createChartHistoryData(data:CoinHistory[], exchangeRate:number, 
     keys.sort().forEach(k=> ret.push(dataMap.get(k)));
     return ret;
     //return [...dataMap.values()];
+}
+
+function getOldestTime(frame:TimeframeValue, date:Date):Date {
+    let millis = 0;
+    switch(frame){
+        case "1H":
+            millis = 60 * 60 * 1000;
+            break;
+        case "1D":
+            millis = 24 * 60 * 60 * 1000;
+            break;
+        case "1W":
+            millis = 7 * 24 * 60 * 60 * 1000;
+            break;
+        case "30D":
+            millis = 30 * 24 * 60 * 60 * 1000;
+            break;
+        case "90D":
+            millis = 90 * 24 * 60 * 60 * 1000;
+            break;
+    }
+    return new Date(date.getTime() - millis);
 }

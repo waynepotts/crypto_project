@@ -17,11 +17,10 @@ import {
 import {Button} from '../ui/button.tsx';
 import type {TimeframeValue, CurrencySymbol} from "../../App.tsx";
 import {useState} from "react";
-import {LineChartIcon, TableIcon, LayoutGridIcon, ListIcon} from "lucide-react";
+import {LineChartIcon, TableIcon, LayoutGridIcon, ListIcon, CrossIcon, Cross, CircleXIcon} from "lucide-react";
 import {
     type ChartDisplayData,
-    type CoinHistory,
-    createChartHistoryData
+    type CoinHistory
 } from "../../types/ChartDisplayData.ts";
 import type {Currency} from "../../utils/data.ts";
 
@@ -35,6 +34,7 @@ interface PriceChartProps {
     onTimeframeChange: (value: TimeframeValue) => void;
     showRelative: boolean;
     onToggleRelative: () => void;
+    onRemoveCurrency: (c:number) => void;
     displayCurrency: CurrencySymbol;
     exchangeRate: number;
     theme: string
@@ -343,12 +343,13 @@ export function PriceChart({
                                onTimeframeChange,
                                showRelative,
                                onToggleRelative,
+                                onRemoveCurrency,
                                displayCurrency,
                                exchangeRate,
                                theme
                            }: PriceChartProps) {
     const [viewMode, setViewMode] = useState<ViewMode>("chart");
-     console.log(viewMode);
+    // console.log(viewMode);
     if (isLoading) {
         return <ChartSkeleton/>;
     }
@@ -367,10 +368,10 @@ export function PriceChart({
         );
     }
 
-    const chartData = convertedData;// ?? createChartHistoryData(data, exchangeRate, showRelative);
     let minPrice: number = Number.MAX_SAFE_INTEGER;
     let maxPrice: number = Number.MIN_SAFE_INTEGER;
-    chartData.forEach(c => {
+
+    convertedData.forEach(c => {
         if (c.coin0) {
             minPrice = Math.min(minPrice, c.coin0);
             maxPrice = Math.max(maxPrice, c.coin0);
@@ -468,7 +469,7 @@ export function PriceChart({
                                 className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-all ${
                                     timeframe === option.value
                                         ? "bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300"
-                                        : "text-slate-500 dark:text-slate-400 hover:bg-slate-800 dark:hover:bg-slate-100 "
+                                        : "text-slate-500 dark:text-slate-400 dark:hover:bg-slate-800 hover:bg-slate-100 "
                                 }`}
                             >
                                 {option.label}
@@ -500,6 +501,19 @@ export function PriceChart({
                                 <span className="text-sm font-medium text-slate-700 dark:text-slate-300">
                   {item.symbol}
                 </span>
+                                <Button
+                                    key={`close_${item.id}`}
+                                    variant="ghost"
+                                           size="sm"
+
+                                           className='px-3 py-1.5 text-xs font-medium rounded-lg transition-all
+                                                    bg-slate-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300
+                                                      dark:hover:bg-slate-700 hover:bg-slate-300
+                                           '
+                                           onClick={()=> onRemoveCurrency(item.id)}
+                                >
+                                    <CircleXIcon></CircleXIcon>
+                                </Button>
                             </div>
                         ))}
                     </div>
@@ -511,7 +525,7 @@ export function PriceChart({
                     <div className="h-80 w-full">
                         <ResponsiveContainer width="100%" height="100%">
                             <LineChart
-                                data={chartData}
+                                data={convertedData}
                                 margin={{top: 10, right: 10, left: 0, bottom: 0}}
                             >
                                 <CartesianGrid
@@ -624,7 +638,7 @@ export function PriceChart({
                 ) : (
                     <div className="max-h-96 overflow-y-auto">
                         <TableView
-                            data={chartData}
+                            data={convertedData}
                             chartCurrencies={chartCurrencies}
                             displayCurrency={displayCurrency}
                             exchangeRate={exchangeRate}

@@ -5,25 +5,17 @@ import com.wayne.restservices.dtos.coingecko.CoinGeckoMarketChartDto;
 import com.wayne.restservices.entities.jpa.Coin;
 import com.wayne.restservices.entities.jpa.CoinMarketData;
 import com.wayne.restservices.exceptions.CoinNotFoundException;
-import com.wayne.restservices.jobs.SyncTracker;
-import com.wayne.restservices.jobs.events.CoinMarketDataSyncRequestEvent;
 import com.wayne.restservices.mappers.CoinMarketDataMapper;
 import com.wayne.restservices.repositories.CoinMarketDataRepository;
 import com.wayne.restservices.repositories.CoinRepository;
-import com.wayne.restservices.utils.ChronoUnitConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.context.event.EventListener;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
-import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
+import java.util.Map;
 
 @Service
 //@RequiredArgsConstructor
@@ -64,17 +56,17 @@ public class CoinMarketDataSyncService {
                             from,
                             to
                     );
-
+            Map<Instant, CoinMarketData> saved = new HashMap<>();
             List<CoinMarketData> entities = CoinMarketDataMapper.fromHistory(response, coin);
-            List<CoinMarketData> saved = new ArrayList<>();
             for(CoinMarketData marketData : entities) {
-                //log.info("coin id {}, lastUpdated {}", marketData.getCoin().getId(), marketData.getLastUpdated());
+                //log.info("coin id {}, timestamp {}", marketData.getCoin().getId(), marketData.getGranularTimestamp());
 
-                CoinMarketData lastData = repository.findByCoinIdCreatedAt(coinId, marketData.getCreatedAt());
-                if (lastData == null) {
+                CoinMarketData lastData = repository.findByCoinIdGranularTimestamp(coinId, marketData.getGranularTimestamp());
+                if (lastData == null && !saved.containsKey(marketData.getGranularTimestamp())) {
                     marketData = repository.save(marketData);
-                    saved.add(marketData);
+                    saved.put(marketData.getGranularTimestamp(), marketData);
                 }
+
             }
             // repository.saveAll(entities);
 

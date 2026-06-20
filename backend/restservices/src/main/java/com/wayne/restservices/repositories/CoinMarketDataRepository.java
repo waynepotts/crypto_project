@@ -14,26 +14,15 @@ import java.util.List;
 
 public interface CoinMarketDataRepository extends JpaRepository<CoinMarketData, Long> {
 
-    List<CoinMarketData> findByCoinIdOrderByLastUpdatedDesc(Long coinId);
-
-    Page<CoinMarketData> findByMarketCapRankBetweenAndCreatedAtIsNear(Integer marketCapRankAfter, Integer marketCapRankBefore, Instant createdAt,
-                                                                                           Pageable pageable);
-
-    CoinMarketData findFirstByCoinIdOrderByLastUpdatedDesc(Long coinId);
+    CoinMarketData findFirstByCoinIdOrderByGranularTimestampDesc(Long coinId);
 
     @Query("""
     SELECT md FROM CoinMarketData md
     WHERE md.coin.id = :coinId
-    AND md.createdAt = :createdAt
+    AND md.granularTimestamp = :granularTimestamp
     """)
-    CoinMarketData findByCoinIdCreatedAt(Long coinId, Instant createdAt);
+    CoinMarketData findByCoinIdGranularTimestamp(Long coinId, Instant granularTimestamp);
 
-    @Query("""
-    SELECT md FROM CoinMarketData md
-    WHERE md.coin.id = :coinId
-    AND md.lastUpdated = :lastUpdated
-    """)
-    CoinMarketData findByCoinIdLastUpdated(Long coinId, Instant lastUpdated);
     @Query("""
     SELECT md FROM CoinMarketData md
     WHERE md.coin.id = :coinId
@@ -47,7 +36,7 @@ public interface CoinMarketDataRepository extends JpaRepository<CoinMarketData, 
     (SELECT md.id
     FROM CoinMarketData md
     WHERE md.marketCapRank BETWEEN :lowest and :highest
-    ORDER BY md.createdAt DESC LIMIT :limit)
+    ORDER BY md.granularTimestamp DESC LIMIT :limit)
     ORDER BY md1.marketCapRank
 """)
     List<CoinMarketData> findLatestMarketCapRankRange(@Param("lowest") Integer lowest, @Param("highest") Integer highest,  @Param("limit") Integer limit);
@@ -59,12 +48,26 @@ public interface CoinMarketDataRepository extends JpaRepository<CoinMarketData, 
       AND md.lastUpdated BETWEEN :from AND :to
       AND md.granularity >= :granularity
 """)
-    Page<CoinMarketData> findByCoinLastUpdatedRange(
+    Page<CoinMarketData> findByCoinLastUpdatedRangePaged(
             @Param("coin") Coin coin,
             @Param("from") Instant from,
             @Param("to") Instant to,
             @Param("granularity") ChronoUnit granularity,
             Pageable pageable
+    );
+    @Query("""
+    SELECT md
+    FROM CoinMarketData md
+    WHERE md.coin = :coin
+      AND md.createdAt BETWEEN :from AND :to
+      AND md.granularity >= :granularity
+    ORDER BY md.granularTimestamp ASC
+""")
+    List<CoinMarketData> findByCoinCreatedAtRange(
+            @Param("coin") Coin coin,
+            @Param("from") Instant from,
+            @Param("to") Instant to,
+            @Param("granularity") ChronoUnit granularity
     );
 
 }

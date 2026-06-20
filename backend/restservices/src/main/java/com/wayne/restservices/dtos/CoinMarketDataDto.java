@@ -1,5 +1,6 @@
 package com.wayne.restservices.dtos;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.Instant;
 
@@ -13,4 +14,4 @@ public record CoinMarketDataDto(
     Integer marketCapRank,
     Instant lastUpdated,
     BigDecimal priceChange24h
-) {}
+) implements Serializable {}

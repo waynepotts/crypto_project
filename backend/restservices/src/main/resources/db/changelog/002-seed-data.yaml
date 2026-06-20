@@ -35,9 +35,10 @@ databaseChangeLog:
                 market_cap_rank,
                 total_volume,
                 last_updated,
+                granular_timestamp,
                 granularity
               )
-              SELECT id, 70000, 1300000000000, 1, 20000000000, '1978-06-22 19:10:25-07', 1
+              SELECT id, 70000, 1300000000000, 1, 20000000000, '1978-06-22 19:10:25-07', '1978-06-22 19:10:00-00', 1
               FROM coins WHERE coingecko_id = 'bitcoin';
 
         - sql:
@@ -49,9 +50,10 @@ databaseChangeLog:
                 market_cap_rank,
                 total_volume,
                 last_updated,
+                granular_timestamp,
                 granularity
               )
-              SELECT id, 3500, 400000000000, 2, 15000000000, '1978-06-22 19:10:25-07', 1
+              SELECT id, 3500, 400000000000, 2, 15000000000, '1978-06-22 19:10:25-07', '1978-06-22 19:10:00-00', 1
               FROM coins WHERE coingecko_id = 'ethereum';
 
   - changeSet:

@@ -1,5 +1,6 @@
 package com.wayne.restservices.dtos;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.Instant;
 
@@ -8,4 +9,4 @@ public record CoinHistoryPointDto(
     BigDecimal price,
     BigDecimal marketCap,
     BigDecimal volume
-) {}
+) implements Serializable {}

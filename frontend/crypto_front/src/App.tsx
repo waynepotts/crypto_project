@@ -153,9 +153,15 @@ export function App() {
         };
     }, [startTime]);
     useEffect(() => {
-        const rate = EXCHANGE_RATES[displayCurrency];
-        //setExchangeRate(rate);
-    }, [displayCurrency]);
+        const clearData = async () => {
+            setPriceDtos([]);
+            setConvertedData([]);
+            setTimeRemaining(0);
+            updatePrices();
+        };
+        clearData();
+        //setTimeframe(timeframe)
+    }, [timeframe]);
 
     useEffect(() => {
 
@@ -211,7 +217,7 @@ export function App() {
             const newPrices = priceDtos.filter((c => c.currency.id !== currency.id))
             setPriceData(prev=> prev.filter(c => c.id !== currency.id));
             setPriceDtos(newPrices);
-            setConvertedData(createChartHistoryData(newPrices, exchangeRate, showRelative));
+            setConvertedData(createChartHistoryData(newPrices, exchangeRate, showRelative, timeframe));
         } else {
             const usedColors = priceData.map((c) => c.color);
             if(!currency.color){
@@ -224,7 +230,7 @@ export function App() {
             setPriceData(prices);
             const newPrices = priceDtos.map(c => c);
             setPriceDtos(newPrices);
-            setConvertedData(createChartHistoryData(newPrices, exchangeRate, showRelative));
+            setConvertedData(createChartHistoryData(newPrices, exchangeRate, showRelative, timeframe));
         }
     };
 
@@ -245,8 +251,7 @@ export function App() {
     useEffect(() => {
         let cancelled = false;
         const abortController = new AbortController();
-        console.log("updating prices " + new Date());
-        //updateExchangeRates();
+        //console.log("updating prices " + new Date());
         const fetchData = async () => {
             if (priceData.length === 0) return;
             const usdExchange = EXCHANGE_RATES["USD"];
@@ -255,7 +260,7 @@ export function App() {
             );
             if (!cancelled) {
                 setPriceDtos(results);
-                setConvertedData(createChartHistoryData(results, exchangeRate, showRelative));
+                setConvertedData(createChartHistoryData(results, exchangeRate, showRelative, timeframe));
             }
         };
         fetchData().catch(err => "Aborted by user?");
@@ -312,6 +317,7 @@ export function App() {
                         onTimeframeChange={setTimeframe}
                         showRelative={showRelative}
                         onToggleRelative={() => setShowRelative((prev) => !prev)}
+                        onRemoveCurrency={(c:number)=> setPriceData(priceData.filter((prev) => prev.id !== c))}
                         displayCurrency={displayCurrency}
                         exchangeRate={exchangeRate}
                         theme={theme}

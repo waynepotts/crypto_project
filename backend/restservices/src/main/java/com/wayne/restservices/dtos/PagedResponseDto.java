@@ -2,9 +2,10 @@ package com.wayne.restservices.dtos;
 
 import org.springframework.data.domain.Page;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class PagedResponseDto<T> {
+public class PagedResponseDto<T> implements Serializable {
 
     private List<T> content;
 

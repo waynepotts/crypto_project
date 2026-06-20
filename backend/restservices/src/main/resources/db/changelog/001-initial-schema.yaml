@@ -156,6 +156,12 @@ databaseChangeLog:
                   defaultValueComputed: CURRENT_TIMESTAMP
 
               - column:
+                  name: granular_timestamp
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+
+              - column:
                   name: granularity
                   type: SMALLINT
                   constraints:
@@ -175,7 +181,7 @@ databaseChangeLog:
 
         - addUniqueConstraint:
             tableName: coin_market_data
-            columnNames: coin_id, last_updated, granularity
+            columnNames: coin_id, granular_timestamp
             constraintName: uq_coin_timestamp_granularity
 
         - createIndex:
@@ -187,10 +193,7 @@ databaseChangeLog:
                   name: coin_id
 
               - column:
-                  name: granularity
-
-              - column:
-                  name: last_updated
+                  name: granular_timestamp
                   descending: true
 
 

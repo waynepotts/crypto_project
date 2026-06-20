@@ -39,9 +39,10 @@ public class HazelcastDevConfig {
                 .getJoin()
                 .getTcpIpConfig()
                 .setEnabled(false);
-        config.addMapConfig(new MapConfig(CacheNames.MARKET_DATA).setTimeToLiveSeconds((int) Duration.ofHours(1).toSeconds()).setInMemoryFormat(InMemoryFormat.BINARY));
+        config.addMapConfig(new MapConfig(CacheNames.MARKET_DATA).setTimeToLiveSeconds((int) Duration.ofMinutes(5).toSeconds()).setInMemoryFormat(InMemoryFormat.BINARY));
         config.addMapConfig(new MapConfig(CacheNames.EXCHANGE_RATES).setTimeToLiveSeconds((int) Duration.ofMinutes(5).toSeconds()).setInMemoryFormat(InMemoryFormat.BINARY));
         config.addMapConfig(new MapConfig(CacheNames.COINS).setTimeToLiveSeconds((int) Duration.ofDays(1).toSeconds()).setInMemoryFormat(InMemoryFormat.BINARY));
+        config.addMapConfig(new MapConfig(CacheNames.MARKET_CAP).setTimeToLiveSeconds((int) Duration.ofDays(1).toSeconds()).setInMemoryFormat(InMemoryFormat.BINARY));
         return config;
     }
 

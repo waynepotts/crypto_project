@@ -2,6 +2,7 @@ package com.wayne.restservices.controllers;
 
 import com.wayne.restservices.dtos.*;
 import com.wayne.restservices.dtos.coingecko.CoinGeckoExchangeResponseDto;
+import com.wayne.restservices.facade.MarketFacade;
 import com.wayne.restservices.services.CategoryService;
 import com.wayne.restservices.services.CoinMarketDataService;
 import com.wayne.restservices.services.CoinService;
@@ -25,11 +26,13 @@ public class CoinController {
     private final CoinService coinService;
     private final CoinMarketDataService coinMarketDataService;
     private final CategoryService categoryService;
+    private final MarketFacade marketFacade;
 
-    public CoinController(CoinService coinService, CoinMarketDataService coinMarketDataService, CategoryService categoryService) {
+    public CoinController(CoinService coinService, CoinMarketDataService coinMarketDataService, CategoryService categoryService, MarketFacade marketFacade) {
         this.coinService = coinService;
         this.coinMarketDataService = coinMarketDataService;
         this.categoryService = categoryService;
+        this.marketFacade = marketFacade;
     }
 
     @Operation(summary = "Returns coins in pages")
@@ -125,12 +128,12 @@ public class CoinController {
                                                       Integer page, Integer pageSize) {
         Instant fromInstant = Instant.ofEpochSecond(from);
         Instant toInstant = Instant.ofEpochSecond(to);
-        return coinMarketDataService.getCoinHistory(id,fromInstant, toInstant, page, pageSize);
+        return coinMarketDataService.getCoinHistoryPaged(id,fromInstant, toInstant, page, pageSize);
     }
 
     @GetMapping("/{id}/history_chart")
     public CoinHistoryResponseDto getHistoryChart(@PathVariable Long id, Integer days, @RequestParam(defaultValue = "3") int chronoUnit ) {
-        return coinMarketDataService.getChartData(id, days, chronoUnit);
+        return marketFacade.getChartData(id, days, chronoUnit);
     }
     @Operation(summary = "Search coins by name or symbol (partial, case-insensitive)")
     @GetMapping("/search")
@@ -143,7 +146,7 @@ public class CoinController {
     @Operation(summary = "returns the most popular coins in the range")
     @GetMapping("/marketcaprank")
     public List<CoinMarketDataDto> getMarketCapRank(@RequestParam(defaultValue = "0") Integer start, @RequestParam(defaultValue = "5") Integer end) {
-        return coinMarketDataService.GetMarketDataByMarketCapRankRange(start, end);
+        return marketFacade.getMarketCapRankRange(start, end);
     }
 
     @Operation(summary = "returns the exchange rates for currencies compared to bitcoin")
