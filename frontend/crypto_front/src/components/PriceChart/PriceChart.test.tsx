@@ -4,7 +4,7 @@ import type { CoinHistory } from "../../types/ChartDisplayData.ts";
 import type { Currency } from "../../utils/data.ts";
 
 const mockCurrency: Currency = {
-  id: "bitcoin", rId: 1, name: "Bitcoin", symbol: "BTC",
+  id: 1, coinId: 1, name: "Bitcoin", symbol: "BTC",
   price: 67432.50, change24h: 2.5, marketCap: 1324000000000,
   basePrice: 67000, color: "#10b981",
 };
@@ -217,6 +217,82 @@ describe('PriceChart', () => {
       />
     );
     fireEvent.click(screen.getByText("Table"));
+    expect(container.querySelector('table')).toBeInTheDocument();
+  });
+
+  test('renders remove currency buttons for each chart currency', () => {
+    render(
+      <PriceChart
+        data={[mockHistory]}
+        chartCurrencies={[mockCurrency]}
+        onColorChange={() => {}}
+        isLoading={false}
+        timeframe="1D"
+        onTimeframeChange={() => {}}
+        showRelative={false}
+        onToggleRelative={() => {}}
+        displayCurrency="USD"
+        exchangeRate={1}
+        theme="light"
+        onRemoveCurrency={() => { }}
+      />
+    );
+    const buttons = document.querySelectorAll('button[variant="ghost"]');
+    expect(buttons.length).toBeGreaterThan(0);
+  });
+
+  test('calls onRemoveCurrency when remove button clicked', () => {
+    const onRemoveCurrency = vi.fn();
+    const secondMockCurrency: Currency = {
+      id: 2, coinId: 2, name: "Ethereum", symbol: "ETH",
+      price: 3521.80, change24h: 1.2, marketCap: 423000000000,
+      basePrice: 3500, color: "#3b82f6"
+    };
+    render(
+      <PriceChart
+        data={[mockHistory]}
+        chartCurrencies={[mockCurrency, secondMockCurrency]}
+        onColorChange={() => {}}
+        isLoading={false}
+        timeframe="1D"
+        onTimeframeChange={() => {}}
+        showRelative={false}
+        onToggleRelative={() => {}}
+        displayCurrency="USD"
+        exchangeRate={1}
+        theme="light"
+        onRemoveCurrency={onRemoveCurrency}
+      />
+    );
+    const buttons = document.querySelectorAll('button');
+    if (buttons.length > 0) {
+      fireEvent.click(buttons[buttons.length - 1]);
+    }
+    expect(onRemoveCurrency).toHaveBeenCalled();
+  });
+
+  test('renders all three table views correctly', () => {
+    const { container } = render(
+      <PriceChart
+        data={[mockHistory]}
+        chartCurrencies={[mockCurrency]}
+        onColorChange={() => {}}
+        isLoading={false}
+        timeframe="1D"
+        onTimeframeChange={() => {}}
+        showRelative={false}
+        onToggleRelative={() => {}}
+        displayCurrency="USD"
+        exchangeRate={1}
+        theme="light"
+        onRemoveCurrency={() => { }}
+      />
+    );
+
+    fireEvent.click(screen.getByText("Compact"));
+    expect(container.querySelector('table')).toBeInTheDocument();
+
+    fireEvent.click(screen.getByText("Detailed"));
     expect(container.querySelector('table')).toBeInTheDocument();
   });
 });
