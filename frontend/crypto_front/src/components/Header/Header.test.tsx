@@ -5,16 +5,19 @@ describe('Header', () => {
   test('renders CryptoDash title', () => {
     render(
       <Header
-        theme="light"
-        toggleTheme={() => {}}
-        timeRemaining={30}
-        updateFrequency={30}
-        onUpdateFrequency={() => {}}
-        onManualRefresh={() => {}}
-        isRefreshing={false}
-        displayCurrency="USD"
-        onCurrencyChange={() => {}}
-      />
+          theme="light"
+          toggleTheme={() => {
+          }}
+          startTime={new Date()}
+          updateFrequency={300}
+          onUpdateFrequency={() => {
+          }}
+          onManualRefresh={() => {
+          }}
+          isRefreshing={false}
+          displayCurrency="USD"
+          onCurrencyChange={() => {
+          }} timeOut={0}      />
     );
     expect(screen.getByText("CryptoDash")).toBeInTheDocument();
   });
@@ -22,16 +25,19 @@ describe('Header', () => {
   test('renders subtitle', () => {
     render(
       <Header
-        theme="light"
-        toggleTheme={() => {}}
-        timeRemaining={30}
-        updateFrequency={30}
-        onUpdateFrequency={() => {}}
-        onManualRefresh={() => {}}
-        isRefreshing={false}
-        displayCurrency="USD"
-        onCurrencyChange={() => {}}
-      />
+          theme="light"
+          toggleTheme={() => {
+          }}
+          startTime={new Date()}
+          updateFrequency={300}
+          onUpdateFrequency={() => {
+          }}
+          onManualRefresh={() => {
+          }}
+          isRefreshing={false}
+          displayCurrency="USD"
+          onCurrencyChange={() => {
+          }} timeOut={0}      />
     );
     expect(screen.getByText("Real-time cryptocurrency tracker")).toBeInTheDocument();
   });
@@ -39,16 +45,19 @@ describe('Header', () => {
   test('shows Moon icon in light theme', () => {
     const { container } = render(
       <Header
-        theme="light"
-        toggleTheme={() => {}}
-        timeRemaining={30}
-        updateFrequency={30}
-        onUpdateFrequency={() => {}}
-        onManualRefresh={() => {}}
-        isRefreshing={false}
-        displayCurrency="USD"
-        onCurrencyChange={() => {}}
-      />
+          theme="light"
+          toggleTheme={() => {
+          }}
+          startTime={new Date()}
+          updateFrequency={300}
+          onUpdateFrequency={() => {
+          }}
+          onManualRefresh={() => {
+          }}
+          isRefreshing={false}
+          displayCurrency="USD"
+          onCurrencyChange={() => {
+          }} timeOut={0}      />
     );
     const moonIcons = container.querySelectorAll('svg.lucide-moon');
     expect(moonIcons.length).toBeGreaterThanOrEqual(1);
@@ -57,16 +66,19 @@ describe('Header', () => {
   test('shows Sun icon in dark theme', () => {
     const { container } = render(
       <Header
-        theme="dark"
-        toggleTheme={() => {}}
-        timeRemaining={30}
-        updateFrequency={30}
-        onUpdateFrequency={() => {}}
-        onManualRefresh={() => {}}
-        isRefreshing={false}
-        displayCurrency="USD"
-        onCurrencyChange={() => {}}
-      />
+          theme="dark"
+          toggleTheme={() => {
+          }}
+          startTime={new Date()}
+          updateFrequency={300}
+          onUpdateFrequency={() => {
+          }}
+          onManualRefresh={() => {
+          }}
+          isRefreshing={false}
+          displayCurrency="USD"
+          onCurrencyChange={() => {
+          }} timeOut={0}      />
     );
     const sunIcons = container.querySelectorAll('svg.lucide-sun');
     expect(sunIcons.length).toBeGreaterThanOrEqual(1);
@@ -76,16 +88,18 @@ describe('Header', () => {
     const toggleTheme = vi.fn();
     const { container } = render(
       <Header
-        theme="light"
-        toggleTheme={toggleTheme}
-        timeRemaining={30}
-        updateFrequency={30}
-        onUpdateFrequency={() => {}}
-        onManualRefresh={() => {}}
-        isRefreshing={false}
-        displayCurrency="USD"
-        onCurrencyChange={() => {}}
-      />
+          theme="light"
+          toggleTheme={toggleTheme}
+          startTime={new Date()}
+          updateFrequency={300}
+          onUpdateFrequency={() => {
+          }}
+          onManualRefresh={() => {
+          }}
+          isRefreshing={false}
+          displayCurrency="USD"
+          onCurrencyChange={() => {
+          }} timeOut={0}      />
     );
     const themeIcon = container.querySelector('.lucide-moon');
     const themeButton = themeIcon?.closest('button');
@@ -97,16 +111,18 @@ describe('Header', () => {
     const onManualRefresh = vi.fn();
     render(
       <Header
-        theme="light"
-        toggleTheme={() => {}}
-        timeRemaining={30}
-        updateFrequency={30}
-        onUpdateFrequency={() => {}}
-        onManualRefresh={onManualRefresh}
-        isRefreshing={false}
-        displayCurrency="USD"
-        onCurrencyChange={() => {}}
-      />
+          theme="light"
+          toggleTheme={() => {
+          }}
+          startTime={new Date()}
+          updateFrequency={300}
+          onUpdateFrequency={() => {
+          }}
+          onManualRefresh={onManualRefresh}
+          isRefreshing={false}
+          displayCurrency="USD"
+          onCurrencyChange={() => {
+          }} timeOut={0}      />
     );
     const refreshButton = screen.getByTitle("Refresh prices now");
     fireEvent.click(refreshButton);
@@ -116,16 +132,19 @@ describe('Header', () => {
   test('shows currency dropdown when currency button clicked', () => {
     render(
       <Header
-        theme="light"
-        toggleTheme={() => {}}
-        timeRemaining={30}
-        updateFrequency={30}
-        onUpdateFrequency={() => {}}
-        onManualRefresh={() => {}}
-        isRefreshing={false}
-        displayCurrency="USD"
-        onCurrencyChange={() => {}}
-      />
+          theme="light"
+          toggleTheme={() => {
+          }}
+          startTime={new Date()}
+          updateFrequency={300}
+          onUpdateFrequency={() => {
+          }}
+          onManualRefresh={() => {
+          }}
+          isRefreshing={false}
+          displayCurrency="USD"
+          onCurrencyChange={() => {
+          }} timeOut={0}      />
     );
     const currencyButton = screen.getByTitle("Select display currency");
     fireEvent.click(currencyButton);
@@ -136,16 +155,19 @@ describe('Header', () => {
   test('shows settings dropdown when settings button clicked', () => {
     const { container } = render(
       <Header
-        theme="light"
-        toggleTheme={() => {}}
-        timeRemaining={30}
-        updateFrequency={30}
-        onUpdateFrequency={() => {}}
-        onManualRefresh={() => {}}
-        isRefreshing={false}
-        displayCurrency="USD"
-        onCurrencyChange={() => {}}
-      />
+          theme="light"
+          toggleTheme={() => {
+          }}
+          startTime={new Date()}
+          updateFrequency={300}
+          onUpdateFrequency={() => {
+          }}
+          onManualRefresh={() => {
+          }}
+          isRefreshing={false}
+          displayCurrency="USD"
+          onCurrencyChange={() => {
+          }} timeOut={0}      />
     );
     const settingsIcon = container.querySelector('.lucide-settings');
     const settingsButton = settingsIcon?.closest('button');
@@ -158,16 +180,18 @@ describe('Header', () => {
     const onCurrencyChange = vi.fn();
     render(
       <Header
-        theme="light"
-        toggleTheme={() => {}}
-        timeRemaining={30}
-        updateFrequency={30}
-        onUpdateFrequency={() => {}}
-        onManualRefresh={() => {}}
-        isRefreshing={false}
-        displayCurrency="USD"
-        onCurrencyChange={onCurrencyChange}
-      />
+          theme="light"
+          toggleTheme={() => {
+          }}
+          startTime={new Date()}
+          updateFrequency={300}
+          onUpdateFrequency={() => {
+          }}
+          onManualRefresh={() => {
+          }}
+          isRefreshing={false}
+          displayCurrency="USD"
+          onCurrencyChange={onCurrencyChange} timeOut={0}      />
     );
     const currencyButton = screen.getByTitle("Select display currency");
     fireEvent.click(currencyButton);
@@ -179,16 +203,18 @@ describe('Header', () => {
     const onUpdateFrequency = vi.fn();
     const { container } = render(
       <Header
-        theme="light"
-        toggleTheme={() => {}}
-        timeRemaining={30}
-        updateFrequency={30}
-        onUpdateFrequency={onUpdateFrequency}
-        onManualRefresh={() => {}}
-        isRefreshing={false}
-        displayCurrency="USD"
-        onCurrencyChange={() => {}}
-      />
+          theme="light"
+          toggleTheme={() => {
+          }}
+          startTime={new Date()}
+          updateFrequency={300}
+          onUpdateFrequency={onUpdateFrequency}
+          onManualRefresh={() => {
+          }}
+          isRefreshing={false}
+          displayCurrency="USD"
+          onCurrencyChange={() => {
+          }} timeOut={0}      />
     );
     const settingsIcon = container.querySelector('.lucide-settings');
     const settingsButton = settingsIcon?.closest('button');
@@ -200,16 +226,19 @@ describe('Header', () => {
   test('refresh button is disabled when refreshing', () => {
     render(
       <Header
-        theme="light"
-        toggleTheme={() => {}}
-        timeRemaining={30}
-        updateFrequency={30}
-        onUpdateFrequency={() => {}}
-        onManualRefresh={() => {}}
-        isRefreshing={true}
-        displayCurrency="USD"
-        onCurrencyChange={() => {}}
-      />
+          theme="light"
+          toggleTheme={() => {
+          }}
+          startTime={new Date()}
+          updateFrequency={300}
+          onUpdateFrequency={() => {
+          }}
+          onManualRefresh={() => {
+          }}
+          isRefreshing={true}
+          displayCurrency="USD"
+          onCurrencyChange={() => {
+          }} timeOut={0}      />
     );
     const refreshButton = screen.getByTitle("Refresh prices now");
     expect(refreshButton).toBeDisabled();

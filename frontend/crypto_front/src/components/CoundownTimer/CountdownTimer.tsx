@@ -1,5 +1,4 @@
 import { PieChart, Pie, Cell } from "recharts";
-import {useState} from "react";
 
 interface CountdownTimerProps {
   timeRemaining: number;

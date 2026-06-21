@@ -12,13 +12,13 @@ interface CurrencyListProps {
   exchangeRate: number;
 }
 
-const CURRENCY_SYMBOLS: Record<CurrencySymbol, string> = {
+/*const CURRENCY_SYMBOLS: Record<CurrencySymbol, string> = {
   USD: "$",
   EUR: "€",
   GBP: "£",
   JPY: "¥",
   BTC: "₿",
-};
+};*/
 
 function formatPrice(price: number, currency: CurrencySymbol, exchangeRate: number): string {
   const convertedPrice = price * exchangeRate;

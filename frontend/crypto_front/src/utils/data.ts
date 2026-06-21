@@ -36,7 +36,17 @@ export async function getCryptoPrices(): Promise<Currency[]> {
         // @ts-expect-error
         const data = response as CoinMarketDataDto[];
         for (let i = 0; i < data.length; i++) {
-            const base:Currency = {};
+            const base:Currency = {
+                basePrice: 0,
+                change24h: 0,
+                coinId: 0,
+                color: "",
+                id: 0,
+                marketCap: 0,
+                name: "",
+                price: 0,
+                symbol: ""
+            };
             const d: CoinMarketDataDto = data[i];
             if(d.id!= null) base.id = d.id;
             if (d.coinId != null) base.coinId = d.coinId;
@@ -58,62 +68,6 @@ export async function getCryptoPrices(): Promise<Currency[]> {
 
 
     return [...mappedData.values()];
-}
-
-export function generateMockCurrencies(): Currency[] {
-    const baseData = [
-        {
-            id: "bitcoin",
-            rId: 1,
-            name: "Bitcoin",
-            symbol: "BTC",
-            basePrice: 67432.50,
-            marketCap: 1324000000000,
-            color: "black"
-        },
-        {
-            id: "ethereum",
-            rId: 2,
-            name: "Ethereum",
-            symbol: "ETH",
-            basePrice: 3521.80,
-            marketCap: 423000000000,
-            color: "black"
-        },
-        {
-            id: "solana",
-            rId: 3,
-            name: "Solana",
-            symbol: "SOL",
-            basePrice: 172.45,
-            marketCap: 78000000000,
-            color: "black"
-        },
-        {
-            id: "cardano",
-            rId: 4,
-            name: "Cardano",
-            symbol: "ADA",
-            basePrice: 0.62,
-            marketCap: 22000000000,
-            color: "black"
-        },
-        {
-            id: "polkadot",
-            rId: 5,
-            name: "Polkadot",
-            symbol: "DOT",
-            basePrice: 7.85,
-            marketCap: 10000000000,
-            color: "black"
-        },
-    ];
-
-    return baseData.map((coin) => ({
-        ...coin,
-        price: coin.basePrice * (1 + (Math.random() - 0.5) * 0.02),
-        change24h: (Math.random() - 0.4) * 10,
-    }));
 }
 
 export async function priceHistory(
@@ -141,7 +95,7 @@ export async function priceHistory(
 
     const ret: CoinHistoryPointDto[] = [];
     const resp = await getHistoryChart(currency.coinId, {days: dayCount, chronoUnit:chrono}, {signal});
-    const response = resp as CoinHistoryResponseDto;
+    const response = resp as unknown as CoinHistoryResponseDto;
     const coin = response.coinDto as CoinResponseDto;
     const chartData = response.chartData as CoinHistoryPointDto[];
     chartData.forEach((d) => {
@@ -156,7 +110,7 @@ export async function priceHistory(
 
 export async function getExchange(signal: AbortSignal): Promise<CoinGeckoExchangeResponseDto> {
     const response = await getExchangeRates({signal});
-    return response as CoinGeckoExchangeResponseDto;
+    return response as unknown as CoinGeckoExchangeResponseDto;
 }
 
 export function formatMarketCap(value: number): string {

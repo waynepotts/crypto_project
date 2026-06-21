@@ -3,8 +3,28 @@ import { CurrencyList } from './CurrencyList';
 import type { Currency } from "../../utils/data";
 
 const mockCurrencies: Currency[] = [
-  { id: "bitcoin", rId: 1, name: "Bitcoin", symbol: "BTC", price: 67432.50, change24h: 2.5, marketCap: 1324000000000, basePrice: 67000, color: "#10b981" },
-  { id: "ethereum", rId: 2, name: "Ethereum", symbol: "ETH", price: 3521.80, change24h: -1.2, marketCap: 423000000000, basePrice: 3500, color: "#3b82f6" },
+  {
+    id: 1,
+    name: "Bitcoin",
+    symbol: "BTC",
+    price: 67432.50,
+    change24h: 2.5,
+    marketCap: 1324000000000,
+    basePrice: 67000,
+    color: "#10b981",
+    coinId: 0
+  },
+  {
+    id: 2,
+    name: "Ethereum",
+    symbol: "ETH",
+    price: 3521.80,
+    change24h: -1.2,
+    marketCap: 423000000000,
+    basePrice: 3500,
+    color: "#3b82f6",
+    coinId: 0
+  },
 ];
 
 describe('CurrencyList', () => {

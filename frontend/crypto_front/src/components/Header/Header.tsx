@@ -49,7 +49,7 @@ export function Header({
   const settingsRef = useRef<HTMLDivElement>(null);
   const currencyRef = useRef<HTMLDivElement>(null);
   const [timeRemaining, setTimeRemaining] = useState(timeOut);
-  const [syncTime, setSyncTime] = useState(startTime);
+  //const [syncTime, setSyncTime] = useState(startTime);
   const countdownRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
@@ -72,7 +72,7 @@ export function Header({
     return () => {
       if (countdownRef.current) clearInterval(countdownRef.current);
     };
-  }, [isRefreshing, updateFrequency]);
+  }, [isRefreshing, updateFrequency, startTime]);
   // Close dropdowns when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {

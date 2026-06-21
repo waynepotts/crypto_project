@@ -12,8 +12,16 @@ const mockCurrency: Currency = {
 const mockHistory: CoinHistory = {
   coin: { id: 1, coingeckoId: "bitcoin", name: "Bitcoin", symbol: "BTC" },
   coinHistory: [
-    { timestamp: "2024-01-01T00:00:00Z", price: 67000 },
-    { timestamp: "2024-01-02T00:00:00Z", price: 67432.50 },
+    {
+      timestamp: "2024-01-01T00:00:00Z", price: 67000,
+      marketCap: 0,
+      volume: 0
+    },
+    {
+      timestamp: "2024-01-02T00:00:00Z", price: 67432.50,
+      marketCap: 0,
+      volume: 0
+    },
   ],
   currency: mockCurrency,
 };
@@ -22,18 +30,22 @@ describe('PriceChart', () => {
   test('shows skeleton when loading', () => {
     const { container } = render(
       <PriceChart
-        data={[]}
-        chartCurrencies={[]}
-        onColorChange={() => {}}
-        isLoading={true}
-        timeframe="1D"
-        onTimeframeChange={() => {}}
-        showRelative={false}
-        onToggleRelative={() => {}}
-        displayCurrency="USD"
-        exchangeRate={1}
-        theme="light"
-      />
+          data={[]}
+          chartCurrencies={[]}
+          onColorChange={() => {
+          }}
+          isLoading={true}
+          timeframe="1D"
+          onTimeframeChange={() => {
+          }}
+          showRelative={false}
+          onToggleRelative={() => {
+          }}
+          displayCurrency="USD"
+          exchangeRate={1}
+          theme="light" convertedData={[]} onRemoveCurrency={function (): void {
+        throw new Error("Function not implemented.");
+      }}      />
     );
     expect(container.querySelector('.animate-pulse')).toBeInTheDocument();
   });
@@ -41,18 +53,22 @@ describe('PriceChart', () => {
   test('shows empty message when no currencies selected', () => {
     render(
       <PriceChart
-        data={[]}
-        chartCurrencies={[]}
-        onColorChange={() => {}}
-        isLoading={false}
-        timeframe="1D"
-        onTimeframeChange={() => {}}
-        showRelative={false}
-        onToggleRelative={() => {}}
-        displayCurrency="USD"
-        exchangeRate={1}
-        theme="light"
-      />
+          data={[]}
+          chartCurrencies={[]}
+          onColorChange={() => {
+          }}
+          isLoading={false}
+          timeframe="1D"
+          onTimeframeChange={() => {
+          }}
+          showRelative={false}
+          onToggleRelative={() => {
+          }}
+          displayCurrency="USD"
+          exchangeRate={1}
+          theme="light" convertedData={[]} onRemoveCurrency={function (): void {
+        throw new Error("Function not implemented.");
+      }}      />
     );
     expect(screen.getByText("Select currencies from the list above to view their price history")).toBeInTheDocument();
   });
@@ -60,18 +76,22 @@ describe('PriceChart', () => {
   test('renders Price History title', () => {
     render(
       <PriceChart
-        data={[mockHistory]}
-        chartCurrencies={[mockCurrency]}
-        onColorChange={() => {}}
-        isLoading={false}
-        timeframe="1D"
-        onTimeframeChange={() => {}}
-        showRelative={false}
-        onToggleRelative={() => {}}
-        displayCurrency="USD"
-        exchangeRate={1}
-        theme="light"
-      />
+          data={[mockHistory]}
+          chartCurrencies={[mockCurrency]}
+          onColorChange={() => {
+          }}
+          isLoading={false}
+          timeframe="1D"
+          onTimeframeChange={() => {
+          }}
+          showRelative={false}
+          onToggleRelative={() => {
+          }}
+          displayCurrency="USD"
+          exchangeRate={1}
+          theme="light" convertedData={[]} onRemoveCurrency={function (): void {
+        throw new Error("Function not implemented.");
+      }}      />
     );
     expect(screen.getByText("Price History")).toBeInTheDocument();
   });
@@ -79,18 +99,22 @@ describe('PriceChart', () => {
   test('renders timeframe option buttons', () => {
     render(
       <PriceChart
-        data={[mockHistory]}
-        chartCurrencies={[mockCurrency]}
-        onColorChange={() => {}}
-        isLoading={false}
-        timeframe="1D"
-        onTimeframeChange={() => {}}
-        showRelative={false}
-        onToggleRelative={() => {}}
-        displayCurrency="USD"
-        exchangeRate={1}
-        theme="light"
-      />
+          data={[mockHistory]}
+          chartCurrencies={[mockCurrency]}
+          onColorChange={() => {
+          }}
+          isLoading={false}
+          timeframe="1D"
+          onTimeframeChange={() => {
+          }}
+          showRelative={false}
+          onToggleRelative={() => {
+          }}
+          displayCurrency="USD"
+          exchangeRate={1}
+          theme="light" convertedData={[]} onRemoveCurrency={function (): void {
+        throw new Error("Function not implemented.");
+      }}      />
     );
     expect(screen.getByText("1H")).toBeInTheDocument();
     expect(screen.getByText("1D")).toBeInTheDocument();
@@ -102,18 +126,22 @@ describe('PriceChart', () => {
   test('renders Relative % toggle button', () => {
     render(
       <PriceChart
-        data={[mockHistory]}
-        chartCurrencies={[mockCurrency]}
-        onColorChange={() => {}}
-        isLoading={false}
-        timeframe="1D"
-        onTimeframeChange={() => {}}
-        showRelative={false}
-        onToggleRelative={() => {}}
-        displayCurrency="USD"
-        exchangeRate={1}
-        theme="light"
-      />
+          data={[mockHistory]}
+          chartCurrencies={[mockCurrency]}
+          onColorChange={() => {
+          }}
+          isLoading={false}
+          timeframe="1D"
+          onTimeframeChange={() => {
+          }}
+          showRelative={false}
+          onToggleRelative={() => {
+          }}
+          displayCurrency="USD"
+          exchangeRate={1}
+          theme="light" convertedData={[]} onRemoveCurrency={function (): void {
+        throw new Error("Function not implemented.");
+      }}      />
     );
     expect(screen.getByText("Relative %")).toBeInTheDocument();
   });
@@ -122,18 +150,21 @@ describe('PriceChart', () => {
     const onTimeframeChange = vi.fn();
     render(
       <PriceChart
-        data={[mockHistory]}
-        chartCurrencies={[mockCurrency]}
-        onColorChange={() => {}}
-        isLoading={false}
-        timeframe="1D"
-        onTimeframeChange={onTimeframeChange}
-        showRelative={false}
-        onToggleRelative={() => {}}
-        displayCurrency="USD"
-        exchangeRate={1}
-        theme="light"
-      />
+          data={[mockHistory]}
+          chartCurrencies={[mockCurrency]}
+          onColorChange={() => {
+          }}
+          isLoading={false}
+          timeframe="1D"
+          onTimeframeChange={onTimeframeChange}
+          showRelative={false}
+          onToggleRelative={() => {
+          }}
+          displayCurrency="USD"
+          exchangeRate={1}
+          theme="light" convertedData={[]} onRemoveCurrency={function (): void {
+        throw new Error("Function not implemented.");
+      }}      />
     );
     fireEvent.click(screen.getByText("1W"));
     expect(onTimeframeChange).toHaveBeenCalledWith("1W");
@@ -143,18 +174,21 @@ describe('PriceChart', () => {
     const onToggleRelative = vi.fn();
     render(
       <PriceChart
-        data={[mockHistory]}
-        chartCurrencies={[mockCurrency]}
-        onColorChange={() => {}}
-        isLoading={false}
-        timeframe="1D"
-        onTimeframeChange={() => {}}
-        showRelative={false}
-        onToggleRelative={onToggleRelative}
-        displayCurrency="USD"
-        exchangeRate={1}
-        theme="light"
-      />
+          data={[mockHistory]}
+          chartCurrencies={[mockCurrency]}
+          onColorChange={() => {
+          }}
+          isLoading={false}
+          timeframe="1D"
+          onTimeframeChange={() => {
+          }}
+          showRelative={false}
+          onToggleRelative={onToggleRelative}
+          displayCurrency="USD"
+          exchangeRate={1}
+          theme="light" convertedData={[]} onRemoveCurrency={function (): void {
+        throw new Error("Function not implemented.");
+      }}      />
     );
     fireEvent.click(screen.getByText("Relative %"));
     expect(onToggleRelative).toHaveBeenCalled();
@@ -163,18 +197,22 @@ describe('PriceChart', () => {
   test('renders chart view by default', () => {
     const { container } = render(
       <PriceChart
-        data={[mockHistory]}
-        chartCurrencies={[mockCurrency]}
-        onColorChange={() => {}}
-        isLoading={false}
-        timeframe="1D"
-        onTimeframeChange={() => {}}
-        showRelative={false}
-        onToggleRelative={() => {}}
-        displayCurrency="USD"
-        exchangeRate={1}
-        theme="light"
-      />
+          data={[mockHistory]}
+          chartCurrencies={[mockCurrency]}
+          onColorChange={() => {
+          }}
+          isLoading={false}
+          timeframe="1D"
+          onTimeframeChange={() => {
+          }}
+          showRelative={false}
+          onToggleRelative={() => {
+          }}
+          displayCurrency="USD"
+          exchangeRate={1}
+          theme="light" convertedData={[]} onRemoveCurrency={function (): void {
+        throw new Error("Function not implemented.");
+      }}      />
     );
     const chart = container.querySelector('.recharts-responsive-container');
     expect(chart).toBeInTheDocument();
@@ -183,18 +221,22 @@ describe('PriceChart', () => {
   test('renders color picker select for chart currency', () => {
     render(
       <PriceChart
-        data={[mockHistory]}
-        chartCurrencies={[mockCurrency]}
-        onColorChange={() => {}}
-        isLoading={false}
-        timeframe="1D"
-        onTimeframeChange={() => {}}
-        showRelative={false}
-        onToggleRelative={() => {}}
-        displayCurrency="USD"
-        exchangeRate={1}
-        theme="light"
-      />
+          data={[mockHistory]}
+          chartCurrencies={[mockCurrency]}
+          onColorChange={() => {
+          }}
+          isLoading={false}
+          timeframe="1D"
+          onTimeframeChange={() => {
+          }}
+          showRelative={false}
+          onToggleRelative={() => {
+          }}
+          displayCurrency="USD"
+          exchangeRate={1}
+          theme="light" convertedData={[]} onRemoveCurrency={function (): void {
+        throw new Error("Function not implemented.");
+      }}      />
     );
     const selects = document.querySelectorAll('select');
     expect(selects.length).toBeGreaterThanOrEqual(1);
@@ -203,18 +245,22 @@ describe('PriceChart', () => {
   test('switches to table view when Table button clicked', () => {
     const { container } = render(
       <PriceChart
-        data={[mockHistory]}
-        chartCurrencies={[mockCurrency]}
-        onColorChange={() => {}}
-        isLoading={false}
-        timeframe="1D"
-        onTimeframeChange={() => {}}
-        showRelative={false}
-        onToggleRelative={() => {}}
-        displayCurrency="USD"
-        exchangeRate={1}
-        theme="light"
-      />
+          data={[mockHistory]}
+          chartCurrencies={[mockCurrency]}
+          onColorChange={() => {
+          }}
+          isLoading={false}
+          timeframe="1D"
+          onTimeframeChange={() => {
+          }}
+          showRelative={false}
+          onToggleRelative={() => {
+          }}
+          displayCurrency="USD"
+          exchangeRate={1}
+          theme="light" convertedData={[]} onRemoveCurrency={function (): void {
+        throw new Error("Function not implemented.");
+      }}      />
     );
     fireEvent.click(screen.getByText("Table"));
     expect(container.querySelector('table')).toBeInTheDocument();
@@ -223,19 +269,22 @@ describe('PriceChart', () => {
   test('renders remove currency buttons for each chart currency', () => {
     render(
       <PriceChart
-        data={[mockHistory]}
-        chartCurrencies={[mockCurrency]}
-        onColorChange={() => {}}
-        isLoading={false}
-        timeframe="1D"
-        onTimeframeChange={() => {}}
-        showRelative={false}
-        onToggleRelative={() => {}}
-        displayCurrency="USD"
-        exchangeRate={1}
-        theme="light"
-        onRemoveCurrency={() => { }}
-      />
+          data={[mockHistory]}
+          chartCurrencies={[mockCurrency]}
+          onColorChange={() => {
+          }}
+          isLoading={false}
+          timeframe="1D"
+          onTimeframeChange={() => {
+          }}
+          showRelative={false}
+          onToggleRelative={() => {
+          }}
+          displayCurrency="USD"
+          exchangeRate={1}
+          theme="light"
+          onRemoveCurrency={() => {
+          }} convertedData={[]}      />
     );
     const buttons = document.querySelectorAll('button[variant="ghost"]');
     expect(buttons.length).toBeGreaterThan(0);
@@ -250,19 +299,21 @@ describe('PriceChart', () => {
     };
     render(
       <PriceChart
-        data={[mockHistory]}
-        chartCurrencies={[mockCurrency, secondMockCurrency]}
-        onColorChange={() => {}}
-        isLoading={false}
-        timeframe="1D"
-        onTimeframeChange={() => {}}
-        showRelative={false}
-        onToggleRelative={() => {}}
-        displayCurrency="USD"
-        exchangeRate={1}
-        theme="light"
-        onRemoveCurrency={onRemoveCurrency}
-      />
+          data={[mockHistory]}
+          chartCurrencies={[mockCurrency, secondMockCurrency]}
+          onColorChange={() => {
+          }}
+          isLoading={false}
+          timeframe="1D"
+          onTimeframeChange={() => {
+          }}
+          showRelative={false}
+          onToggleRelative={() => {
+          }}
+          displayCurrency="USD"
+          exchangeRate={1}
+          theme="light"
+          onRemoveCurrency={onRemoveCurrency} convertedData={[]}      />
     );
     const buttons = document.querySelectorAll('button');
     if (buttons.length > 0) {
@@ -274,19 +325,22 @@ describe('PriceChart', () => {
   test('renders all three table views correctly', () => {
     const { container } = render(
       <PriceChart
-        data={[mockHistory]}
-        chartCurrencies={[mockCurrency]}
-        onColorChange={() => {}}
-        isLoading={false}
-        timeframe="1D"
-        onTimeframeChange={() => {}}
-        showRelative={false}
-        onToggleRelative={() => {}}
-        displayCurrency="USD"
-        exchangeRate={1}
-        theme="light"
-        onRemoveCurrency={() => { }}
-      />
+          data={[mockHistory]}
+          chartCurrencies={[mockCurrency]}
+          onColorChange={() => {
+          }}
+          isLoading={false}
+          timeframe="1D"
+          onTimeframeChange={() => {
+          }}
+          showRelative={false}
+          onToggleRelative={() => {
+          }}
+          displayCurrency="USD"
+          exchangeRate={1}
+          theme="light"
+          onRemoveCurrency={() => {
+          }} convertedData={[]}      />
     );
 
     fireEvent.click(screen.getByText("Compact"));
