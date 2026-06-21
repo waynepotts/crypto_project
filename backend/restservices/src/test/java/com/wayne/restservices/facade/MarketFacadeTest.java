@@ -54,6 +54,7 @@ class MarketFacadeTest {
 
         assertNotNull(result);
         assertEquals("Bitcoin", result.coinDto().name());
+        // TODO: fix this test so the below assert can be uncommented 
         //assertEquals(List.of(new CoinHistoryPointDto(now, BigDecimal.TEN, BigDecimal.TEN, BigDecimal.TEN)),
          //       result.chartData());
         verify(coinMarketDataService).getCoinHistory(eq(1L), eq(expectedLast), eq(now), eq(ChronoUnit.MINUTES));

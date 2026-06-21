@@ -380,37 +380,18 @@ export function PriceChart({
             }
             else {
                 price[cur.symbol] = c.prices[cur.symbol];
+                minPrice = Math.min(minPrice, c.prices[cur.symbol]);
+                maxPrice = Math.max(maxPrice, c.prices[cur.symbol]);
             }
 
         });
-
-        if (c.coin0) {
-            minPrice = Math.min(minPrice, c.coin0);
-            maxPrice = Math.max(maxPrice, c.coin0);
-        }
-        if (c.coin1) {
-            minPrice = Math.min(minPrice, c.coin1);
-            maxPrice = Math.max(maxPrice, c.coin0);
-        }
-        if (c.coin2) {
-            minPrice = Math.min(minPrice, c.coin2);
-            maxPrice = Math.max(maxPrice, c.coin2);
-        }
-        if (c.coin3) {
-            minPrice = Math.min(minPrice, c.coin3);
-            maxPrice = Math.max(maxPrice, c.coin3);
-        }
-        if (c.coin4) {
-            minPrice = Math.min(minPrice, c.coin4);
-            maxPrice = Math.max(maxPrice, c.coin4);
-        }
     });
     const yAxisMin = showRelative
-        ? minPrice * 0.9 : Math.floor(minPrice * 0.95); // Math.floor((minPrice * 0.9) / 1000) * 1000;
+        ? minPrice - 0.001 : Math.floor(minPrice); // Math.floor((minPrice * 0.9) / 1000) * 1000;
     const yAxisMax = showRelative
-        ? maxPrice + 0.1
-        : Math.ceil(maxPrice * 1.05); // Math.ceil((maxPrice * 1.1) / 1000) * 1;
-
+        ? maxPrice + 0.001
+        : Math.ceil(maxPrice); // Math.ceil((maxPrice * 1.1) / 1000) * 1;
+    // console.log("price range ", minPrice, maxPrice, yAxisMin, yAxisMax);
     const currencySymbol = CURRENCY_SYMBOLS[displayCurrency];
 
     return (

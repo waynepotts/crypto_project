@@ -8,15 +8,10 @@ export interface CoinHistory {
     currency: Currency;
 }
 export interface ChartDisplayData {
-    coinId:number;
+    coinId:number; // TODO: should be able to remove
     timestamp:string;
     prices: Record<string,number>;
-    coin0:number;
-    coin1:number;
-    coin2:number;
-    coin3:number;
-    coin4:number;
-    currencies: Currency[];
+    currencies: Currency[]; // TODO: should be able to remove
 }
 
 export function createChartHistoryData(data:CoinHistory[], exchangeRate:number,  isRelative:boolean, frame:TimeframeValue): ChartDisplayData[] {
@@ -32,7 +27,7 @@ export function createChartHistoryData(data:CoinHistory[], exchangeRate:number, 
                 }
                 const date: Date = new Date(h.timestamp as string );
 
-                if(date > oldest) {
+                if(date >= oldest) {
                     const date: string = h.timestamp as string;
                     const cData: ChartDisplayData = (dataMap.has(date) ? dataMap.get(date)  :
                         {timestamp: date, coinId: d.coin.id, currencies: []}) as ChartDisplayData;
@@ -54,7 +49,7 @@ export function createChartHistoryData(data:CoinHistory[], exchangeRate:number, 
                     }
 
                     cData.currencies.push(d.currency);
-                    eval('cData.coin' + d.coin.symbol + ' =  price');
+                    // eval('cData.coin' + d.coin.symbol + ' =  price');
                     dataMap.set(date, cData);
                     //console.log(cData);
                 }
@@ -66,7 +61,6 @@ export function createChartHistoryData(data:CoinHistory[], exchangeRate:number, 
     const ret: ChartDisplayData[] = [];
     keys.sort().forEach(k=> ret.push(dataMap.get(k) as ChartDisplayData));
     return ret;
-    //return [...dataMap.values()];
 }
 
 function getOldestTime(frame:TimeframeValue, date:Date):Date {
