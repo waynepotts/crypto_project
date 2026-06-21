@@ -1,14 +1,17 @@
 package com.wayne.restservices.dtos;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.data.domain.Page;
 
 import java.io.Serializable;
 
 public class CoinHistoryPagedResponseDto extends PagedResponseDto<CoinHistoryPointDto> implements Serializable {
 
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private Long coinId;
-
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private String coinName;
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private double completeness;
 
     public double getCompleteness() {

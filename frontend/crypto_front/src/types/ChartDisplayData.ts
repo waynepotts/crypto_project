@@ -10,6 +10,7 @@ export interface CoinHistory {
 export interface ChartDisplayData {
     coinId:number;
     timestamp:string;
+    prices: Record<string,number>;
     coin0:number;
     coin1:number;
     coin2:number;
@@ -29,11 +30,12 @@ export function createChartHistoryData(data:CoinHistory[], exchangeRate:number, 
                 if(idx === 0) {
                     first = h.price;
                 }
-                const date:Date = Date.parse(h.timestamp);
+                const date: Date = new Date(h.timestamp as string );
+
                 if(date > oldest) {
                     const date: string = h.timestamp as string;
-                    const cData: ChartDisplayData = dataMap.has(date) ? dataMap.get(date) as ChartDisplayData :
-                        {timestamp: date, coinId: d.coin.id, currencies: []};
+                    const cData: ChartDisplayData = (dataMap.has(date) ? dataMap.get(date)  :
+                        {timestamp: date, coinId: d.coin.id, currencies: []}) as ChartDisplayData;
                     if (cData.currencies && !cData.currencies.some(c => c.id === d.currency.id)) {
                         cData.currencies.push(d.currency);
                     } else {
@@ -45,27 +47,24 @@ export function createChartHistoryData(data:CoinHistory[], exchangeRate:number, 
                     if (!isRelative) {
                         price = price * exchangeRate;
                     }
+                    if(cData.prices) {
+                        cData.prices[d.coin.symbol as string] = price;
+                    } else{
+                        cData.prices = {[d.coin.symbol as string]:price};
+                    }
+
                     cData.currencies.push(d.currency);
                     eval('cData.coin' + d.coin.symbol + ' =  price');
                     dataMap.set(date, cData);
+                    //console.log(cData);
                 }
             });
         }
     }
-    for(let i = 0; i < data.length; i++) {
-        const d = data[i];
-        let last:number = 1;
-        dataMap.forEach((h, i) => {
-            if(eval('h.coin'+d.coin.symbol) !== undefined ){
-                last = eval('h.coin'+d.coin.symbol);
-            } else{
-                eval('h.coin' + d.coin.symbol + ' =  last');
-            }
-        });
-    }
-    let keys = Array.from(dataMap.keys());
-    let ret: ChartDisplayData[] = [];
-    keys.sort().forEach(k=> ret.push(dataMap.get(k)));
+
+    const keys = Array.from(dataMap.keys());
+    const ret: ChartDisplayData[] = [];
+    keys.sort().forEach(k=> ret.push(dataMap.get(k) as ChartDisplayData));
     return ret;
     //return [...dataMap.values()];
 }

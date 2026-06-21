@@ -6,7 +6,6 @@ import {SearchBar} from "./components/SearchBar/SearchBar.tsx";
 import {type Currency, getExchange, priceHistory, getCryptoPrices} from "./utils/data";
 
 import {type ChartDisplayData, type CoinHistory, createChartHistoryData} from "./types/ChartDisplayData.ts";
-import type {CoinGeckoExchangeResponseDto} from "./generated/api.ts";
 
 
 export type TimeframeValue = "1H" | "1D" | "1W" | "30D" | "90D";
@@ -81,7 +80,7 @@ export function App() {
 
                     Object.keys(EXCHANGE_RATES).forEach((key) => {
                         const value:number = 1 * (exchange.rates[key.toLowerCase()]?.value / exch);
-                        EXCHANGE_RATES[key as keyof CurrencySymbol] = value;
+                        EXCHANGE_RATES[key as CurrencySymbol] = value;
                         // console.log(EXCHANGE_RATES[key as keyof CurrencySymbol]);
                     });
                     setExchangeRate(EXCHANGE_RATES[displayCurrency]);
@@ -234,7 +233,7 @@ export function App() {
         }
     };
 
-    const handleColorChange = (currencyId: string, color: string) => {
+    const handleColorChange = (currencyId: number, color: string) => {
         setPriceData((prev) =>
             prev.map((c) => (c.id === currencyId ? {...c, color} : c))
         );
@@ -263,7 +262,7 @@ export function App() {
                 setConvertedData(createChartHistoryData(results, exchangeRate, showRelative, timeframe));
             }
         };
-        fetchData().catch(err => "Aborted by user?");
+        fetchData().catch(() => "Aborted by user?");
 
         return () => {
             cancelled = true;

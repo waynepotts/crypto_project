@@ -108,61 +108,62 @@ export interface Pageable {
 }
 
 export interface PagedResponseDtoCoinResponseDto {
-  content?: CoinResponseDto[];
-  page?: number;
-  size?: number;
-  totalElements?: number;
-  totalPages?: number;
-  last?: boolean;
+  content: CoinResponseDto[];
+  page: number;
+  size: number;
+  totalElements: number;
+  totalPages: number;
+  last: boolean;
 }
 
 export interface CoinHistoryPointDto {
-  timestamp?: string;
-  price?: number;
-  marketCap?: number;
-  volume?: number;
+  timestamp: string;
+  price: number;
+  marketCap: number;
+  volume: number;
 }
 
 export interface CoinHistoryResponseDto {
-  chartData?: CoinHistoryPointDto[];
-  completeness?: number;
-  coinDto?: CoinResponseDto;
+  chartData: CoinHistoryPointDto[];
+  completeness: number;
+  coinDto: CoinResponseDto;
 }
 
 export interface CoinHistoryPagedResponseDto {
-  content?: CoinHistoryPointDto[];
-  page?: number;
-  size?: number;
-  totalElements?: number;
-  totalPages?: number;
-  last?: boolean;
-  coinId?: number;
-  coinName?: string;
+  content: CoinHistoryPointDto[];
+  page: number;
+  size: number;
+  totalElements: number;
+  totalPages: number;
+  last: boolean;
+  coinId: number;
+  coinName: string;
+  completeness: number;
 }
 
 export interface CoinMarketDataDto {
-  id?: number;
-  coinId?: number;
-  name?: string;
-  symbol?: string;
-  currentPrice?: number;
-  marketCap?: number;
-  marketCapRank?: number;
-  lastUpdated?: string;
-  priceChange24h?: number;
+  id: number;
+  coinId: number;
+  name: string;
+  symbol: string;
+  currentPrice: number;
+  marketCap: number;
+  marketCapRank: number;
+  lastUpdated: string;
+  priceChange24h: number;
 }
 
 export interface CoinGeckoExchangeRateDto {
-  name?: string;
-  unit?: string;
-  value?: number;
-  type?: string;
+  name: string;
+  unit: string;
+  value: number;
+  type: string;
 }
 
 export type CoinGeckoExchangeResponseDtoRates = {[key: string]: CoinGeckoExchangeRateDto};
 
 export interface CoinGeckoExchangeResponseDto {
-  rates?: CoinGeckoExchangeResponseDtoRates;
+  rates: CoinGeckoExchangeResponseDtoRates;
 }
 
 export type GetCoinsParams = {

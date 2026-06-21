@@ -1,5 +1,6 @@
 package com.wayne.restservices.dtos;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.data.domain.Page;
 
 import java.io.Serializable;
@@ -7,14 +8,17 @@ import java.util.List;
 
 public class PagedResponseDto<T> implements Serializable {
 
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private List<T> content;
-
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private int page;
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private int size;
-
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private long totalElements;
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private int totalPages;
-
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private boolean last;
 
     public PagedResponseDto(Page<T> paged) {
