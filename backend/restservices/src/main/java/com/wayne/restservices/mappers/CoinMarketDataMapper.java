@@ -96,6 +96,7 @@ public class CoinMarketDataMapper {
             case DAYS -> from.until(to, ChronoUnit.DAYS);
             default -> 1;
         };
+        log.info("elements {} {} {}", elements, seconds, granularity);
         return new CoinHistoryResponseDto(dto.getContent(),elements / seconds , coinDto);
     }
     public static CoinHistoryResponseDto fromList(@NonNull List<CoinHistoryPointDto> list, CoinResponseDto coinDto, Instant from, Instant to, ChronoUnit granularity) {

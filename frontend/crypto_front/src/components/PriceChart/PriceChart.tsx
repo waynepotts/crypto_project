@@ -374,6 +374,9 @@ export function PriceChart({
     convertedData.forEach(c => {
 
         chartCurrencies.forEach((cur) => {
+            if(price[cur.symbol] == undefined){
+                price[cur.symbol] = 1;
+            }
             if(c.prices[cur.symbol] == undefined){
                 c.prices[cur.symbol] = price[cur.symbol];
                 //console.log("missing " +cur.symbol + " price, use last " + price[cur.symbol]);

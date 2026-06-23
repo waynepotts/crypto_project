@@ -8,10 +8,10 @@ export interface CoinHistory {
     currency: Currency;
 }
 export interface ChartDisplayData {
-    coinId:number; // TODO: should be able to remove
+    // coinId:number; // TODO: should be able to remove
     timestamp:string;
     prices: Record<string,number>;
-    currencies: Currency[]; // TODO: should be able to remove
+    // currencies: Currency[]; // TODO: should be able to remove
 }
 
 export function createChartHistoryData(data:CoinHistory[], exchangeRate:number,  isRelative:boolean, frame:TimeframeValue): ChartDisplayData[] {
@@ -30,13 +30,13 @@ export function createChartHistoryData(data:CoinHistory[], exchangeRate:number, 
                 if(date >= oldest) {
                     const date: string = h.timestamp as string;
                     const cData: ChartDisplayData = (dataMap.has(date) ? dataMap.get(date)  :
-                        {timestamp: date, coinId: d.coin.id, currencies: []}) as ChartDisplayData;
-                    if (cData.currencies && !cData.currencies.some(c => c.id === d.currency.id)) {
+                        {timestamp: date}) as ChartDisplayData;
+                    /*if (cData.currencies && !cData.currencies.some(c => c.id === d.currency.id)) {
                         cData.currencies.push(d.currency);
                     } else {
                         cData.currencies = [];
                         cData.currencies.push(d.currency);
-                    }
+                    }*/
                     let price: number = isRelative ? h.price / first : h.price;
 
                     if (!isRelative) {
@@ -48,7 +48,7 @@ export function createChartHistoryData(data:CoinHistory[], exchangeRate:number, 
                         cData.prices = {[d.coin.symbol as string]:price};
                     }
 
-                    cData.currencies.push(d.currency);
+                    // cData.currencies.push(d.currency);
                     // eval('cData.coin' + d.coin.symbol + ' =  price');
                     dataMap.set(date, cData);
                     //console.log(cData);

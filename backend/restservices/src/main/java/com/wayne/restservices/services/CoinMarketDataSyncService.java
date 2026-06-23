@@ -8,6 +8,7 @@ import com.wayne.restservices.exceptions.CoinNotFoundException;
 import com.wayne.restservices.mappers.CoinMarketDataMapper;
 import com.wayne.restservices.repositories.CoinMarketDataRepository;
 import com.wayne.restservices.repositories.CoinRepository;
+import com.wayne.restservices.utils.ChronoUnitConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -44,10 +45,6 @@ public class CoinMarketDataSyncService {
                 from,
                 to
         );
-        if(coin.getId() == null){
-            // new coin
-            // coin = coinRepository.save(coin);
-        }
         try {
 
             CoinGeckoMarketChartDto response =
@@ -58,15 +55,16 @@ public class CoinMarketDataSyncService {
                     );
             Map<Instant, CoinMarketData> saved = new HashMap<>();
             List<CoinMarketData> entities = CoinMarketDataMapper.fromHistory(response, coin);
+            Instant latest = ChronoUnitConverter.normalizeFiveMinutes(Instant.now());
             for(CoinMarketData marketData : entities) {
                 //log.info("coin id {}, timestamp {}", marketData.getCoin().getId(), marketData.getGranularTimestamp());
-
-                CoinMarketData lastData = repository.findByCoinIdGranularTimestamp(coinId, marketData.getGranularTimestamp());
-                if (lastData == null && !saved.containsKey(marketData.getGranularTimestamp())) {
-                    marketData = repository.save(marketData);
-                    saved.put(marketData.getGranularTimestamp(), marketData);
-                }
-
+               if(!latest.equals(marketData.getGranularTimestamp())) {
+                    CoinMarketData lastData = repository.findByCoinIdGranularTimestamp(coinId, marketData.getGranularTimestamp());
+                    if (lastData == null && !saved.containsKey(marketData.getGranularTimestamp())) {
+                        marketData = repository.save(marketData);
+                        saved.put(marketData.getGranularTimestamp(), marketData);
+                    }
+               }
             }
             // repository.saveAll(entities);
 

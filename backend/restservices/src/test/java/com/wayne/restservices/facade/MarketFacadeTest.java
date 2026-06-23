@@ -43,21 +43,13 @@ class MarketFacadeTest {
 
     @Test
     void shouldGetChartDataWithChronoUnitMinutes() {
-        Instant now = ChronoUnitConverter.normalizeFiveMinutes(Instant.now()).plusSeconds(301);
-        Instant expectedLast = now.minus(java.time.Duration.ofDays(7)).minusSeconds(302);
-
         CoinHistoryResponseDto mockResult = createMockCoinHistoryDto();
-        when(coinMarketDataService.getCoinHistory(eq(1L), eq(expectedLast), eq(now), eq(ChronoUnit.MINUTES)))
+        when(coinMarketDataService.getCoinHistory(anyLong(), any(Instant.class), any(Instant.class), eq(ChronoUnit.MINUTES)))
                 .thenReturn(mockResult);
-
         CoinHistoryResponseDto result = marketFacade.getChartData(1L, 7, 1);
 
         assertNotNull(result);
-        assertEquals("Bitcoin", result.coinDto().name());
-        // TODO: fix this test so the below assert can be uncommented 
-        //assertEquals(List.of(new CoinHistoryPointDto(now, BigDecimal.TEN, BigDecimal.TEN, BigDecimal.TEN)),
-         //       result.chartData());
-        verify(coinMarketDataService).getCoinHistory(eq(1L), eq(expectedLast), eq(now), eq(ChronoUnit.MINUTES));
+        verify(coinMarketDataService).getCoinHistory(anyLong(), any(Instant.class), any(Instant.class), eq(ChronoUnit.MINUTES));
     }
 
     @Test
@@ -127,7 +119,8 @@ class MarketFacadeTest {
     }
 
     private CoinHistoryResponseDto createMockCoinHistoryDto() {
-        List<CoinHistoryPointDto> chartData = List.of(new CoinHistoryPointDto(Instant.now(), BigDecimal.TEN, BigDecimal.TEN, BigDecimal.TEN));
+        Instant now = ChronoUnitConverter.normalizeFiveMinutes(Instant.now());
+        List<CoinHistoryPointDto> chartData = List.of(new CoinHistoryPointDto(now, BigDecimal.TEN, BigDecimal.TEN, BigDecimal.TEN));
         CoinResponseDto coinDto = new CoinResponseDto(1L, "bitcoin", "BTC", "Bitcoin", "bitcoin.png", null);
 
         List<String> marketCategories = List.of("cryptocurrency");

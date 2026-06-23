@@ -165,7 +165,6 @@ class ChronoUnitConverterTest {
 
     @Test
     void shouldGetHoursGranularityFromBoundariesAtHourThreshold() {
-        // TODO: change these boundary tests to be days plus or minus one second
         Duration duration = Duration.ofDays(8);
         ChronoUnit result = ChronoUnitConverter.FromBoundaries(duration, 7, 30);
         assertEquals(ChronoUnit.HOURS, result);

@@ -174,8 +174,6 @@ class CoinMarketDataServiceTest {
         when(coinGeckoClient.getMarkets(1, 250)).thenReturn(List.of(dto));
         when(coinRepository.findByCoingeckoId("bitcoin")).thenReturn(Optional.of(existingCoin));
         when(coinRepository.save(any(Coin.class))).thenReturn(existingCoin);
-        when(coinMarketDataRepository.findFirstByCoinIdOrderByGranularTimestampDesc(1L))
-                .thenReturn(lastData);
 
         coinMarketDataService.syncCoins();
 
