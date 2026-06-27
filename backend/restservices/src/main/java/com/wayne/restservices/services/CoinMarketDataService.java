@@ -56,9 +56,9 @@ public class CoinMarketDataService {
     )
     public CoinHistoryResponseDto getCoinHistory(Long coinId, Instant from, Instant to, ChronoUnit granularity) {
         Coin coin = coinRepository.findById(coinId).orElseThrow(()->new CoinNotFoundException(coinId));
-        List<CoinHistoryPointDto> list = coinMarketDataRepository.findByCoinCreatedAtRange(coin,from, to, granularity).stream().map(CoinMarketDataMapper::toDto).toList();
+        List<CoinHistoryPointDto> list = coinMarketDataRepository.findByCoinGranularTimestampRange(coin,from, to, granularity).stream().map(CoinMarketDataMapper::toDto).toList();
         CoinHistoryResponseDto result = CoinMarketDataMapper.fromList(list, CoinMapper.toDto(coin),  from, to, granularity);
-
+        log.info("completeness {} {} {}", coin.getSymbol(), result.completeness(), result.chartData().size());
         if(result.completeness() < 0.95d) {
             log.info("completeness {} {} {}", coin.getSymbol(), result.completeness(), result.chartData().size());
             publisher.publishEvent(new CoinMarketDataSyncRequestEvent(coinId, from, to));

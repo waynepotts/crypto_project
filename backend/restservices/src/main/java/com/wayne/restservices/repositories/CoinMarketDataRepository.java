@@ -59,11 +59,11 @@ public interface CoinMarketDataRepository extends JpaRepository<CoinMarketData, 
     SELECT md
     FROM CoinMarketData md
     WHERE md.coin = :coin
-      AND md.createdAt BETWEEN :from AND :to
+      AND md.granularTimestamp BETWEEN :from AND :to
       AND md.granularity >= :granularity
     ORDER BY md.granularTimestamp ASC
 """)
-    List<CoinMarketData> findByCoinCreatedAtRange(
+    List<CoinMarketData> findByCoinGranularTimestampRange(
             @Param("coin") Coin coin,
             @Param("from") Instant from,
             @Param("to") Instant to,

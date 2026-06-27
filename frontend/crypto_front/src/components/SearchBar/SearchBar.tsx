@@ -1,5 +1,6 @@
 import {Input} from '../ui/input.tsx';
 import { Search } from "lucide-react";
+import {useTranslation} from "react-i18next";
 
 interface SearchBarProps {
   searchQuery: string;
@@ -8,13 +9,14 @@ interface SearchBarProps {
 }
 
 export function SearchBar({ searchQuery, setSearchQuery, isLoading }: SearchBarProps) {
+    const { t} = useTranslation();
   return (
     <div className="relative">
       <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500 dark:text-slate-100 font-stretch-100% " />
       <Input
         type="text"
         id="search-input"
-        placeholder="Search currencies..."
+        placeholder={t("search_currencies")}
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
         disabled={isLoading}

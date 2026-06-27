@@ -23,6 +23,7 @@ import {
     type CoinHistory
 } from "../../types/ChartDisplayData.ts";
 import type {Currency} from "../../utils/data.ts";
+import { useTranslation } from 'react-i18next';
 
 interface PriceChartProps {
     data: CoinHistory[];
@@ -145,7 +146,7 @@ interface TableViewProps {
 
 function TableView({data, chartCurrencies, displayCurrency, exchangeRate, timeframe, variant}: TableViewProps) {
     const currencySymbol = CURRENCY_SYMBOLS[displayCurrency];
-
+    const { t } = useTranslation();
     const formatDate = (dateStr: string) => {
         const date = new Date(dateStr);
         if (timeframe === "1H" || timeframe === "1D") {
@@ -171,7 +172,7 @@ function TableView({data, chartCurrencies, displayCurrency, exchangeRate, timefr
                 <table className="w-full text-sm">
                     <thead>
                     <tr className="border-b border-slate-200 dark:border-slate-700">
-                        <th className="text-left py-2 px-3 font-medium text-slate-500 dark:text-slate-400">Date</th>
+                        <th className="text-left py-2 px-3 font-medium text-slate-500 dark:text-slate-400">{t("date")}</th>
                         {chartCurrencies.map((c) => (
                             <th key={c.id}
                                 className="text-right py-2 px-3 font-medium text-slate-500 dark:text-slate-400">
@@ -215,23 +216,23 @@ function TableView({data, chartCurrencies, displayCurrency, exchangeRate, timefr
                 <table className="w-full text-sm">
                     <thead>
                     <tr className="border-b border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50">
-                        <th className="text-left py-3 px-4 font-semibold text-slate-700 dark:text-slate-300">Date</th>
+                        <th className="text-left py-3 px-4 font-semibold text-slate-700 dark:text-slate-300">{t("date")}</th>
                         {chartCurrencies.map((c) => (
                             <th key={c.id}
                                 className="text-right py-3 px-4 font-semibold text-slate-700 dark:text-slate-300">
                                 <div className="flex flex-col items-end gap-0.5">
                                     <span>{c.symbol}</span>
-                                    <span className="text-xs font-normal text-slate-400">Price ({currencySymbol})</span>
+                                    <span className="text-xs font-normal text-slate-400">{t("price")} ({currencySymbol})</span>
                                 </div>
                             </th>
                         ))}
                         {chartCurrencies.length === 1 && (
                             <>
                                 <th className="text-right py-3 px-4 font-semibold text-slate-700 dark:text-slate-300">
-                                    Change
+                                    {t("change")}
                                 </th>
                                 <th className="text-right py-3 px-4 font-semibold text-slate-700 dark:text-slate-300">
-                                    Change %
+                                    {t("change")} %
                                 </th>
                             </>
                         )}
@@ -295,13 +296,13 @@ function TableView({data, chartCurrencies, displayCurrency, exchangeRate, timefr
                 <thead>
                 <tr className="border-b-2 border-slate-200 dark:border-slate-700">
                     <th className="text-left py-3 px-4 font-semibold text-slate-700 dark:text-slate-300">#</th>
-                    <th className="text-left py-3 px-4 font-semibold text-slate-700 dark:text-slate-300">Date</th>
+                    <th className="text-left py-3 px-4 font-semibold text-slate-700 dark:text-slate-300">{t("date")}</th>
                     {chartCurrencies.map((c) => (
                         <th key={c.id}
                             className="text-right py-3 px-4 font-semibold text-slate-700 dark:text-slate-300">
                             <div className="flex items-center justify-end gap-2">
                                 <div className="w-2 h-2 rounded-full" style={{backgroundColor: c.color}}/>
-                                {c.symbol} Price
+                                {c.symbol} {t("price")}
                             </div>
                         </th>
                     ))}
@@ -349,6 +350,7 @@ export function PriceChart({
                                theme
                            }: PriceChartProps) {
     const [viewMode, setViewMode] = useState<ViewMode>("chart");
+    const { t } = useTranslation();
     // console.log(viewMode);
     if (isLoading) {
         return <ChartSkeleton/>;
@@ -360,7 +362,7 @@ export function PriceChart({
                 <CardContent className="py-16">
                     <div className="text-center">
                         <p className="text-slate-500 dark:text-slate-400">
-                            Select currencies from the list above to view their price history
+                            {t("select_currencies_from_the_list_above_to_view_their_price_history")}
                         </p>
                     </div>
                 </CardContent>
@@ -402,7 +404,7 @@ export function PriceChart({
             <CardHeader className="pb-3 flex flex-col gap-4">
                 <div className="flex flex-wrap items-center justify-between gap-3">
                     <CardTitle className="text-lg font-semibold text-slate-900 dark:text-white">
-                        Price History
+                        {t("price_history")}
                         <span className="ml-2 text-sm font-normal text-slate-500 dark:text-slate-400">
               ({displayCurrency})
             </span>
@@ -415,28 +417,28 @@ export function PriceChart({
                                 mode="chart"
                                 currentMode={viewMode}
                                 icon={<LineChartIcon className="w-4 h-4"/>}
-                                label="Chart"
+                                label={t("chart")}
                                 onClick={() => setViewMode("chart")}
                             />
                             <ViewModeButton
                                 mode="table-standard"
                                 currentMode={viewMode}
                                 icon={<TableIcon className="w-4 h-4"/>}
-                                label="Table"
+                                label={t("table")}
                                 onClick={() => setViewMode("table-standard")}
                             />
                             <ViewModeButton
                                 mode="table-compact"
                                 currentMode={viewMode}
                                 icon={<LayoutGridIcon className="w-4 h-4"/>}
-                                label="Compact"
+                                label={t("compact")}
                                 onClick={() => setViewMode("table-compact")}
                             />
                             <ViewModeButton
                                 mode="table-detailed"
                                 currentMode={viewMode}
                                 icon={<ListIcon className="w-4 h-4"/>}
-                                label="Detailed"
+                                label={t("detailed")}
                                 onClick={() => setViewMode("table-detailed")}
                             />
                         </div>
@@ -452,7 +454,7 @@ export function PriceChart({
                                         : "text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"
                                 }`}
                             >
-                                Relative %
+                                {t("relative")} %
                             </Button>
                         )}
 

@@ -2,6 +2,7 @@ import {Card, CardContent} from '../ui/card.tsx';
 import type {Currency} from "../../utils/data.ts";
 import { TrendingUp, TrendingDown, Check } from "lucide-react";
 import type {CurrencySymbol} from "../../App.tsx";
+import {useTranslation} from "react-i18next";
 
 interface CurrencyListProps {
   currencies: Currency[];
@@ -68,6 +69,7 @@ export function CurrencyList({
   displayCurrency,
   exchangeRate
 }: CurrencyListProps) {
+  const { t } = useTranslation();
   if (isLoading) {
     return (
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4  ">
@@ -81,7 +83,7 @@ export function CurrencyList({
   if (currencies.length === 0) {
     return (
       <div className="text-center py-12">
-        <p className="text-slate-500 dark:text-slate-400">No currencies found</p>
+        <p className="text-slate-500 dark:text-slate-400">{t("no_currencies_found")}</p>
       </div>
     );
   }

@@ -1,0 +1,23 @@
+{
+  "change": "Change",
+  "chart": "Chart",
+  "compact": "Compact",
+  "date": "Date",
+  "detailed": "Detailed",
+  "display_currency": "Display Currency",
+  "no_currencies_found": "No currencies found",
+  "price": "Price",
+  "price_history": "Price History",
+  "prices_update_every": "Prices update every",
+  "real_time_cryptocurrency_tracker": "Real-time cryptocurrency tracker",
+  "refresh_prices_now": "Refresh prices now",
+  "relative": "Relative",
+  "search_currencies": "Search currencies...",
+  "seconds": "seconds",
+  "select_currencies_from_the_list_above_to_view_their_price_history": "Select currencies from the list above to view their price history",
+  "select_display_currency": "Select display currency",
+  "select_display_language": "Select display language",
+  "table": "Table",
+  "update_frequency": "Update Frequency",
+  "select_language": "Select Language"
+}

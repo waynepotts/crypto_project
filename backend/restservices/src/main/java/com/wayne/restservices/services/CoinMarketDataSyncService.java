@@ -12,6 +12,7 @@ import com.wayne.restservices.utils.ChronoUnitConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.util.HashMap;
@@ -33,6 +34,7 @@ public class CoinMarketDataSyncService {
         this.coinRepository = coinRepository;
     }
 
+    @Transactional
     public void syncMissingRange(
             Long coinId,
             Instant from,

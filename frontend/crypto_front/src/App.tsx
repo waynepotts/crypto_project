@@ -6,7 +6,8 @@ import {SearchBar} from "./components/SearchBar/SearchBar.tsx";
 import {type Currency, getExchange, priceHistory, getCryptoPrices} from "./utils/data";
 
 import {type ChartDisplayData, type CoinHistory, createChartHistoryData} from "./types/ChartDisplayData.ts";
-
+import './i18n'
+import {useTranslation} from "react-i18next";
 
 export type TimeframeValue = "1H" | "1D" | "1W" | "30D" | "90D";
 export type UpdateFrequency = 120 | 300 | 600 | 900;
@@ -26,10 +27,10 @@ const AVAILABLE_COLORS = [
 ];
 
 const EXCHANGE_RATES: Record<CurrencySymbol, number> = {
-    USD: 0.00001,
-    EUR: 0.00092,
-    GBP: 0.00079,
-    JPY: 0.000001,
+    USD: 1,
+    EUR: 1,
+    GBP: 1,
+    JPY: 1,
     BTC: 1,
 };
 
@@ -48,6 +49,7 @@ export function App() {
     const [convertedData, setConvertedData] = useState<ChartDisplayData[]>([]);
     const [exchangeRate, setExchangeRate] = useState<number>(1);
     const [startTime, setStartTime] = useState<Date>(new Date());
+    const [language, setLanguage] = useState("en");
     const [theme, setTheme] = useState<"light" | "dark">(() => {
         if (typeof window !== "undefined") {
             const saved = localStorage.getItem("cryptodash-theme");
@@ -57,15 +59,16 @@ export function App() {
     });
     const countdownRef = useRef<ReturnType<typeof setTimeout> | null>(null);
     const refreshTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+    const { t, i18n } = useTranslation();
     useEffect(() => {
-        const root = document.documentElement;
-        if (theme === "dark") {
-            root.classList.add("dark");
-        } else {
-            root.classList.remove("dark");
-        }
-        localStorage.setItem("cryptodash-theme", theme);
-    }, [theme]);
+        console.log("change language", language);
+        i18n.changeLanguage(language);
+
+    },[i18n, language]);
+    const updateLanguage = useCallback((lang:string) => {
+        console.log("update language" + lang);
+       setLanguage(lang);
+    }, []);
 
     const exchangeAbortRef = useRef<AbortController | null>(null);
     const updateExchangeRates = useCallback(()=>{
@@ -287,6 +290,7 @@ export function App() {
                     updateFrequency={updateFrequency}
                     onUpdateFrequency={setUpdateFrequency}
                     onManualRefresh={handleManualRefresh}
+                    onUpdateLanguage={updateLanguage}
                     isRefreshing={isRefreshing}
                     displayCurrency={displayCurrency}
                     onCurrencyChange={setDisplayCurrency}
@@ -325,7 +329,7 @@ export function App() {
 
                 <footer className="mt-16 pt-8 border-t border-slate-200 dark:border-slate-800">
                     <p className="text-center text-sm text-slate-500 dark:text-slate-400">
-                        Prices update every {updateFrequency} seconds
+                        {t("prices_update_every")} {updateFrequency} {t("seconds")}
                     </p>
                 </footer>
             </div>

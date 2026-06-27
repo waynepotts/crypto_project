@@ -1,0 +1,23 @@
+{
+  "change": "Ændring",
+  "chart": "Diagram",
+  "compact": "Kompakt",
+  "date": "Dato",
+  "detailed": "Detaljeret",
+  "display_currency": "Visningsvaluta",
+  "no_currencies_found": "Ingen valutaer fundet",
+  "price": "Pris",
+  "price_history": "Prishistorik",
+  "prices_update_every": "Priser opdateres hvert",
+  "real_time_cryptocurrency_tracker": "Kryptovalutaoversigt i realtid",
+  "refresh_prices_now": "Opdater priser nu",
+  "relative": "Relativ",
+  "search_currencies": "Søg efter valutaer...",
+  "seconds": "sekunder",
+  "select_currencies_from_the_list_above_to_view_their_price_history": "Vælg valutaer fra listen ovenfor for at se deres prishistorik",
+  "select_display_currency": "Vælg visningsvaluta",
+  "select_display_language": "Vælg sprog",
+  "table": "Tabel",
+  "update_frequency":  "Opdateringsfrekvens",
+  "select_language": "Vælg  sprog"
+}
