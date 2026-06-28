@@ -280,7 +280,7 @@ export function App() {
     // const exchangeRate = EXCHANGE_RATES[displayCurrency];
 
     return (
-        <div  className={`min-h-screen transition-colors duration-300 text-slate-700 dark:text-slate-300 ${theme === "dark" ? "bg-slate-950" : "bg-slate-50"}`}>
+        <div  className={`min-h-screen transition-colors duration-300 text-slate-700 dark:text-slate-300 ${theme === "dark" ? " dark bg-slate-950" : "bg-slate-50"}`}>
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10">
                 <Header
                     theme={theme}

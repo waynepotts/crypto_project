@@ -1,11 +1,19 @@
-import {Sun, Moon, Settings, Clock, RefreshCw, DollarSign, LanguagesIcon} from "lucide-react";
+import {
+  Sun,
+  Moon,
+  Clock,
+  RefreshCw,
+  LanguagesIcon,
+  TimerIcon,
+  CoinsIcon
+} from "lucide-react";
 import {Button} from "../ui/button.tsx";
 import { CountdownTimer } from "../CoundownTimer/CountdownTimer.tsx";
-import type {UpdateFrequency, CurrencySymbol} from "../../App.tsx";
-import { useState, useRef, useEffect, type Key, type JSXElementConstructor, type ReactElement, type ReactNode, type ReactPortal} from "react";
-import '../../i18n';
+import type {UpdateFrequency, CurrencySymbol} from "@/App";
+import { useState, useRef, useEffect} from "react";
+import '@/i18n';
 import {useTranslation} from "react-i18next";
-import {SUPPORTED_LANGUAGES} from "@/config/languages";
+import {SUPPORTED_LANGUAGES} from '@/config/languages';
 
 interface HeaderProps {
   theme: "light" | "dark";
@@ -153,7 +161,8 @@ export function Header({
                 className="flex items-center gap-1.5 px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800"
                 title={t("select_display_currency")}
             >
-              <DollarSign className="w-4 h-4 text-slate-600 dark:text-slate-400"/>
+              <b/>
+              <CoinsIcon className="w-4 h-4 text-slate-600 dark:text-slate-400"/>
               <span className="text-sm font-medium text-slate-700 dark:text-slate-300">
               {currentCurrency?.symbol}
             </span>
@@ -198,7 +207,10 @@ export function Header({
                 onClick={() => setShowSettings(!showSettings)}
                 className="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800"
             >
-              <Settings className="w-5 h-5 text-slate-600 dark:text-slate-400"/>
+              <TimerIcon className="w-5 h-5 text-slate-600 dark:text-slate-400" />
+              <span className="text-sm font-medium text-slate-700 dark:text-slate-300">
+              {FREQUENCY_OPTIONS.find((f)=> { return f.value === updateFrequency; })?.label}
+              </span>
             </Button>
 
             {showSettings && (
@@ -240,13 +252,15 @@ export function Header({
                 className="flex items-center gap-1.5 px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800"
                 title={t("select_display_language")}
             >
-              <LanguagesIcon/>
+              <LanguagesIcon className="w-5 h-5 text-slate-600 dark:text-slate-400" />
+              <span className="text-sm font-medium text-slate-700 dark:text-slate-300">
               {i18n.language}
+              </span>
             </Button>
             {showLanguage && (
                 <div
-                    className="absolute right-0 top-full mt-2 w-48 bg-white dark:bg-slate-900 rounded-lg shadow-lg border border-slate-200 dark:border-slate-700 p-3 z-50">
-                  <p className="text-xs font-medium text-slate-500 dark:text-slate-400 mb-2 uppercase tracking-wider">
+                    className="absolute right-0 top-full mt-2 w-48 bg-white dark:bg-slate-900 rounded-lg shadow-lg border border-slate-200 dark:border-slate-700 dark:hover:bg-slate-800 p-3 z-50">
+                  <p className="text-xs font-medium text-slate-500 dark:text-slate-400 dark:hover:bg-slate-800 mb-2 uppercase tracking-wider">
                     {t("select_language")}
                   </p>
                   <div className="grid grid-cols-2 gap-2">
@@ -268,45 +282,6 @@ export function Header({
                         {language.code}
                       </Button>
                   ))}
-                  {/*
-                      <Button
-                          key={"da"}
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => {
-                            onUpdateLanguage("da");
-                            setShowLanguage(false);
-                          }
-                          }
-                          className={`text-xs font-medium rounded-lg transition-all ${
-                              i18n.language === "da"
-                                  ? "bg-emerald-100 dark:bg-emerald-900/50 text-emerald-700 dark:text-emerald-300"
-                                  : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"
-                          }`}
-                      >
-                        da
-                      </Button>
-                  */}
-                  {/*
-                    <Button
-                        key={"en"}
-                        variant="ghost"
-                        size="sm"
-                        onClick={() =>{
-                          onUpdateLanguage("en");
-                          setShowLanguage(false);
-                        }
-
-                        }
-                        className={`text-xs font-medium rounded-lg transition-all ${
-                            i18n.language === "en"
-                                ? "bg-emerald-100 dark:bg-emerald-900/50 text-emerald-700 dark:text-emerald-300"
-                                : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"
-                        }`}
-                    >
-                      en
-                    </Button>
-                  */}
                 </div>
               </div>
           )}

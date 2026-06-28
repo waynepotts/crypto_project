@@ -109,7 +109,7 @@ export function CurrencyList({
                 <Check className="w-3 h-3 dark:text-white" />
               </div>
             )}
-            <CardContent className="p-1 dark:bg-slate-800 ">
+            <CardContent className="p-1 dark:bg-slate-900 ">
               <div className="flex items-start justify-between mb-4">
                 <div>
                   <h3 className="font-semibold text-slate-900 dark:text-white">
