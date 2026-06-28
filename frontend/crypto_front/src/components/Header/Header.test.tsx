@@ -17,7 +17,8 @@ describe('Header', () => {
           isRefreshing={false}
           displayCurrency="USD"
           onCurrencyChange={() => {
-          }} timeOut={0}      />
+          }} timeOut={0} onUpdateLanguage={ () => {}
+      }      />
     );
     expect(screen.getByText("CryptoDash")).toBeInTheDocument();
   });
@@ -37,7 +38,9 @@ describe('Header', () => {
           isRefreshing={false}
           displayCurrency="USD"
           onCurrencyChange={() => {
-          }} timeOut={0}      />
+          }} timeOut={0}
+          onUpdateLanguage={ () => {} }
+      />
     );
     expect(screen.getByText("Real-time cryptocurrency tracker")).toBeInTheDocument();
   });
@@ -57,7 +60,9 @@ describe('Header', () => {
           isRefreshing={false}
           displayCurrency="USD"
           onCurrencyChange={() => {
-          }} timeOut={0}      />
+          }} timeOut={0}
+          onUpdateLanguage={ () => {} }
+      />
     );
     const moonIcons = container.querySelectorAll('svg.lucide-moon');
     expect(moonIcons.length).toBeGreaterThanOrEqual(1);
@@ -78,7 +83,9 @@ describe('Header', () => {
           isRefreshing={false}
           displayCurrency="USD"
           onCurrencyChange={() => {
-          }} timeOut={0}      />
+          }} timeOut={0}
+          onUpdateLanguage={ () => {} }
+      />
     );
     const sunIcons = container.querySelectorAll('svg.lucide-sun');
     expect(sunIcons.length).toBeGreaterThanOrEqual(1);
@@ -99,7 +106,9 @@ describe('Header', () => {
           isRefreshing={false}
           displayCurrency="USD"
           onCurrencyChange={() => {
-          }} timeOut={0}      />
+          }} timeOut={0}
+          onUpdateLanguage={ () => {} }
+      />
     );
     const themeIcon = container.querySelector('.lucide-moon');
     const themeButton = themeIcon?.closest('button');
@@ -122,7 +131,9 @@ describe('Header', () => {
           isRefreshing={false}
           displayCurrency="USD"
           onCurrencyChange={() => {
-          }} timeOut={0}      />
+          }} timeOut={0}
+          onUpdateLanguage={ () => {} }
+      />
     );
     const refreshButton = screen.getByTitle("Refresh prices now");
     fireEvent.click(refreshButton);
@@ -144,7 +155,9 @@ describe('Header', () => {
           isRefreshing={false}
           displayCurrency="USD"
           onCurrencyChange={() => {
-          }} timeOut={0}      />
+          }} timeOut={0}
+          onUpdateLanguage={ () => {} }
+      />
     );
     const currencyButton = screen.getByTitle("Select display currency");
     fireEvent.click(currencyButton);
@@ -167,7 +180,9 @@ describe('Header', () => {
           isRefreshing={false}
           displayCurrency="USD"
           onCurrencyChange={() => {
-          }} timeOut={0}      />
+          }} timeOut={0}
+          onUpdateLanguage={ () => {} }
+      />
     );
     const settingsIcon = container.querySelector('.lucide-settings');
     const settingsButton = settingsIcon?.closest('button');
@@ -191,7 +206,9 @@ describe('Header', () => {
           }}
           isRefreshing={false}
           displayCurrency="USD"
-          onCurrencyChange={onCurrencyChange} timeOut={0}      />
+          onCurrencyChange={onCurrencyChange} timeOut={0}
+          onUpdateLanguage={ () => {} }
+      />
     );
     const currencyButton = screen.getByTitle("Select display currency");
     fireEvent.click(currencyButton);
@@ -214,7 +231,9 @@ describe('Header', () => {
           isRefreshing={false}
           displayCurrency="USD"
           onCurrencyChange={() => {
-          }} timeOut={0}      />
+          }} timeOut={0}
+          onUpdateLanguage={ () => {} }
+      />
     );
     const settingsIcon = container.querySelector('.lucide-settings');
     const settingsButton = settingsIcon?.closest('button');
@@ -238,7 +257,9 @@ describe('Header', () => {
           isRefreshing={true}
           displayCurrency="USD"
           onCurrencyChange={() => {
-          }} timeOut={0}      />
+          }} timeOut={0}
+          onUpdateLanguage={ () => {} }
+      />
     );
     const refreshButton = screen.getByTitle("Refresh prices now");
     expect(refreshButton).toBeDisabled();

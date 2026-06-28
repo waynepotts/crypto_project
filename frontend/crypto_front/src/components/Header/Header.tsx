@@ -111,6 +111,7 @@ export function Header({
 
   const currentCurrency = CURRENCY_OPTIONS.find((c) => c.value === displayCurrency);
 
+  const frequencyLabel:string = FREQUENCY_OPTIONS.find((f)=> { return f.value === updateFrequency; })?.label as string;
   return (
       <header className="flex items-center justify-between">
         <div className="flex items-center gap-3">
@@ -209,7 +210,7 @@ export function Header({
             >
               <TimerIcon className="w-5 h-5 text-slate-600 dark:text-slate-400" />
               <span className="text-sm font-medium text-slate-700 dark:text-slate-300">
-              {FREQUENCY_OPTIONS.find((f)=> { return f.value === updateFrequency; })?.label}
+              {frequencyLabel}
               </span>
             </Button>
 
